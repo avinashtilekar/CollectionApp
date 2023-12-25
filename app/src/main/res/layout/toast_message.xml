@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/toast_layout_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@android:dimen/app_icon_size"
+        android:background="@drawable/toast_backgrount_positive"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+
+        <TextView
+            android:id="@+id/tvMessage"
+            style="@style/AppFont.LabelMedium.White"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Message" />
+
+    </LinearLayout>
+</LinearLayout>

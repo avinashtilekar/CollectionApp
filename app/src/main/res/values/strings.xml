@@ -23,4 +23,9 @@
     <string name="email">ई-मेल आयडी (Email Id)</string>
     <string name="address">पत्ता (Address)</string>
     <string name="submit">जमा (Submit)</string>
+
+    <string name="user_id_error">कृपया योग्य युजरआयडी टाका.\n\nPlease enter correct userid.</string>
+    <string name="password_error">कृपया योग्य पासवर्ड टाका.\n\nPlease enter correct password.</string>
+    <string name="login_sucess">अॅपमध्ये तुमचे स्वागत आहे.\n\nUser login successfully.</string>
+    <string name="technicale_error">काही तांत्रिक त्रुटी आहे, कृपया काही वेळानंतर पुन्हा प्रयत्न करा.\nThere is some technicale error, please try again after some time.</string>
 </resources>
