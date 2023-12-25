@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyToolbarStyleMarathi" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextAppearance">@style/AppFontMarathi.LabelMedium.White</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <!--region Blue-->
+    <style name="AppFontMarathi.LabelSmall.Blue">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppFontMarathi.LabelMedium.Blue">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppFontMarathi.LabelLarge.Blue">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppFontMarathi.XLabelLarge.Blue">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppFontMarathi.XXLabelLarge.Blue">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!--endregion Blue-->
+
+    <!--region White-->
+    <style name="AppFontMarathi.LabelSmall.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppFontMarathi.LabelMedium.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppFontMarathi.LabelLarge.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppFontMarathi.XLabelLarge.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppFontMarathi.XXLabelLarge.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!--endregion White-->
+
+</resources>

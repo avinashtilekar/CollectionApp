@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">CollectionApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">username00288434948</string>
+    <string name="nav_header_subtitle">user.email_id@sample.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_logout">लॉगआउट (Logout)</string>
+
+    <string name="menu_entry">व्यवहार नोंद (Transaction Entry)</string>
+    <string name="menu_profile">प्रोफाइल (Profile)</string>
+    <string name="menu_settings">सेटिंग (Settings)</string>
+    <string name="client_name">बारामती नगर परिषद\n MGP Infrastructure Pvt. Ltd.</string>
+    <string name="ajspire_tec">© Ajspire Technologies Pvt. Ltd.</string>
+    <string name="sync">Sync To Server</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="userId">यूजर आयडी (User id)</string>
+    <string name="password">पासवर्ड (Password)</string>
+    <string name="action_sign_in">लॉगिन (Login)</string>
+
+    <string name="user_name">नाव (Name)</string>
+    <string name="mobile_number">मोबाईल नंबर (Mobile Number)</string>
+    <string name="email">ई-मेल आयडी (Email Id)</string>
+    <string name="address">पत्ता (Address)</string>
+    <string name="submit">जमा (Submit)</string>
+</resources>
