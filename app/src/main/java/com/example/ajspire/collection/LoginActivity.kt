@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.txtTitle.text = getString(R.string.app_name)+ " "+BuildConfig.VERSION_NAME
+        setObserver()
 
     }
 
@@ -45,9 +46,8 @@ class LoginActivity : AppCompatActivity() {
         finish()
         startActivity(myIntent)
     }
-
-    private fun callLoginApi(username: String, password: String) {
-        loginViewModel.login(LoginRequest(username, password))
+    private fun setObserver()
+    {
         loginViewModel.response.observe(this) { response ->
             when (response) {
 
@@ -68,5 +68,9 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun callLoginApi(username: String, password: String) {
+        loginViewModel.login(LoginRequest(username, password))
     }
 }
