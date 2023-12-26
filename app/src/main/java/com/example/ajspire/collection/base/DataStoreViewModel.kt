@@ -17,8 +17,8 @@ class DataStoreViewModel constructor(
     private val userDataStorePreferencesRepository = userPreferencesRepository
     private val gson = Gson()
 
-    private val _userDetails = MutableLiveData<LoginResponse>()
-    val userDetails: LiveData<LoginResponse> = _userDetails
+    private val _userDetails = MutableLiveData<LoginResponse?>()
+    val userDetails: LiveData<LoginResponse?> = _userDetails
 
     fun updateUserDetails(loginResponse: LoginResponse?) = viewModelScope.launch {
         var userdetailsString=""
@@ -28,8 +28,12 @@ class DataStoreViewModel constructor(
 
     fun getUserDetails() = viewModelScope.launch {
         userDataStorePreferencesRepository.getUserDetails()?.let {
-            val userDetails = gson.fromJson(it, LoginResponse::class.java)
-            _userDetails.value = userDetails
+            if(it.isNotEmpty()) {
+                val userDetails = gson.fromJson(it, LoginResponse::class.java)
+                _userDetails.value = userDetails
+            }else{
+                _userDetails.value=null
+            }
         }
     }
 }

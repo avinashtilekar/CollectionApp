@@ -48,7 +48,7 @@ class ProfileFragment : Fragment() {
 
     private fun setObserver() {
         dataStoreViewModel.userDetails.observe(viewLifecycleOwner) { loginResponse ->
-            loginResponse.user.let { user ->
+            loginResponse?.user?.let { user ->
                 binding.etMobileNumber.setText(user.mobile_no)
                 binding.etUserName.setText(user.name)
                 binding.etEmail.setText(user.email)
