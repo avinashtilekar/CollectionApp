@@ -17,7 +17,7 @@ class ToastMessageUtility constructor(val activity: Activity) {
         isError :Boolean=false ,
         duration: Int = Toast.LENGTH_LONG
     ) {
-        AppUtility(activity).hideSoftKeyboard(activity)
+        AppUtility.hideSoftKeyboard(activity)
         val inflater = activity.layoutInflater
         val layout: View = inflater.inflate(
             R.layout.toast_message,

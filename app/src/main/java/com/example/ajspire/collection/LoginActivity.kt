@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ajspire.collection.api.helper.NetworkResult
@@ -55,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
                 is NetworkResult.Loading -> {
                     Log.d("Api", "Loading")
-                    AppUtility(this).hideSoftKeyboard(this)
+                    AppUtility.hideSoftKeyboard(this)
                     binding.llMainContaint.visibility= View.GONE
                     binding.llLoadding.visibility= View.VISIBLE
                 }

@@ -1,7 +1,6 @@
 package com.example.ajspire.collection.ui.utility
 
 import android.app.Activity
-import android.content.Context
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -9,22 +8,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class AppUtility constructor(private var mContext: Context) {
-    private var appUtility: AppUtility? = null
-
-    val instance: AppUtility?
-        get() {
-            if (appUtility == null) {
-                appUtility = AppUtility(mContext)
-            }
-            return appUtility
-        }
-    val currentDateTime: String
-        get() {
-            val date = Date()
-            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
-            return formatter.format(date)
-        }
+object AppUtility {
 
     fun hideSoftKeyboard(activity: Activity) {
         try {
@@ -41,22 +25,14 @@ class AppUtility constructor(private var mContext: Context) {
         } catch (e: Exception) {
         }
     }
-
-    fun hideSoftKeyboard(activity: Activity, view: View?) {
-        try {
-            if (view != null) {
-                val inputMethodManager = activity.getSystemService(
-                    Activity.INPUT_METHOD_SERVICE
-                ) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(
-                    view.windowToken, 0
-                )
-            } else {
-                activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-            }
-        } catch (e: Exception) {
+    val currentDateTime: String
+        get() {
+            val date = Date()
+            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+            return formatter.format(date)
         }
-    }
+
+
 
     fun getFormatedMobileNumber(mobileNumber: String): String {
         var mobileNumber = mobileNumber
