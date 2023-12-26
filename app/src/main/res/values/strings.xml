@@ -24,6 +24,9 @@
     <string name="address">पत्ता (Address)</string>
     <string name="submit">जमा (Submit)</string>
     <string name="loading_message">कृपया काही वेळ प्रतीक्षा करा.\n\nPlease wait from some time.</string>
+    <string name="logout_confirm">तुमची खात्री आहे की तुम्ही लॉग आउट करू इच्छिता?\n\nAre you sure you want to log out?</string>
+    <string name="logout_yes">होय (Yes)</string>
+    <string name="logout_no">नाही (No)</string>
 
     <string name="user_id_error">कृपया योग्य युजरआयडी टाका.\n\nPlease enter correct userid.</string>
     <string name="password_error">कृपया योग्य पासवर्ड टाका.\n\nPlease enter correct password.</string>
