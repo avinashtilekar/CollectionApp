@@ -12,6 +12,8 @@ object AppUtility {
 
     const val DATA_STORE_PREFERENCES_NAME = "collection_store_preferences"
     const val DATA_STORE_KEY_USER_DETAILS = "user_details"
+    const val TRANSACTION_TABLE_NAME = "transaction_table"
+    const val ROOM_DB_NAME = "collectionDB"
 
 
     fun hideSoftKeyboard(activity: Activity) {
