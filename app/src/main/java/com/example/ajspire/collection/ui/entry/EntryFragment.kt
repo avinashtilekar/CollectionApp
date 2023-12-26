@@ -12,7 +12,7 @@ import com.example.ajspire.collection.databinding.FragmentEntryBinding
 class EntryFragment : Fragment() {
 
     private var _binding: FragmentEntryBinding? = null
-    private lateinit var entryViewModel:EntryViewModel
+    private lateinit var entryViewModel: EntryViewModel
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,16 +23,12 @@ class EntryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-         entryViewModel = ViewModelProvider(this)[EntryViewModel::class.java]
+        entryViewModel = ViewModelProvider(this)[EntryViewModel::class.java]
 
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        entryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+
+        return binding.root
     }
 
     override fun onDestroyView() {

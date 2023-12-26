@@ -17,12 +17,15 @@
     <string name="userId">यूजर आयडी (User id)</string>
     <string name="password">पासवर्ड (Password)</string>
     <string name="action_sign_in">लॉगिन (Login)</string>
+    <string name="fee_type">फी प्रकार (Fee type)</string>
+    <string name="amount">रक्कम (Amount) ₹</string>
 
     <string name="user_name">नाव (Name)</string>
     <string name="mobile_number">मोबाईल नंबर (Mobile Number)</string>
     <string name="email">ई-मेल आयडी (Email Id)</string>
     <string name="address">पत्ता (Address)</string>
     <string name="submit">जमा (Submit)</string>
+    <string name="cancel">रद्द (Cancel)</string>
     <string name="loading_message">कृपया काही वेळ प्रतीक्षा करा.\n\nPlease wait from some time.</string>
     <string name="logout_confirm">तुमची खात्री आहे की तुम्ही लॉग आउट करू इच्छिता?\n\nAre you sure you want to log out?</string>
     <string name="logout_yes">होय (Yes)</string>

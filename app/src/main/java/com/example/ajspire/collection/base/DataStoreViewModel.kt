@@ -27,8 +27,8 @@ class DataStoreViewModel constructor(
     }
 
     fun getUserDetails() = viewModelScope.launch {
-        userDataStorePreferencesRepository.getUserDetails()?.let {
-            if(it.isNotEmpty()) {
+        userDataStorePreferencesRepository.getUserDetails().let {
+            if(!it.isNullOrEmpty()) {
                 val userDetails = gson.fromJson(it, LoginResponse::class.java)
                 _userDetails.value = userDetails
             }else{
