@@ -50,14 +50,14 @@
 
             <EditText
                 android:id="@+id/etUserName"
-                style="@style/AppFont.LabelMedium"
+                style="@style/AppFontMarathi.LabelLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:autofillHints="false"
                 android:background="@drawable/edittext_background"
                 android:elevation="@dimen/_8sdp"
-                android:hint="@string/customer_name"
+                android:hint="@string/customer_name_marathi"
                 android:inputType="textPersonName"
                 android:padding="@dimen/_8sdp" />
 
