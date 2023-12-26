@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/mobile_number" />
+                android:text="@string/customer_mobile_number" />
 
             <EditText
                 android:id="@+id/etMobileNumber"
@@ -37,7 +37,7 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 android:autofillHints="false"
                 android:background="@drawable/edittext_background"
-                android:hint="@string/mobile_number"
+                android:hint="@string/customer_mobile_number"
                 android:inputType="phone"
                 android:padding="@dimen/_8sdp" />
 
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/user_name" />
+                android:text="@string/customer_name" />
 
             <EditText
                 android:id="@+id/etUserName"
@@ -57,7 +57,7 @@
                 android:autofillHints="false"
                 android:background="@drawable/edittext_background"
                 android:elevation="@dimen/_8sdp"
-                android:hint="@string/user_name"
+                android:hint="@string/customer_name"
                 android:inputType="textPersonName"
                 android:padding="@dimen/_8sdp" />
 
