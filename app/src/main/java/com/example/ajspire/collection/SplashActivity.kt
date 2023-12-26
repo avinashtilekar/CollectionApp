@@ -1,13 +1,10 @@
 package com.example.ajspire.collection
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.base.DataStoreViewModel
@@ -29,15 +26,14 @@ class SplashActivity : AppCompatActivity() {
                 DataStoreViewModel::class.java
             )
         setObserver()
-    }
 
-
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
         Handler(Looper.getMainLooper()).postDelayed({
             dataStoreViewModel.getUserDetails()
         }, 5000)
 
-        return super.onCreateView(name, context, attrs)
+        binding.txtHeading.text = getString(R.string.client_name)
+        binding.txtTitle.text = getString(R.string.app_name)+ " "+BuildConfig.VERSION_NAME
+        binding.txtFooter.text = "${BuildConfig.BUILD_DATE_TIME} \n\n${getString(R.string.ajspire_tec)}"
     }
 
     private fun setObserver() {

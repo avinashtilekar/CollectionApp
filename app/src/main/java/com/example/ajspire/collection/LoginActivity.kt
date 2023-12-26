@@ -73,8 +73,8 @@ class LoginActivity : AppCompatActivity() {
 
                 is NetworkResult.Success -> {
                     dataStoreViewModel.updateUserDetails(response.data)
-                    callMainScreen()
                     toastMessageUtility.showToastMessage(getString(R.string.login_sucess))
+                    callMainScreen()
                 }
 
                 is NetworkResult.Error -> {
