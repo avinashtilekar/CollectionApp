@@ -11,7 +11,7 @@ import com.example.ajspire.collection.api.helper.NetworkResult
 import com.example.ajspire.collection.api.model.request.LoginRequest
 import com.example.ajspire.collection.databinding.ActivityLoginBinding
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
-import com.example.ajspire.collection.ui.utility.AppUtility
+import com.example.ajspire.collection.utility.AppUtility
 
 class LoginActivity : AppCompatActivity() {
 

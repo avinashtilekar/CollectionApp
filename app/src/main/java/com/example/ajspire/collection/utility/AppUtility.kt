@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.ui.utility
+package com.example.ajspire.collection.utility
 
 import android.app.Activity
 import android.view.View

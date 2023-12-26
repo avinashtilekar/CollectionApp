@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.ajspire.collection.R
-import com.example.ajspire.collection.ui.utility.AppUtility
+import com.example.ajspire.collection.utility.AppUtility
 
 class ToastMessageUtility constructor(val activity: Activity) {
 
