@@ -10,6 +10,10 @@ import java.util.Date
 
 object AppUtility {
 
+    const val DATA_STORE_PREFERENCES_NAME = "collection_store_preferences"
+    const val DATA_STORE_KEY_USER_DETAILS = "user_details"
+
+
     fun hideSoftKeyboard(activity: Activity) {
         try {
             if (activity.currentFocus != null) {

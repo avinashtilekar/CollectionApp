@@ -7,22 +7,34 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.api.helper.NetworkResult
 import com.example.ajspire.collection.api.model.request.LoginRequest
+import com.example.ajspire.collection.base.DataStoreViewModel
+import com.example.ajspire.collection.base.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivityLoginBinding
+import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
+
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var toastMessageUtility: ToastMessageUtility
+    private lateinit var dataStoreViewModel: DataStoreViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        dataStoreViewModel =
+            ViewModelProvider(this, MyViewModelFactory(this.application, this.appDataStore())).get(
+                DataStoreViewModel::class.java
+            )
+
         toastMessageUtility = ToastMessageUtility(this)
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setTitleTextAppearance(this, R.style.MyToolbarStyleMarathi)
@@ -37,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.txtTitle.text = getString(R.string.app_name)+ " "+BuildConfig.VERSION_NAME
+        binding.txtTitle.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
         setObserver()
 
     }
@@ -47,27 +59,27 @@ class LoginActivity : AppCompatActivity() {
         finish()
         startActivity(myIntent)
     }
-    private fun setObserver()
-    {
+
+    private fun setObserver() {
         loginViewModel.response.observe(this) { response ->
             when (response) {
 
                 is NetworkResult.Loading -> {
                     Log.d("Api", "Loading")
                     AppUtility.hideSoftKeyboard(this)
-                    binding.llMainContaint.visibility= View.GONE
-                    binding.llLoadding.visibility= View.VISIBLE
+                    binding.llMainContaint.visibility = View.GONE
+                    binding.llLoadding.visibility = View.VISIBLE
                 }
 
                 is NetworkResult.Success -> {
-                    Log.d("Api", "Success")
+                    dataStoreViewModel.updateUserDetails(response.data)
                     callMainScreen()
                     toastMessageUtility.showToastMessage(getString(R.string.login_sucess))
                 }
 
                 is NetworkResult.Error -> {
-                    binding.llMainContaint.visibility= View.VISIBLE
-                    binding.llLoadding.visibility= View.GONE
+                    binding.llMainContaint.visibility = View.VISIBLE
+                    binding.llLoadding.visibility = View.GONE
                     Log.d("Api", "Error")
                     toastMessageUtility.showToastMessage(getString(R.string.technicale_error), true)
                 }

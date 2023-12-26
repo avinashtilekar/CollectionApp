@@ -58,6 +58,7 @@
                 android:autofillHints="false"
                 android:background="@drawable/edittext_background"
                 android:elevation="@dimen/_8sdp"
+                android:enabled="false"
                 android:hint="@string/user_name"
                 android:inputType="textPersonName"
                 android:padding="@dimen/_8sdp" />
@@ -78,6 +79,7 @@
                 android:autofillHints="false"
                 android:background="@drawable/edittext_background"
                 android:elevation="@dimen/_8sdp"
+                android:enabled="false"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="@dimen/_8sdp" />
@@ -98,6 +100,7 @@
                 android:autofillHints="false"
                 android:background="@drawable/edittext_background"
                 android:elevation="@dimen/_8sdp"
+                android:enabled="false"
                 android:gravity="top|start"
                 android:hint="@string/address"
                 android:inputType="textImeMultiLine|textPostalAddress"
@@ -108,25 +111,35 @@
                 android:scrollbars="vertical"
                 android:singleLine="false" />
 
-            <TextView
-                style="@style/AppFont.LabelMedium"
+            <LinearLayout
+                android:id="@+id/llPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/password" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <EditText
-                android:id="@+id/etPassword"
-                style="@style/AppFont.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:autofillHints="false"
-                android:background="@drawable/edittext_background"
-                android:elevation="@dimen/_8sdp"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:padding="@dimen/_8sdp" />
+                <TextView
+                    style="@style/AppFont.LabelMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@string/password" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    style="@style/AppFont.LabelMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:autofillHints="false"
+                    android:background="@drawable/edittext_background"
+                    android:elevation="@dimen/_8sdp"
+                    android:enabled="false"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/_8sdp" />
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>
@@ -143,5 +156,6 @@
         android:backgroundTint="@color/colorAccent"
         android:padding="@dimen/_8sdp"
         android:text="@string/submit"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:visibility="gone" />
 </RelativeLayout>
