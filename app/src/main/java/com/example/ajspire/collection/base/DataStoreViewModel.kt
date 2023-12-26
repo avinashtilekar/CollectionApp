@@ -21,7 +21,9 @@ class DataStoreViewModel constructor(
     val userDetails: LiveData<LoginResponse> = _userDetails
 
     fun updateUserDetails(loginResponse: LoginResponse?) = viewModelScope.launch {
-        userDataStorePreferencesRepository.updateUserDetails(gson.toJson(loginResponse))
+        var userdetailsString=""
+        userdetailsString=gson.toJson(loginResponse)
+        userDataStorePreferencesRepository.updateUserDetails(userdetailsString)
     }
 
     fun getUserDetails() = viewModelScope.launch {

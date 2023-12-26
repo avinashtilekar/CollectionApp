@@ -10,25 +10,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.ajspire.collection.base.DataStoreViewModel
+import com.example.ajspire.collection.base.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivityMainBinding
+import com.example.ajspire.collection.extensions.appDataStore
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var dataStoreViewModel: DataStoreViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        dataStoreViewModel =
+            ViewModelProvider(this, MyViewModelFactory(this.application, this.appDataStore())).get(
+                DataStoreViewModel::class.java
+            )
         setSupportActionBar(binding.appBarMain.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -73,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 
         //performing positive action
         builder.setPositiveButton(R.string.logout_yes) { dialogInterface, which ->
+            dataStoreViewModel.updateUserDetails(null)
             dialogInterface.dismiss()
         }
 
