@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.example.ajspire.collection.api.helper.NetworkResult
 import com.example.ajspire.collection.api.model.request.LoginRequest
 import com.example.ajspire.collection.databinding.ActivityLoginBinding
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
+import com.example.ajspire.collection.ui.utility.AppUtility
 
 class LoginActivity : AppCompatActivity() {
 
@@ -53,16 +55,20 @@ class LoginActivity : AppCompatActivity() {
 
                 is NetworkResult.Loading -> {
                     Log.d("Api", "Loading")
-                    // show a progress bar
+                    AppUtility(this).hideSoftKeyboard(this)
+                    binding.llMainContaint.visibility= View.GONE
+                    binding.llLoadding.visibility= View.VISIBLE
                 }
 
                 is NetworkResult.Success -> {
                     Log.d("Api", "Success")
-                    toastMessageUtility.showToastMessage(getString(R.string.login_sucess))
                     callMainScreen()
+                    toastMessageUtility.showToastMessage(getString(R.string.login_sucess))
                 }
 
                 is NetworkResult.Error -> {
+                    binding.llMainContaint.visibility= View.VISIBLE
+                    binding.llLoadding.visibility= View.GONE
                     Log.d("Api", "Error")
                     toastMessageUtility.showToastMessage(getString(R.string.technicale_error), true)
                 }

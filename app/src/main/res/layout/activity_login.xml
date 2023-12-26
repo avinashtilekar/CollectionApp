@@ -24,7 +24,7 @@
         android:padding="@dimen/activity_horizontal_margin">
 
         <LinearLayout
-            android:id="@+id/container"
+            android:id="@+id/llMainContaint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/card_background"
@@ -88,6 +88,32 @@
                 android:padding="@dimen/_8sdp"
                 android:text="@string/action_sign_in"
                 android:textAllCaps="false" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llLoadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llMainContaint"
+            android:background="@drawable/toast_backgrount_positive"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/AppFont.LabelMedium.White"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:gravity="center"
+                android:text="@string/loading_message" />
+
         </LinearLayout>
     </RelativeLayout>
 

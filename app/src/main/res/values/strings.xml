@@ -23,6 +23,7 @@
     <string name="email">ई-मेल आयडी (Email Id)</string>
     <string name="address">पत्ता (Address)</string>
     <string name="submit">जमा (Submit)</string>
+    <string name="loading_message">कृपया काही वेळ प्रतीक्षा करा.\n\nPlease wait from some time.</string>
 
     <string name="user_id_error">कृपया योग्य युजरआयडी टाका.\n\nPlease enter correct userid.</string>
     <string name="password_error">कृपया योग्य पासवर्ड टाका.\n\nPlease enter correct password.</string>
