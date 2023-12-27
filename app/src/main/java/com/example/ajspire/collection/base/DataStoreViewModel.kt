@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.ajspire.collection.api.model.response.LoginResponse
 import com.example.ajspire.collection.extensions.UserPreferencesRepository
@@ -35,5 +37,15 @@ class DataStoreViewModel constructor(
                 _userDetails.value=null
             }
         }
+    }
+}
+class DataStoreViewModelFactory(private val application: Application,
+                                private val userPreferencesRepository: UserPreferencesRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DataStoreViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DataStoreViewModel(application,userPreferencesRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

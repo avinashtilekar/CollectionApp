@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.base.DataStoreViewModel
+import com.example.ajspire.collection.base.DataStoreViewModelFactory
 import com.example.ajspire.collection.base.MyViewModelFactory
 import com.example.ajspire.collection.databinding.FragmentProfileBinding
 import com.example.ajspire.collection.extensions.appDataStore
@@ -16,7 +18,9 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private lateinit var profileViewModel: ProfileViewModel
-    private lateinit var dataStoreViewModel: DataStoreViewModel
+    private val dataStoreViewModel: DataStoreViewModel by viewModels {
+        DataStoreViewModelFactory(activity?.application!!,activity?.appDataStore()!!)
+    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -29,13 +33,13 @@ class ProfileFragment : Fragment() {
     ): View {
         profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
-        activity?.let {
+       /* activity?.let {
             dataStoreViewModel =
                 ViewModelProvider(
                     this,
                     MyViewModelFactory(it.application, it.appDataStore())
                 )[DataStoreViewModel::class.java]
-        }
+        }*/
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         setObserver()
         return binding.root
