@@ -16,12 +16,13 @@ import com.example.ajspire.collection.databinding.ActivityLoginBinding
 import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
+import com.example.ajspire.collection.view_model.ApiCallViewModel
 
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val apiCallViewModel: ApiCallViewModel by viewModels()
     private lateinit var toastMessageUtility: ToastMessageUtility
     private lateinit var dataStoreViewModel: DataStoreViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setObserver() {
-        loginViewModel.response.observe(this) { response ->
+        apiCallViewModel.response.observe(this) { response ->
             when (response) {
 
                 is NetworkResult.Loading -> {
@@ -88,6 +89,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun callLoginApi(username: String, password: String) {
-        loginViewModel.login(LoginRequest(username, password))
+        apiCallViewModel.login(LoginRequest(username, password))
     }
 }
