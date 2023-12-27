@@ -40,7 +40,7 @@ object AppUtility {
     val transactionCode: String
         get() {
             val date = Date()
-            val formatter = SimpleDateFormat("dd-MMM-yyyy-hh-mm-ss-a")
+            val formatter = SimpleDateFormat("dd-MM-yyyy-hh-mm-ss-a")
             return formatter.format(date)
         }
 
