@@ -34,13 +34,13 @@ object AppUtility {
     val currentDateTime: String
         get() {
             val date = Date()
-            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+            val formatter = SimpleDateFormat("dd-MM-yyyy hh:mm:ss")
             return formatter.format(date)
         }
     val transactionCode: String
         get() {
             val date = Date()
-            val formatter = SimpleDateFormat("ddMMyyyy-HHmmss")
+            val formatter = SimpleDateFormat("dd-MMM-yyyy-hh-mm-ss-a")
             return formatter.format(date)
         }
 
