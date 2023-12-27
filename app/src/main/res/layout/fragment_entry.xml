@@ -162,7 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4sdp"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:autofillHints="false"
                         android:background="@drawable/edittext_background"
                         android:elevation="@dimen/_8sdp"
