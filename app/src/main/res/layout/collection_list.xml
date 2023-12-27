@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/card_bg"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <ScrollView
+        android:id="@+id/text_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnSubmit"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:textSize="20sp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/mobile_number" />
+
+            <EditText
+                android:id="@+id/etMobileNumber"
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:autofillHints="false"
+                android:background="@drawable/edittext_background"
+                android:enabled="false"
+                android:hint="@string/mobile_number"
+                android:inputType="phone"
+                android:padding="@dimen/_8sdp" />
+
+            <TextView
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/user_name" />
+
+            <EditText
+                android:id="@+id/etUserName"
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:autofillHints="false"
+                android:background="@drawable/edittext_background"
+                android:elevation="@dimen/_8sdp"
+                android:enabled="false"
+                android:hint="@string/user_name"
+                android:inputType="textPersonName"
+                android:padding="@dimen/_8sdp" />
+
+            <TextView
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/email" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:autofillHints="false"
+                android:background="@drawable/edittext_background"
+                android:elevation="@dimen/_8sdp"
+                android:enabled="false"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/_8sdp" />
+
+            <TextView
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/address" />
+
+            <EditText
+                android:id="@+id/etAddress"
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:autofillHints="false"
+                android:background="@drawable/edittext_background"
+                android:elevation="@dimen/_8sdp"
+                android:enabled="false"
+                android:gravity="top|start"
+                android:hint="@string/address"
+                android:inputType="textImeMultiLine|textPostalAddress"
+                android:lines="4"
+                android:maxLines="6"
+                android:minLines="4"
+                android:padding="@dimen/_8sdp"
+                android:scrollbars="vertical"
+                android:singleLine="false" />
+
+            <LinearLayout
+                android:id="@+id/llPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/AppFont.LabelMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@string/password" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    style="@style/AppFont.LabelMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:autofillHints="false"
+                    android:background="@drawable/edittext_background"
+                    android:elevation="@dimen/_8sdp"
+                    android:enabled="false"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/_8sdp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/AppFont.LabelMedium.White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="start"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="@dimen/_8sdp"
+        android:text="@string/submit"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+</RelativeLayout>
