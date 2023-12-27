@@ -3,6 +3,7 @@ package com.example.ajspire.collection.utility
 import android.app.Activity
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import com.example.ajspire.collection.BuildConfig
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -13,6 +14,7 @@ object AppUtility {
     const val DATA_STORE_KEY_USER_DETAILS = "user_details"
     const val TRANSACTION_TABLE_NAME = "transaction_table"
     const val ROOM_DB_NAME = "collectionDB"
+    var UPLOAD_ITEM_LIMIT = (if (BuildConfig.DEBUG) 2 else 500)
 
 
     fun hideSoftKeyboard(activity: Activity) {
