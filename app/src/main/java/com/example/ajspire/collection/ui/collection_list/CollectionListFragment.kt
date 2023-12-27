@@ -3,6 +3,7 @@ package com.example.ajspire.collection.ui.collection_list
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,11 @@ class CollectionListFragment : Fragment() {
                 binding.tvSummary.text = text
             }
         }
+        entryViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
+            it?.let {
+                Log.d("Unsync",it.toString())
+            }
+        }
     }
 
     private fun updateUi() {
@@ -80,6 +86,7 @@ class CollectionListFragment : Fragment() {
             rvList.layoutManager = LinearLayoutManager(requireContext())
             rvList.itemAnimator = DefaultItemAnimator()
         }
+        entryViewModel.getAllUnSyncTransactions(2)
     }
 
     private fun showRecord(list: List<ItemModel>) {
