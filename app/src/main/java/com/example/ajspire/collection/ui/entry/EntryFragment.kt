@@ -2,7 +2,6 @@ package com.example.ajspire.collection.ui.entry
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,11 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.example.ajspire.collection.LoginActivity
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentEntryBinding
 import com.example.ajspire.collection.extensions.getLoginUserDetails
+import com.example.ajspire.collection.extensions.startBlinkAnimation
+import com.example.ajspire.collection.extensions.stopBlinkAnimation
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.utility.AppUtility
@@ -103,6 +103,16 @@ class EntryFragment : Fragment() {
             }
             btnCancel.setOnClickListener {
                 reSetScreen()
+            }
+
+            etUserName.setOnFocusChangeListener { view, hasFocus ->
+                if(hasFocus)
+                {
+                    tvKeyBoardWarning.startBlinkAnimation()
+                }else{
+                    tvKeyBoardWarning.stopBlinkAnimation()
+                    tvKeyBoardWarning.visibility=View.GONE
+                }
             }
         }
     }

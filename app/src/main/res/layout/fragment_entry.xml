@@ -6,186 +6,207 @@
     android:background="@color/card_bg"
     tools:context=".ui.profile.ProfileFragment">
 
-    <ScrollView
-        android:id="@+id/text_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/llButtons"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingBottom="@dimen/_8sdp"
-        android:textSize="20sp">
-
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/text_gallery"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/AppFont.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/customer_mobile_number" />
-
-            <EditText
-                android:id="@+id/etMobileNumber"
-                style="@style/AppFont.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:autofillHints="false"
-                android:background="@drawable/edittext_background"
-                android:hint="@string/customer_mobile_number"
-                android:inputType="phone"
-                android:maxLength="10"
-                android:padding="@dimen/_8sdp" />
-
-            <TextView
-                style="@style/AppFont.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/customer_name" />
-
-            <EditText
-                android:id="@+id/etUserName"
-                style="@style/AppFontMarathi.LabelLarge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:autofillHints="false"
-                android:background="@drawable/edittext_background"
-                android:elevation="@dimen/_8sdp"
-                android:hint="@string/customer_name"
-                android:inputType="textPersonName"
-                android:maxLength="50"
-                android:padding="@dimen/_8sdp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_2sdp"
-                android:layout_margin="@dimen/_16sdp"
-                android:background="@color/line" />
-
-            <TextView
-                style="@style/AppFont.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/fee_type" />
-
-            <com.example.ajspire.collection.ui.custom.RadioGridGroup
-                android:id="@+id/rgFeeType"
-                style="@style/AppFont.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="2"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/card_background"
-                android:columnCount="2"
-                android:elevation="@dimen/_8sdp"
-                android:padding="@dimen/_8sdp">
-
-
-                <RadioButton
-                    android:id="@+id/rb24"
-                    style="@style/AppFont.LabelMedium"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/fee_type_24" />
-
-                <RadioButton
-                    android:id="@+id/rb24X48"
-                    style="@style/AppFont.LabelMedium"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fee_type_24_48" />
-
-
-                <RadioButton
-                    android:id="@+id/rb48X72"
-                    style="@style/AppFont.LabelMedium"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fee_type_48_72" />
-
-                <RadioButton
-                    android:id="@+id/rb72X100"
-                    style="@style/AppFont.LabelMedium"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fee_type_72_100" />
-            </com.example.ajspire.collection.ui.custom.RadioGridGroup>
+            android:layout_height="match_parent"
+            android:layout_above="@id/llButtons"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:textSize="20sp">
 
             <LinearLayout
-                android:id="@+id/llAmt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/AppFont.LabelMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    android:text="@string/amount" />
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@string/customer_mobile_number" />
 
                 <EditText
-                    android:id="@+id/etAmount"
+                    android:id="@+id/etMobileNumber"
                     style="@style/AppFont.LabelMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
-                    android:layout_weight="1"
+                    android:autofillHints="false"
+                    android:background="@drawable/edittext_background"
+                    android:hint="@string/customer_mobile_number"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:padding="@dimen/_8sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/customer_name" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tvKeyBoardWarning"
+                        style="@style/AppFont.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_4sdp"
+                        android:paddingRight="@dimen/_4sdp"
+                        android:text="@string/keyboard_message"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+
+                <EditText
+                    android:id="@+id/etUserName"
+                    style="@style/AppFontMarathi.LabelLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:autofillHints="false"
                     android:background="@drawable/edittext_background"
                     android:elevation="@dimen/_8sdp"
-                    android:enabled="false"
-                    android:hint="@string/amount"
-                    android:inputType="number"
-                    android:text="@string/fee_type_24_amt"
+                    android:hint="@string/customer_name"
+                    android:inputType="textPersonName"
+                    android:maxLength="50"
                     android:padding="@dimen/_8sdp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_2sdp"
+                    android:layout_margin="@dimen/_16sdp"
+                    android:background="@color/line" />
+
+                <TextView
+                    style="@style/AppFont.LabelMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fee_type" />
+
+                <com.example.ajspire.collection.ui.custom.RadioGridGroup
+                    android:id="@+id/rgFeeType"
+                    style="@style/AppFont.LabelMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="2"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@drawable/card_background"
+                    android:columnCount="2"
+                    android:elevation="@dimen/_8sdp"
+                    android:padding="@dimen/_8sdp">
+
+
+                    <RadioButton
+                        android:id="@+id/rb24"
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/fee_type_24" />
+
+                    <RadioButton
+                        android:id="@+id/rb24X48"
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fee_type_24_48" />
+
+
+                    <RadioButton
+                        android:id="@+id/rb48X72"
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fee_type_48_72" />
+
+                    <RadioButton
+                        android:id="@+id/rb72X100"
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fee_type_72_100" />
+                </com.example.ajspire.collection.ui.custom.RadioGridGroup>
+
+                <LinearLayout
+                    android:id="@+id/llAmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:text="@string/amount" />
+
+                    <EditText
+                        android:id="@+id/etAmount"
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:autofillHints="false"
+                        android:background="@drawable/edittext_background"
+                        android:elevation="@dimen/_8sdp"
+                        android:enabled="false"
+                        android:hint="@string/amount"
+                        android:inputType="number"
+                        android:padding="@dimen/_8sdp"
+                        android:text="@string/fee_type_24_amt" />
+                </LinearLayout>
+
+
             </LinearLayout>
+        </ScrollView>
 
+        <LinearLayout
+            android:id="@+id/llButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
 
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/AppFont.LabelMedium.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:backgroundTint="@color/red"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/cancel"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                style="@style/AppFont.LabelMedium.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/submit_only"
+                android:textAllCaps="false" />
         </LinearLayout>
-    </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/llButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btnCancel"
-            style="@style/AppFont.LabelMedium.White"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:backgroundTint="@color/red"
-            android:padding="@dimen/_8sdp"
-            android:text="@string/cancel"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/btnSubmit"
-            style="@style/AppFont.LabelMedium.White"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:backgroundTint="@color/colorAccent"
-            android:padding="@dimen/_8sdp"
-            android:text="@string/submit_only"
-            android:textAllCaps="false" />
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
