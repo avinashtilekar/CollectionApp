@@ -55,4 +55,6 @@
     <string name="collection_list">एकूण पेमेंट संकलन</string>
     <string name="collection_list_menu">एकूण पेमेंट संकलन (Collection)</string>
     <string name="collection_summary">पेमेंट संकलन सारांश</string>
+    <string name="syn_sucess">All data has uploaded to server successfully.\nसर्व डेटा सर्व्हरवर यशस्वीरित्या अपलोड झाला आहे.</string>
+    <string name="syn_inprogress">डेटा अपलोड चालू आहे.\n कृपया हे पेज किंवा अॅप बंद करू नका.\n\nData upload is inprogress. Please don not close the this page or App.</string>
 </resources>

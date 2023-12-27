@@ -30,7 +30,7 @@ class ApiCallViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun login(request: DataSyncRequest?) = viewModelScope.launch {
+    fun dataSync(request: DataSyncRequest?) = viewModelScope.launch {
         _dataSyncResponse.value=NetworkResult.Loading()
         repository.dataSync(request).collect { values ->
             _dataSyncResponse.value = values
