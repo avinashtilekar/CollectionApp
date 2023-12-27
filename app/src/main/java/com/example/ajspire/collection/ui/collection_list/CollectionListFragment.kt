@@ -1,17 +1,21 @@
 package com.example.ajspire.collection.ui.collection_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ajspire.collection.MyApplication
+import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
 import com.example.ajspire.collection.ui.entry.EntryViewModel
 import com.example.ajspire.collection.ui.entry.EntryViewModelFactory
+import com.example.ajspire.collection.ui.model.ItemModel
+
 
 class CollectionListFragment : Fragment() {
 
@@ -23,6 +27,7 @@ class CollectionListFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var listAdapter: ListAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,15 +38,42 @@ class CollectionListFragment : Fragment() {
         updateUi()
         return binding.root
     }
+
     private fun setObserver() {
         entryViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.d("Data Found", it.toString())
+                val list = mutableListOf<ItemModel>()
+                it.map { tran ->
+                    list.add(
+                        ItemModel(
+                            tran.id,
+                            getString(R.string.fee_type) + " " + tran.fee_type,
+                            getString(R.string.rs_sign) + " " + tran.amount,
+                            tran.mobile_tran_key,
+                            if (tran.customer_mobile_number != null)" "+ getString(R.string.customer_mobile_number) + ": " + tran.customer_mobile_number else "",
+                            if (tran.customer_name != null) " "+ getString(R.string.customer_name) + ": " + tran.customer_name else "",
+                            tran.server_tran_id,
+                            tran.createdAt,
+                            tran.updatedAt
+                        )
+                    )
+                }
+                if (list.isNotEmpty()) {
+                    showRecord(list)
+                }
             }
         })
     }
 
     private fun updateUi() {
+        binding.apply {
+            rvList.layoutManager = LinearLayoutManager(requireContext())
+            rvList.itemAnimator = DefaultItemAnimator()
+        }
+    }
 
+    private fun showRecord(list: List<ItemModel>) {
+        listAdapter = ListAdapter(list)
+        binding.rvList.adapter = listAdapter
     }
 }
