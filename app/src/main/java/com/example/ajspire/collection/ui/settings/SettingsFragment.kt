@@ -38,7 +38,7 @@ class SettingsFragment : Fragment() {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
 
-    private lateinit var currentSyncRecord:List<TransactionTable>
+    private var currentSyncRecord = listOf <TransactionTable>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +57,7 @@ class SettingsFragment : Fragment() {
         dataBaseViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 Log.d("record found for upload", "record found for upload")
+                currentSyncRecord=listOf()
                 currentSyncRecord=it
                 syncRecord()
             } else {
@@ -64,7 +65,7 @@ class SettingsFragment : Fragment() {
                 toastMessageUtility.showToastMessage(getString(R.string.syn_sucess))
                 binding.llMainContaint.visibility = View.VISIBLE
                 binding.llLoadding.visibility = View.GONE
-                binding.btnSync.isEnabled=false
+                binding.btnSync.visibility = View.GONE
             }
         }
         apiCallViewModel.responseDataSyncResponse.observe(viewLifecycleOwner) { response ->
