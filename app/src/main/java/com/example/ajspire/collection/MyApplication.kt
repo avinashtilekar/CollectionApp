@@ -1,6 +1,7 @@
 package com.example.ajspire.collection
 
 import android.app.Application
+import com.example.ajspire.collection.api.model.response.LoginResponse
 import com.example.ajspire.collection.room.AppDataBase
 import com.example.ajspire.collection.room.repository.TransactionTableRespository
 import kotlinx.coroutines.CoroutineScope
@@ -11,6 +12,7 @@ class MyApplication : Application() {
 
     val appDataBase by lazy { AppDataBase.getInstance(this) }
     val repository by lazy { TransactionTableRespository(appDataBase.TransactionTableDAO()) }
+    var loginUserDetails : LoginResponse?=null
     override fun onCreate() {
         super.onCreate()
     }

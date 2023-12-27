@@ -11,6 +11,7 @@ import com.example.ajspire.collection.base.DataStoreViewModel
 import com.example.ajspire.collection.base.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivitySplashBinding
 import com.example.ajspire.collection.extensions.appDataStore
+import com.example.ajspire.collection.extensions.setLoginUserDetails
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -42,6 +43,7 @@ class SplashActivity : AppCompatActivity() {
                 this,
                 if (loginResponse == null) LoginActivity::class.java else MainActivity::class.java
             )
+            setLoginUserDetails(loginResponse)
             finish()
             startActivity(myIntent)
         }

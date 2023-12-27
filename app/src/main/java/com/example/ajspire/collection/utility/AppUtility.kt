@@ -1,7 +1,6 @@
 package com.example.ajspire.collection.utility
 
 import android.app.Activity
-import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import java.text.ParseException
@@ -31,6 +30,7 @@ object AppUtility {
         } catch (e: Exception) {
         }
     }
+
     val currentDateTime: String
         get() {
             val date = Date()
@@ -38,6 +38,11 @@ object AppUtility {
             return formatter.format(date)
         }
 
+    fun getMobileTranKey(preFixKey: String?): String {
+        var value = if (preFixKey != null) preFixKey + "_" + currentDateTime else currentDateTime
+        value=value.replace(" ", "_")
+        return value
+    }
 
 
     fun getFormatedMobileNumber(mobileNumber: String): String {
