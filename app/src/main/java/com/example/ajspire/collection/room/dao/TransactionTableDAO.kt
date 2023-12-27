@@ -11,6 +11,8 @@ interface TransactionTableDAO {
 
     @Update
     fun update(note: TransactionTable)
+    @Update
+    fun updateList(notes: List<TransactionTable>)
 
     @Delete
     fun delete(note: TransactionTable)

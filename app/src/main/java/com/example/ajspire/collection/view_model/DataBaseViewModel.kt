@@ -27,6 +27,11 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
             transactionTableRespository.insert(transaction)
         }
     }
+    fun updateList(transaction: List<TransactionTable>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            transactionTableRespository.updateList(transaction)
+        }
+    }
 
     fun getAllUnSyncTransactions(dataUploadLimit: Int) {
         CoroutineScope(Dispatchers.IO).launch {

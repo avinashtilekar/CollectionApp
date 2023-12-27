@@ -19,6 +19,11 @@ class TransactionTableRespository(private val transactionTableDAO: TransactionTa
     }
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
+    suspend fun updateList(transactionTable: List<TransactionTable>) {
+        transactionTableDAO.updateList(transactionTable)
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
     suspend fun getAllUnSyncTransactions(dataUploadLimit:Int):List<TransactionTable> {
         return transactionTableDAO.getUnSyncTransaction(dataUploadLimit)
     }
