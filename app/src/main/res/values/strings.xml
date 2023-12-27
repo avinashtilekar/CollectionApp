@@ -19,6 +19,7 @@
     <string name="action_sign_in">लॉगिन (Login)</string>
     <string name="fee_type">फी प्रकार</string>
     <string name="amount">रक्कम ₹</string>
+    <string name="rs_sign">₹</string>
 
     <string name="user_name">नाव (Name)</string>
     <string name="customer_name">ग्राहक नाव</string>

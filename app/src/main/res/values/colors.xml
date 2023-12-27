@@ -13,4 +13,9 @@
     <color name="red">#DC1A1A</color>
     <color name="dropdown_bg">#ffffff</color>
     <color name="dropdown_border">#C6C6C6</color>
+
+    <color name="light_yellow">#28FFEB3B</color>
+    <color name="light_gray">#12B0A927</color>
+    <color name="light_pink">#20E91E63</color>
+    <color name="light_blue">#17109F97</color>
 </resources>
