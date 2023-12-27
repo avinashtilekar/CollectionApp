@@ -2,7 +2,9 @@ package com.example.ajspire.collection.api
 
 import com.example.ajspire.collection.api.helper.BaseApiResponse
 import com.example.ajspire.collection.api.helper.NetworkResult
+import com.example.ajspire.collection.api.model.request.DataSyncRequest
 import com.example.ajspire.collection.api.model.request.LoginRequest
+import com.example.ajspire.collection.api.model.response.DataSyncResponse
 import com.example.ajspire.collection.api.model.response.LoginResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +17,11 @@ class ApiRepository constructor(val appEndPointInterface:AppEndPointInterface) :
     suspend fun login(request: LoginRequest?): Flow<NetworkResult<LoginResponse>> {
         return flow {
             emit(safeApiCall {appEndPointInterface.login(request) })
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun dataSync(request: DataSyncRequest?): Flow<NetworkResult<DataSyncResponse>> {
+        return flow {
+            emit(safeApiCall {appEndPointInterface.dataSync(request) })
         }.flowOn(Dispatchers.IO)
     }
 }
