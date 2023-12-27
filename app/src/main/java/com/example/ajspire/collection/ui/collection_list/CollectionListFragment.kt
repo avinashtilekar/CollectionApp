@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.ajspire.collection.MyApplication
-import com.example.ajspire.collection.databinding.CollectionListBinding
+import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
 import com.example.ajspire.collection.ui.entry.EntryViewModel
 import com.example.ajspire.collection.ui.entry.EntryViewModelFactory
 
 class CollectionListFragment : Fragment() {
 
-    private var _binding: CollectionListBinding? = null
+    private var _binding: FragmentCollectionListBinding? = null
     private val entryViewModel: EntryViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
@@ -28,7 +28,7 @@ class CollectionListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = CollectionListBinding.inflate(inflater, container, false)
+        _binding = FragmentCollectionListBinding.inflate(inflater, container, false)
         setObserver()
         updateUi()
         return binding.root
