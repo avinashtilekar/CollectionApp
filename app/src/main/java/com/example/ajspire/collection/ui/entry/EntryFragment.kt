@@ -89,7 +89,7 @@ class EntryFragment : Fragment() {
                     TransactionTable(
                         fee_type = selectedFeeType,
                         amount = etAmount.text.toString(),
-                        mobile_tran_key = AppUtility.getMobileTranKey(activity?.getLoginUserDetails()?.user?.mobile_no),
+                        mobile_tran_key = AppUtility.getMobileTranKey(),
                         customer_name = if (etUserName.text.toString()
                                 .isNotEmpty()
                         ) etUserName.text.toString() else null,

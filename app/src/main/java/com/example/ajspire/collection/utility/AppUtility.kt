@@ -37,9 +37,15 @@ object AppUtility {
             val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
             return formatter.format(date)
         }
+    val transactionCode: String
+        get() {
+            val date = Date()
+            val formatter = SimpleDateFormat("ddMMyyyy-HHmmss")
+            return formatter.format(date)
+        }
 
-    fun getMobileTranKey(preFixKey: String?): String {
-        var value = if (preFixKey != null) preFixKey + "_" + currentDateTime else currentDateTime
+    fun getMobileTranKey(preFixKey: String?=null): String {
+        var value = if (preFixKey != null) preFixKey + "_" + transactionCode else transactionCode
         value=value.replace(" ", "_")
         return value
     }
