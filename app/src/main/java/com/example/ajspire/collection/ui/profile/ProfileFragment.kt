@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.ajspire.collection.base.DataStoreViewModel
-import com.example.ajspire.collection.base.DataStoreViewModelFactory
-import com.example.ajspire.collection.base.MyViewModelFactory
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.databinding.FragmentProfileBinding
 import com.example.ajspire.collection.extensions.appDataStore
 

@@ -15,15 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
-import com.example.ajspire.collection.ui.entry.EntryViewModel
-import com.example.ajspire.collection.ui.entry.EntryViewModelFactory
+import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.ui.model.ItemModel
 
 
 class CollectionListFragment : Fragment() {
 
     private var _binding: FragmentCollectionListBinding? = null
-    private val entryViewModel: EntryViewModel by viewModels {
+    private val dataBaseViewModel: DataBaseViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
 
@@ -43,7 +43,7 @@ class CollectionListFragment : Fragment() {
     }
 
     private fun setObserver() {
-        entryViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
+        dataBaseViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val list = mutableListOf<ItemModel>()
                 it.map { tran ->
@@ -67,14 +67,14 @@ class CollectionListFragment : Fragment() {
             }
         })
 
-        entryViewModel.transactionSummary.observe(viewLifecycleOwner) {
+        dataBaseViewModel.transactionSummary.observe(viewLifecycleOwner) {
             it?.let {
                 var text: Spanned? = null
                 text = Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY)
                 binding.tvSummary.text = text
             }
         }
-        entryViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
+        dataBaseViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
             it?.let {
                 Log.d("Unsync",it.toString())
             }
@@ -86,7 +86,7 @@ class CollectionListFragment : Fragment() {
             rvList.layoutManager = LinearLayoutManager(requireContext())
             rvList.itemAnimator = DefaultItemAnimator()
         }
-        entryViewModel.getAllUnSyncTransactions(2)
+        dataBaseViewModel.getAllUnSyncTransactions(2)
     }
 
     private fun showRecord(list: List<ItemModel>) {

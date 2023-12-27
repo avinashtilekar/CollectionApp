@@ -16,11 +16,12 @@ import androidx.lifecycle.Observer
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentEntryBinding
-import com.example.ajspire.collection.extensions.getLoginUserDetails
 import com.example.ajspire.collection.extensions.startBlinkAnimation
 import com.example.ajspire.collection.extensions.stopBlinkAnimation
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.custom.RadioGridGroup
+import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.utility.AppUtility
 
 class EntryFragment : Fragment() {
@@ -30,7 +31,7 @@ class EntryFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val entryViewModel: EntryViewModel by viewModels {
+    private val dataBaseViewModel: DataBaseViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
     private var selectedFeeType = "24"
@@ -47,7 +48,7 @@ class EntryFragment : Fragment() {
     }
 
     private fun setObserver() {
-        entryViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
+        dataBaseViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Log.d("Data Found", it.toString())
             }
@@ -85,7 +86,7 @@ class EntryFragment : Fragment() {
             })
             btnSubmit.setOnClickListener {
                 AppUtility.hideSoftKeyboard(requireActivity())
-                entryViewModel.insert(
+                dataBaseViewModel.insert(
                     TransactionTable(
                         fee_type = selectedFeeType,
                         amount = etAmount.text.toString(),

@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.base
+package com.example.ajspire.collection.view_model
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -17,8 +16,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.ajspire.collection.base.DataStoreViewModel
-import com.example.ajspire.collection.base.MyViewModelFactory
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivityMainBinding
 import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility

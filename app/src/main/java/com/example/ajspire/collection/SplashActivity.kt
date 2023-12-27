@@ -7,8 +7,8 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.ajspire.collection.base.DataStoreViewModel
-import com.example.ajspire.collection.base.MyViewModelFactory
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivitySplashBinding
 import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.extensions.setLoginUserDetails
