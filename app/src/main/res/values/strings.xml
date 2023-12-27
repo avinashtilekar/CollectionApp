@@ -54,4 +54,5 @@
     <string name="keyboard_message">कृपया ग्राहकाच्या नावासाठी मराठी कीबोर्ड वापरा.</string>
     <string name="collection_list">एकूण पेमेंट संकलन</string>
     <string name="collection_list_menu">एकूण पेमेंट संकलन (Collection)</string>
+    <string name="collection_summary">पेमेंट संकलन सारांश</string>
 </resources>

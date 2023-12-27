@@ -13,12 +13,8 @@ import kotlinx.coroutines.launch
 
 class EntryViewModel (private val transactionTableRespository: TransactionTableRespository): ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "हे व्यवहार नोंद (Transaction Entry) पेज आहे"
-    }
-    val text: LiveData<String> = _text
-
     val allTransactions: LiveData<List<TransactionTable>> = transactionTableRespository.allTransactions
+    val transactionSummary: LiveData<String> = transactionTableRespository.transactionSummary
 
     fun insert(transaction: TransactionTable)  {
         CoroutineScope(Dispatchers.IO).launch {

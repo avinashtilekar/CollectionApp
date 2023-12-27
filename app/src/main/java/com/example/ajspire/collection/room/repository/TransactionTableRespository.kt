@@ -7,6 +7,7 @@ import com.example.ajspire.collection.room.entity.TransactionTable
 
 class TransactionTableRespository(private val transactionTableDAO: TransactionTableDAO) {
     val allTransactions: LiveData<List<TransactionTable>> = transactionTableDAO.getAllTransaction()
+    val transactionSummary: LiveData<String> = transactionTableDAO.getTransactionSummary()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

@@ -20,4 +20,10 @@ interface TransactionTableDAO {
 
     @Query("select * from ${AppUtility.TRANSACTION_TABLE_NAME} order by id desc")
     fun getAllTransaction(): LiveData<List<TransactionTable>>
+
+    @Query("Select GROUP_CONCAT(('<b>'||T.tranDate ||'</b> : ₹ '|| T.totalCollection),'<br> ') as summary " +
+            "from  (select sum(amount) as totalCollection ,substr(createdAt,1,10) tranDate " +
+            "from ${AppUtility.TRANSACTION_TABLE_NAME} " +
+            "group by tranDate order by id asc) T ")
+    fun getTransactionSummary(): LiveData<String>
 }

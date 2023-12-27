@@ -1,6 +1,8 @@
 package com.example.ajspire.collection.ui.collection_list
 
 import android.os.Bundle
+import android.text.Html
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,8 +52,8 @@ class CollectionListFragment : Fragment() {
                             getString(R.string.fee_type) + " " + tran.fee_type,
                             getString(R.string.rs_sign) + " " + tran.amount,
                             tran.mobile_tran_key,
-                            if (tran.customer_mobile_number != null)" "+ getString(R.string.customer_mobile_number) + ": " + tran.customer_mobile_number else "",
-                            if (tran.customer_name != null) " "+ getString(R.string.customer_name) + ": " + tran.customer_name else "",
+                            if (tran.customer_mobile_number != null) " " + getString(R.string.customer_mobile_number) + ": " + tran.customer_mobile_number else "",
+                            if (tran.customer_name != null) " " + getString(R.string.customer_name) + ": " + tran.customer_name else "",
                             tran.server_tran_id,
                             tran.createdAt,
                             tran.updatedAt
@@ -63,6 +65,14 @@ class CollectionListFragment : Fragment() {
                 }
             }
         })
+
+        entryViewModel.transactionSummary.observe(viewLifecycleOwner) {
+            it?.let {
+                var text: Spanned? = null
+                text = Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY)
+                binding.tvSummary.text = text
+            }
+        }
     }
 
     private fun updateUi() {
