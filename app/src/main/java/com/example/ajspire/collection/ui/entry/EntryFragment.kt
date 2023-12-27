@@ -93,9 +93,9 @@ class EntryFragment : Fragment() {
                         customer_name = if (etUserName.text.toString()
                                 .isNotEmpty()
                         ) etUserName.text.toString() else null,
-                        customer_mobile_number = if (etUserName.text.toString()
+                        customer_mobile_number = if (etMobileNumber.text.toString()
                                 .isNotEmpty()
-                        ) etUserName.text.toString() else null
+                        ) etMobileNumber.text.toString() else null
                     )
                 )
                 showConfirmAlert()
