@@ -17,18 +17,18 @@
     <string name="userId">यूजर आयडी (User id)</string>
     <string name="password">पासवर्ड (Password)</string>
     <string name="action_sign_in">लॉगिन (Login)</string>
-    <string name="fee_type">फी प्रकार (Fee type)</string>
-    <string name="amount">रक्कम (Amount) ₹</string>
+    <string name="fee_type">फी प्रकार</string>
+    <string name="amount">रक्कम ₹</string>
 
     <string name="user_name">नाव (Name)</string>
-    <string name="customer_name">ग्राहक नाव (Customer Name)</string>
-    <string name="customer_name_marathi">ग्राहक नाव</string>
+    <string name="customer_name">ग्राहक नाव</string>
     <string name="mobile_number">मोबाईल नंबर (Mobile Number)</string>
-    <string name="customer_mobile_number">ग्राहक मोबाईल नंबर (Customer Number)</string>
+    <string name="customer_mobile_number">ग्राहक मोबाईल नंबर</string>
     <string name="email">ई-मेल आयडी (Email Id)</string>
     <string name="address">पत्ता (Address)</string>
     <string name="submit">जमा (Submit)</string>
-    <string name="cancel">रद्द (Cancel)</string>
+    <string name="submit_only">जमा</string>
+    <string name="cancel">रद्द</string>
     <string name="loading_message">कृपया काही वेळ प्रतीक्षा करा.\n\nPlease wait from some time.</string>
     <string name="logout_confirm">तुमची खात्री आहे की तुम्ही लॉग आउट करू इच्छिता?\n\nAre you sure you want to log out?</string>
     <string name="logout_yes">होय (Yes)</string>
@@ -39,4 +39,13 @@
     <string name="login_sucess">अॅपमध्ये तुमचे स्वागत आहे.\n\nUser login successfully.</string>
     <string name="logout_sucess">यशस्वीरित्या लॉगआउट.\n\nLogout successfully.</string>
     <string name="technicale_error">काही तांत्रिक त्रुटी आहे, कृपया काही वेळानंतर पुन्हा प्रयत्न करा.\nThere is some technicale error, please try again after some time.</string>
+    <string name="fee_type_24">24</string>
+    <string name="fee_type_24_48">24-48</string>
+    <string name="fee_type_48_72">48-72</string>
+    <string name="fee_type_72_100">72-100</string>
+
+    <string name="fee_type_24_amt">20</string>
+    <string name="fee_type_24_48_amt">40</string>
+    <string name="fee_type_48_72_amt">60</string>
+    <string name="fee_type_72_100_amt">80</string>
 </resources>
