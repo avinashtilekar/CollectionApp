@@ -74,11 +74,6 @@ class CollectionListFragment : Fragment() {
                 binding.tvSummary.text = text
             }
         }
-        dataBaseViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
-            it?.let {
-                Log.d("Unsync",it.toString())
-            }
-        }
     }
 
     private fun updateUi() {
@@ -86,7 +81,6 @@ class CollectionListFragment : Fragment() {
             rvList.layoutManager = LinearLayoutManager(requireContext())
             rvList.itemAnimator = DefaultItemAnimator()
         }
-        dataBaseViewModel.getAllUnSyncTransactions(2)
     }
 
     private fun showRecord(list: List<ItemModel>) {
