@@ -53,6 +53,7 @@ class CollectionListFragment : Fragment() {
                             getString(R.string.fee_type) + " " + tran.fee_type,
                             getString(R.string.rs_sign) + " " + tran.amount,
                             tran.mobile_tran_key,
+                            tran.invoice_number,
                             if (tran.customer_mobile_number != null) " " + getString(R.string.customer_mobile_number) + ": " + tran.customer_mobile_number else "",
                             if (tran.customer_name != null) " " + getString(R.string.customer_name) + ": " + tran.customer_name else "",
                             tran.server_tran_id,

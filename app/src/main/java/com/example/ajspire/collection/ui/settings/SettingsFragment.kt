@@ -121,7 +121,8 @@ class SettingsFragment : Fragment() {
                     it.customer_mobile_number,
                     it.customer_name,
                     it.fee_type,
-                    it.mobile_tran_key
+                    it.mobile_tran_key,
+                    it.invoice_number
                 )
             )
         }

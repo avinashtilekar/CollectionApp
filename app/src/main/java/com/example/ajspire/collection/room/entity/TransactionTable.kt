@@ -9,6 +9,7 @@ data class TransactionTable(
     val fee_type: String,
     val amount: String,
     val mobile_tran_key: String,
+    val invoice_number: String,
     val customer_mobile_number: String?=null,
     val customer_name: String?=null,
     var server_tran_id: String?=null,
