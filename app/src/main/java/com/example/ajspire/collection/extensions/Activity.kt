@@ -12,3 +12,8 @@ fun Activity.setLoginUserDetails(loginResponse: LoginResponse?) {
     (application as MyApplication).loginUserDetails = loginResponse
 }
 
+fun Activity.getInvoiceNumberPrefix() = (application as MyApplication).invoiceNumberPrefix
+fun Activity.setInvoiceNumberPrefix(invoiceNumberPrefix: String) {
+    (application as MyApplication).invoiceNumberPrefix = invoiceNumberPrefix
+}
+

@@ -13,6 +13,7 @@ class MyApplication : Application() {
     val appDataBase by lazy { AppDataBase.getInstance(this) }
     val repository by lazy { TransactionTableRespository(appDataBase.TransactionTableDAO()) }
     var loginUserDetails : LoginResponse?=null
+    var invoiceNumberPrefix : String=""
     override fun onCreate() {
         super.onCreate()
     }

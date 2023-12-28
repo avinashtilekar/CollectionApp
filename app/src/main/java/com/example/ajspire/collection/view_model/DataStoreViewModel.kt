@@ -15,36 +15,69 @@ import kotlinx.coroutines.launch
 class DataStoreViewModel constructor(
     private val application: Application,
     private val userPreferencesRepository: UserPreferencesRepository
-): AndroidViewModel(application)  {
+) : AndroidViewModel(application) {
     private val userDataStorePreferencesRepository = userPreferencesRepository
     private val gson = Gson()
 
     private val _userDetails = MutableLiveData<LoginResponse?>()
     val userDetails: LiveData<LoginResponse?> = _userDetails
 
+    private val _invoicePrefix = MutableLiveData<String?>()
+    val invoicePrefix: LiveData<String?> = _invoicePrefix
+
+    private val _lastInvoiceNumber = MutableLiveData<Int?>()
+    val lastInvoiceNumber: LiveData<Int?> = _lastInvoiceNumber
+
     fun updateUserDetails(loginResponse: LoginResponse?) = viewModelScope.launch {
-        var userdetailsString=""
-        userdetailsString=gson.toJson(loginResponse)
+        var userdetailsString = ""
+        userdetailsString = gson.toJson(loginResponse)
         userDataStorePreferencesRepository.updateUserDetails(userdetailsString)
     }
 
     fun getUserDetails() = viewModelScope.launch {
         userDataStorePreferencesRepository.getUserDetails().let {
-            if(!it.isNullOrEmpty()) {
+            if (!it.isNullOrEmpty()) {
                 val userDetails = gson.fromJson(it, LoginResponse::class.java)
                 _userDetails.value = userDetails
-            }else{
-                _userDetails.value=null
+            } else {
+                _userDetails.value = null
             }
         }
     }
+
+    fun updateInvoicePrefix(invoicePrefix: String) = viewModelScope.launch {
+        userDataStorePreferencesRepository.updateInvoicePrefix(invoicePrefix)
+    }
+
+    fun getInvoicePrefix() = viewModelScope.launch {
+        userDataStorePreferencesRepository.getInvoicePrefix().let {
+            if (!it.isNullOrEmpty()) {
+                _invoicePrefix.value = it
+            } else {
+                _invoicePrefix.value = ""
+            }
+        }
+    }
+
+    fun updateLastInvoiceNumber(lastInvoiceNumber: Int) = viewModelScope.launch {
+        userDataStorePreferencesRepository.updateLastInvoiceNumber(lastInvoiceNumber)
+    }
+
+    fun getLastInvoiceNumber() = viewModelScope.launch {
+        userDataStorePreferencesRepository.getLastInvoiceNumber().let {
+            _lastInvoiceNumber.value = it
+        }
+    }
 }
-class DataStoreViewModelFactory(private val application: Application,
-                                private val userPreferencesRepository: UserPreferencesRepository) : ViewModelProvider.Factory {
+
+class DataStoreViewModelFactory(
+    private val application: Application,
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DataStoreViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return DataStoreViewModel(application,userPreferencesRepository) as T
+            return DataStoreViewModel(application, userPreferencesRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

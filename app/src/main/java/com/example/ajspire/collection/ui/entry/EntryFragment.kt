@@ -3,6 +3,8 @@ package com.example.ajspire.collection.ui.entry
 import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ import androidx.lifecycle.Observer
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentEntryBinding
+import com.example.ajspire.collection.extensions.appDataStore
+import com.example.ajspire.collection.extensions.getInvoiceNumberPrefix
 import com.example.ajspire.collection.extensions.startBlinkAnimation
 import com.example.ajspire.collection.extensions.stopBlinkAnimation
 import com.example.ajspire.collection.room.entity.TransactionTable
@@ -23,6 +27,8 @@ import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.utility.AppUtility
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 
 class EntryFragment : Fragment() {
 
@@ -35,6 +41,10 @@ class EntryFragment : Fragment() {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
     private var selectedFeeType = "24"
+    private var lastInvoiceNumber = 0
+    private val dataStoreViewModel: DataStoreViewModel by viewModels {
+        DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +63,13 @@ class EntryFragment : Fragment() {
                 Log.d("Data Found", it.toString())
             }
         })
+        dataStoreViewModel.lastInvoiceNumber.observe(viewLifecycleOwner) { lastInvoiceNumberFromStore ->
+            lastInvoiceNumberFromStore?.let {
+                lastInvoiceNumber = it
+                binding.etInvoiceNumber.setText(activity?.getInvoiceNumberPrefix() + (lastInvoiceNumber + 1))
+            }
+        }
+        dataStoreViewModel.getLastInvoiceNumber()
     }
 
     private fun updateUi() {
@@ -85,12 +102,14 @@ class EntryFragment : Fragment() {
 
             })
             btnSubmit.setOnClickListener {
+                val entryInvoiceNumber = lastInvoiceNumber + 1
                 AppUtility.hideSoftKeyboard(requireActivity())
-                dataBaseViewModel.insert(
+                val returnResult = dataBaseViewModel.insert(
                     TransactionTable(
                         fee_type = selectedFeeType,
                         amount = etAmount.text.toString(),
                         mobile_tran_key = AppUtility.getMobileTranKey(),
+                        invoice_number = entryInvoiceNumber,
                         customer_name = if (etUserName.text.toString()
                                 .isNotEmpty()
                         ) etUserName.text.toString() else null,
@@ -99,23 +118,29 @@ class EntryFragment : Fragment() {
                         ) etMobileNumber.text.toString() else null
                     )
                 )
+
+                updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
                 showConfirmAlert()
                 reSetScreen()
-            }
+               }
             btnCancel.setOnClickListener {
                 reSetScreen()
             }
 
             etUserName.setOnFocusChangeListener { view, hasFocus ->
-                if(hasFocus)
-                {
+                if (hasFocus) {
                     tvKeyBoardWarning.startBlinkAnimation()
-                }else{
+                } else {
                     tvKeyBoardWarning.stopBlinkAnimation()
-                    tvKeyBoardWarning.visibility=View.GONE
+                    tvKeyBoardWarning.visibility = View.GONE
                 }
             }
         }
+    }
+
+    private fun updateLastInvoiceNumberToStoreDate(entryInvoiceNumber: Int) {
+        lastInvoiceNumber = entryInvoiceNumber
+        dataStoreViewModel.updateLastInvoiceNumber(lastInvoiceNumber)
     }
 
     private fun reSetScreen() {
@@ -141,7 +166,7 @@ class EntryFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.close) { dialogInterface, which ->
-
+            dataStoreViewModel.getLastInvoiceNumber()
             dialogInterface.dismiss()
         }
 

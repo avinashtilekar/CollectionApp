@@ -2,8 +2,6 @@ package com.example.ajspire.collection.api.model.response
 
 data class LoginResponse(
     val token: String,
-    val invoice_prefix: String,
-    val last_invoice_number: Int,
     val user: User
 )
 data class User(
@@ -17,5 +15,7 @@ data class User(
     val profile_photo: Any,
     val status: Int,
     val updatedAt: String,
-    val user_type: Any
+    val user_type: Any,
+    val prefix: String?=null,
+    val invoice_no: String?="0",
 )

@@ -7,10 +7,12 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.ajspire.collection.api.model.response.LoginResponse
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivitySplashBinding
 import com.example.ajspire.collection.extensions.appDataStore
+import com.example.ajspire.collection.extensions.setInvoiceNumberPrefix
 import com.example.ajspire.collection.extensions.setLoginUserDetails
 
 @SuppressLint("CustomSplashScreen")
@@ -18,6 +20,7 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
     private lateinit var dataStoreViewModel: DataStoreViewModel
+    private lateinit var nextActivityIntent: Intent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -33,19 +36,30 @@ class SplashActivity : AppCompatActivity() {
         }, 5000)
 
         binding.txtHeading.text = getString(R.string.client_name)
-        binding.txtTitle.text = getString(R.string.app_name)+ " "+BuildConfig.VERSION_NAME
-        binding.txtFooter.text = "${BuildConfig.BUILD_DATE_TIME} \n\n${getString(R.string.ajspire_tec)}"
+        binding.txtTitle.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
+        binding.txtFooter.text =
+            "${BuildConfig.BUILD_DATE_TIME} \n\n${getString(R.string.ajspire_tec)}"
     }
 
     private fun setObserver() {
         dataStoreViewModel.userDetails.observe(this) { loginResponse ->
-            val myIntent = Intent(
+            nextActivityIntent = Intent(
                 this,
                 if (loginResponse == null) LoginActivity::class.java else MainActivity::class.java
             )
             setLoginUserDetails(loginResponse)
-            finish()
-            startActivity(myIntent)
+            dataStoreViewModel.getInvoicePrefix()
         }
+        dataStoreViewModel.invoicePrefix.observe(this) { invoiceNumberPrefix ->
+            invoiceNumberPrefix?.let {
+                setInvoiceNumberPrefix(it)
+            }
+            callNextActivity()
+        }
+    }
+
+    private fun callNextActivity() {
+        finish()
+        startActivity(nextActivityIntent)
     }
 }

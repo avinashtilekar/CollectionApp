@@ -85,6 +85,9 @@ class MainActivity : AppCompatActivity() {
         //performing positive action
         builder.setPositiveButton(R.string.logout_yes) { dialogInterface, which ->
             dataStoreViewModel.updateUserDetails(null)
+            dataStoreViewModel.updateLastInvoiceNumber(0)
+            dataStoreViewModel.updateInvoicePrefix("")
+
             toastMessageUtility.showToastMessage(getString(R.string.logout_sucess))
             val myIntent = Intent(this, LoginActivity::class.java)
             finish()

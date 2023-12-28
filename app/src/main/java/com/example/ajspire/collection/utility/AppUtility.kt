@@ -12,6 +12,8 @@ object AppUtility {
 
     const val DATA_STORE_PREFERENCES_NAME = "collection_store_preferences"
     const val DATA_STORE_KEY_USER_DETAILS = "user_details"
+    const val DATA_STORE_KEY_LAST_INVOICE_NUMBER = "last_invoice_number"
+    const val DATA_STORE_KEY_INVOICE_PREFIX = "invoice_prefix"
     const val TRANSACTION_TABLE_NAME = "transaction_table"
     const val ROOM_DB_NAME = "collectionDB"
     var UPLOAD_ITEM_LIMIT = (if (BuildConfig.DEBUG) 2 else 500)
@@ -36,7 +38,7 @@ object AppUtility {
     val currentDateTime: String
         get() {
             val date = Date()
-            val formatter = SimpleDateFormat("dd-MM-yyyy hh:mm:ss")
+            val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
             return formatter.format(date)
         }
     val transactionCode: String

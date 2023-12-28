@@ -74,6 +74,9 @@ class LoginActivity : AppCompatActivity() {
 
                 is NetworkResult.Success -> {
                     dataStoreViewModel.updateUserDetails(response.data)
+
+                    dataStoreViewModel.updateInvoicePrefix(response.data?.user?.prefix?:"")
+                    dataStoreViewModel.updateLastInvoiceNumber(response.data?.user?.invoice_no?.toInt()?:0)
                     toastMessageUtility.showToastMessage(getString(R.string.login_sucess))
                     callMainScreen()
                 }
