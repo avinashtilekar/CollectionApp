@@ -22,7 +22,7 @@ interface TransactionTableDAO {
 
     @Query("select * from ${AppUtility.TRANSACTION_TABLE_NAME} order by id desc")
     fun getAllTransaction(): LiveData<List<TransactionTable>>
-    @Query("select * from ${AppUtility.TRANSACTION_TABLE_NAME} where substr(createdAt,1,10) like strftime('%d-%m-%Y','now','localtime') order by id desc")
+    @Query("select * from ${AppUtility.TRANSACTION_TABLE_NAME} where substr(createdAt,1,10) like strftime('%Y-%m-%d','now','localtime') order by id desc")
     fun getTodaysTransaction(): LiveData<List<TransactionTable>>
 
     @Query("select * from ${AppUtility.TRANSACTION_TABLE_NAME} where server_tran_id is null Limit :dataUploadLimit")
@@ -37,6 +37,6 @@ interface TransactionTableDAO {
     @Query("Select GROUP_CONCAT(('<b>'||T.tranDate ||'</b> : ₹ '|| T.totalCollection),'<br> ') as summary " +
             "from  (select sum(amount) as totalCollection ,substr(createdAt,1,10) tranDate " +
             "from ${AppUtility.TRANSACTION_TABLE_NAME} " +
-            "where  substr(createdAt,1,10) like strftime('%d-%m-%Y','now','localtime')) T ")
+            "where  substr(createdAt,1,10) like strftime('%Y-%m-%d','now','localtime')) T ")
     fun getTransactionSummaryTodayOnly(): LiveData<String>
 }
