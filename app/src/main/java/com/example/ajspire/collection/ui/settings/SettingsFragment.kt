@@ -128,15 +128,15 @@ class SettingsFragment : Fragment() {
             )
         }
         if (transactionDataForUploadList.isNotEmpty()) {
-            activity?.getLoginUserDetails()?.user?.id.toString().let { userId ->
-                val dataSyncRequest = DataSyncRequest(transactionDataForUploadList, userId)
-                apiCallViewModel.dataSync(dataSyncRequest)
+            activity?.getLoginUserDetails()?.let { loginResponse ->
+                val dataSyncRequest = DataSyncRequest(transactionDataForUploadList, loginResponse.user.id.toString())
+                apiCallViewModel.dataSync(dataSyncRequest,loginResponse.token)
             }
 
         }
     }
 
-    private fun updateUploadedRecord(dataSyncResponse: DataSyncResponse) {
+    private fun updateUploadedRecord(dataSyncResponse: List<DataSyncResponse>) {
         currentSyncRecord.let {
             it.forEach { updateTransactionRecord ->
                 updateTransactionRecord.server_tran_id =getServerKey(dataSyncResponse,updateTransactionRecord.mobile_tran_key)
@@ -147,9 +147,9 @@ class SettingsFragment : Fragment() {
         dataBaseViewModel.updateList(currentSyncRecord)
     }
 
-    private fun getServerKey(dataSyncResponse: DataSyncResponse, mobileTranKey: String): String? {
-        dataSyncResponse.data.forEach {
-            if (it.mobile_tran_key.equals(mobileTranKey)) {
+    private fun getServerKey(dataSyncResponse: List<DataSyncResponse>, mobileTranKey: String): String? {
+        dataSyncResponse.forEach {
+            if (it.mobile_tran_key == mobileTranKey) {
                 return it.server_tran_id.toString()
             }
         }

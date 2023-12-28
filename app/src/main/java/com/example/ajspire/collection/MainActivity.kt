@@ -20,6 +20,7 @@ import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivityMainBinding
 import com.example.ajspire.collection.extensions.appDataStore
+import com.example.ajspire.collection.extensions.setLoginUserDetails
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.google.android.material.navigation.NavigationView
 
@@ -84,10 +85,7 @@ class MainActivity : AppCompatActivity() {
 
         //performing positive action
         builder.setPositiveButton(R.string.logout_yes) { dialogInterface, which ->
-            dataStoreViewModel.updateUserDetails(null)
-            dataStoreViewModel.updateLastInvoiceNumber(0)
-            dataStoreViewModel.updateInvoicePrefix("")
-
+            clearLoginUserDetails()
             toastMessageUtility.showToastMessage(getString(R.string.logout_sucess))
             val myIntent = Intent(this, LoginActivity::class.java)
             finish()
@@ -124,5 +122,13 @@ class MainActivity : AppCompatActivity() {
         })
 
         alertDialog.show()
+    }
+
+    private fun clearLoginUserDetails()
+    {
+        dataStoreViewModel.updateUserDetails(null)
+        dataStoreViewModel.updateLastInvoiceNumber(0)
+        dataStoreViewModel.updateInvoicePrefix("")
+        setLoginUserDetails(null)
     }
 }

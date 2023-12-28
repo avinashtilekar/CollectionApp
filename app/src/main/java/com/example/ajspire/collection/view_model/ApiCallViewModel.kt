@@ -20,8 +20,8 @@ class ApiCallViewModel(application: Application) : AndroidViewModel(application)
     private val _responseLogin: MutableLiveData<NetworkResult<LoginResponse>> = MutableLiveData()
     val response: LiveData<NetworkResult<LoginResponse>> = _responseLogin
 
-    private val _dataSyncResponse: MutableLiveData<NetworkResult<DataSyncResponse>> = MutableLiveData()
-    val responseDataSyncResponse: LiveData<NetworkResult<DataSyncResponse>> = _dataSyncResponse
+    private val _dataSyncResponse: MutableLiveData<NetworkResult<List<DataSyncResponse>>> = MutableLiveData()
+    val responseDataSyncResponse: LiveData<NetworkResult<List<DataSyncResponse>>> = _dataSyncResponse
 
     fun login(request: LoginRequest?) = viewModelScope.launch {
         _responseLogin.value=NetworkResult.Loading()
@@ -30,9 +30,9 @@ class ApiCallViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun dataSync(request: DataSyncRequest?) = viewModelScope.launch {
+    fun dataSync(request: DataSyncRequest?,token :String) = viewModelScope.launch {
         _dataSyncResponse.value=NetworkResult.Loading()
-        repository.dataSync(request).collect { values ->
+        repository.dataSync(request,"Bearer "+token).collect { values ->
             _dataSyncResponse.value = values
         }
     }

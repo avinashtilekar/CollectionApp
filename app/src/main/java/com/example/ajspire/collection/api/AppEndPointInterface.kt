@@ -6,6 +6,7 @@ import com.example.ajspire.collection.api.model.response.DataSyncResponse
 import com.example.ajspire.collection.api.model.response.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -17,5 +18,5 @@ interface AppEndPointInterface {
 
     @Headers("Content-Type: application/json")
     @POST("api/trans/store")
-    suspend fun dataSync(@Body dataSyncRequest: DataSyncRequest?): Response<DataSyncResponse>
+    suspend fun dataSync(@Body dataSyncRequest: DataSyncRequest? ,@Header("Authorization") token :String): Response<List<DataSyncResponse>>
 }

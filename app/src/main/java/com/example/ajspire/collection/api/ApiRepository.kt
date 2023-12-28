@@ -19,9 +19,9 @@ class ApiRepository constructor(val appEndPointInterface:AppEndPointInterface) :
             emit(safeApiCall {appEndPointInterface.login(request) })
         }.flowOn(Dispatchers.IO)
     }
-    suspend fun dataSync(request: DataSyncRequest?): Flow<NetworkResult<DataSyncResponse>> {
+    suspend fun dataSync(request: DataSyncRequest?,token :String): Flow<NetworkResult<List<DataSyncResponse>>> {
         return flow {
-            emit(safeApiCall {appEndPointInterface.dataSync(request) })
+            emit(safeApiCall {appEndPointInterface.dataSync(request,token) })
         }.flowOn(Dispatchers.IO)
     }
 }
