@@ -9,7 +9,8 @@
 
     <TextView
         android:id="@+id/tvNoCollectionError"
-        style="@style/AppFont.LabelSmall"
+        style="@style/AppFont.LabelMedium"
+        android:textColor="@color/red"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
