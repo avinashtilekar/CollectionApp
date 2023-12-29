@@ -7,7 +7,19 @@
     android:orientation="vertical"
     tools:context=".ui.profile.ProfileFragment">
 
+    <TextView
+        android:id="@+id/tvNoCollectionError"
+        style="@style/AppFont.LabelSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="@dimen/_8sdp"
+        android:text="@string/no_payment_collection"
+        android:textStyle="bold" />
+
     <LinearLayout
+        android:id="@+id/llSummarySection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_6sdp"

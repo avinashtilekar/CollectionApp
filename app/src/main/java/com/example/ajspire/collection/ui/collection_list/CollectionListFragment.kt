@@ -63,7 +63,14 @@ class CollectionListFragment : Fragment() {
                     )
                 }
                 if (list.isNotEmpty()) {
+                    binding.llSummarySection.visibility=View.VISIBLE
+                    binding.rvList.visibility=View.VISIBLE
+                    binding.tvNoCollectionError.visibility=View.GONE
                     showRecord(list)
+                }else{
+                    binding.llSummarySection.visibility=View.GONE
+                    binding.rvList.visibility=View.GONE
+                    binding.tvNoCollectionError.visibility=View.VISIBLE
                 }
             }
         })
