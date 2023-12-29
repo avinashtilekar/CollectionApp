@@ -38,8 +38,12 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
             transactionTableRespository.getAllUnSyncTransactions(dataUploadLimit).let {
                 _allUnSyncTransactions.postValue(it)
             }
+        }
+    }
 
-
+    fun deleteSyncItems() {
+        CoroutineScope(Dispatchers.IO).launch {
+            transactionTableRespository.deleteSyncItems()
         }
     }
 }

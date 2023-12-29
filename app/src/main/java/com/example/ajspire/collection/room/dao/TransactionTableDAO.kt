@@ -19,6 +19,8 @@ interface TransactionTableDAO {
 
     @Query("delete from ${AppUtility.TRANSACTION_TABLE_NAME}")
     fun deleteAllTransaction()
+    @Query("delete from ${AppUtility.TRANSACTION_TABLE_NAME} where server_tran_id not null and substr(createdAt,1,10) not like strftime('%Y-%m-%d','now','localtime')")
+    fun deleteSyncItems()
 
     @Query("select * from ${AppUtility.TRANSACTION_TABLE_NAME} order by id desc")
     fun getAllTransaction(): LiveData<List<TransactionTable>>

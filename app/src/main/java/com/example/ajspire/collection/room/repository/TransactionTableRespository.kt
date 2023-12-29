@@ -27,4 +27,10 @@ class TransactionTableRespository(private val transactionTableDAO: TransactionTa
     suspend fun getAllUnSyncTransactions(dataUploadLimit:Int):List<TransactionTable> {
         return transactionTableDAO.getUnSyncTransaction(dataUploadLimit)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteSyncItems() {
+        transactionTableDAO.deleteSyncItems()
+    }
 }

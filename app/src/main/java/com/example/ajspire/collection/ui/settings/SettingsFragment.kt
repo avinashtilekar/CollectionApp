@@ -61,6 +61,7 @@ class SettingsFragment : Fragment() {
                 syncRecord()
             } else {
                 Log.d("record not found for upload", "record not found for upload")
+                dataBaseViewModel.deleteSyncItems()
                 toastMessageUtility.showToastMessage(getString(R.string.syn_sucess))
                 binding.llMainContaint.visibility = View.VISIBLE
                 binding.llLoadding.visibility = View.GONE
