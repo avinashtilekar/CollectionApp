@@ -2,6 +2,8 @@ package com.example.ajspire.collection
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -56,9 +58,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun callMainScreen() {
-        val myIntent = Intent(this, MainActivity::class.java)
-        finish()
-        startActivity(myIntent)
+        Handler(Looper.getMainLooper()).postDelayed({
+            toastMessageUtility.showToastMessage(getString(R.string.login_sucess))
+            val myIntent = Intent(this, MainActivity::class.java)
+            finish()
+            startActivity(myIntent)
+        }, 5000)
     }
 
     private fun setObserver() {
@@ -75,9 +80,11 @@ class LoginActivity : AppCompatActivity() {
                 is NetworkResult.Success -> {
                     dataStoreViewModel.updateUserDetails(response.data)
 
-                    dataStoreViewModel.updateInvoicePrefix(response.data?.user?.prefix?:"")
-                    dataStoreViewModel.updateLastInvoiceNumber(response.data?.user?.invoice_no?.toInt()?:0)
-                    toastMessageUtility.showToastMessage(getString(R.string.login_sucess))
+                    dataStoreViewModel.updateInvoicePrefix(response.data?.user?.prefix ?: "")
+                    dataStoreViewModel.updateLastInvoiceNumber(
+                        response.data?.user?.invoice_no?.toInt() ?: 0
+                    )
+
                     callMainScreen()
                 }
 

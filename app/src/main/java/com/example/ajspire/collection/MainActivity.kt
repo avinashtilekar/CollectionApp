@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity() {
         dataStoreViewModel.userDetails.observe(this) { loginResponse ->
             (application as MyApplication).loginUserDetails=(loginResponse)
             dataStoreViewModel.getInvoicePrefix()
+
         }
         dataStoreViewModel.invoicePrefix.observe(this) { invoiceNumberPrefix ->
             invoiceNumberPrefix?.let {
