@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var dataStoreViewModel: DataStoreViewModel
     private lateinit var toastMessageUtility: ToastMessageUtility
+    private lateinit var navHeader: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,12 +53,20 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_entry,R.id.nav_collection_list, R.id.nav_profile, R.id.nav_settings
+                R.id.nav_entry, R.id.nav_collection_list, R.id.nav_profile, R.id.nav_settings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         binding.appBarMain.toolbar.setTitleTextAppearance(this, R.style.MyToolbarStyleMarathi)
+        navHeader = navView.getHeaderView(0)
+
+
+    }
+
+    private fun updateHeader(mobileNumber: String, email: String) {
+        (navHeader.findViewById(R.id.tvUserName) as TextView).text = mobileNumber
+        (navHeader.findViewById(R.id.tvEmailId) as TextView).text = email
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -83,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLogoutAlert() {
-        val builder = AlertDialog.Builder(this,R.style.AlertDialogTheme)
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogTheme)
         //set title for alert dialog
         builder.setTitle(R.string.action_logout)
         //set message for alert dialog
@@ -130,22 +141,24 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun clearLoginUserDetails()
-    {
+    private fun clearLoginUserDetails() {
         dataStoreViewModel.updateUserDetails(null)
         dataStoreViewModel.updateLastInvoiceNumber(0)
         dataStoreViewModel.updateInvoicePrefix("")
-        (application as MyApplication).loginUserDetails=null
+        (application as MyApplication).loginUserDetails = null
     }
+
     private fun setObserver() {
         dataStoreViewModel.userDetails.observe(this) { loginResponse ->
-            (application as MyApplication).loginUserDetails=(loginResponse)
+            (application as MyApplication).loginUserDetails = (loginResponse)
             dataStoreViewModel.getInvoicePrefix()
-
+            loginResponse?.user?.let {
+                updateHeader(it.mobile_no, it.email)
+            }
         }
         dataStoreViewModel.invoicePrefix.observe(this) { invoiceNumberPrefix ->
             invoiceNumberPrefix?.let {
-                (application as MyApplication).invoiceNumberPrefix=(it)
+                (application as MyApplication).invoiceNumberPrefix = (it)
             }
         }
     }
