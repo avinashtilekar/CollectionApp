@@ -20,7 +20,7 @@ import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivityMainBinding
 import com.example.ajspire.collection.extensions.appDataStore
-import com.example.ajspire.collection.extensions.setLoginUserDetails
+
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.google.android.material.navigation.NavigationView
 
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 DataStoreViewModel::class.java
             )
         setSupportActionBar(binding.appBarMain.toolbar)
-
+        setObserver()
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -74,6 +74,12 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //Refresh user details
+        dataStoreViewModel.getUserDetails()
     }
 
     private fun showLogoutAlert() {
@@ -129,6 +135,17 @@ class MainActivity : AppCompatActivity() {
         dataStoreViewModel.updateUserDetails(null)
         dataStoreViewModel.updateLastInvoiceNumber(0)
         dataStoreViewModel.updateInvoicePrefix("")
-        setLoginUserDetails(null)
+        (application as MyApplication).loginUserDetails=null
+    }
+    private fun setObserver() {
+        dataStoreViewModel.userDetails.observe(this) { loginResponse ->
+            (application as MyApplication).loginUserDetails=(loginResponse)
+            dataStoreViewModel.getInvoicePrefix()
+        }
+        dataStoreViewModel.invoicePrefix.observe(this) { invoiceNumberPrefix ->
+            invoiceNumberPrefix?.let {
+                (application as MyApplication).invoiceNumberPrefix=(it)
+            }
+        }
     }
 }

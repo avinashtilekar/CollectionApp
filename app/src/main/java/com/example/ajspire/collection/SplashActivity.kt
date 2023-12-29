@@ -7,13 +7,10 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.ajspire.collection.api.model.response.LoginResponse
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivitySplashBinding
 import com.example.ajspire.collection.extensions.appDataStore
-import com.example.ajspire.collection.extensions.setInvoiceNumberPrefix
-import com.example.ajspire.collection.extensions.setLoginUserDetails
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -47,12 +44,12 @@ class SplashActivity : AppCompatActivity() {
                 this,
                 if (loginResponse == null) LoginActivity::class.java else MainActivity::class.java
             )
-            setLoginUserDetails(loginResponse)
+            (application as MyApplication).loginUserDetails=(loginResponse)
             dataStoreViewModel.getInvoicePrefix()
         }
         dataStoreViewModel.invoicePrefix.observe(this) { invoiceNumberPrefix ->
             invoiceNumberPrefix?.let {
-                setInvoiceNumberPrefix(it)
+                (application as MyApplication).invoiceNumberPrefix=(it)
             }
             callNextActivity()
         }

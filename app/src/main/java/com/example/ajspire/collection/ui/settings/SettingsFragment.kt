@@ -16,7 +16,6 @@ import com.example.ajspire.collection.api.model.request.DataSyncRequest
 import com.example.ajspire.collection.api.model.request.TransactionDataForUpload
 import com.example.ajspire.collection.api.model.response.DataSyncResponse
 import com.example.ajspire.collection.databinding.FragmentSettingsBinding
-import com.example.ajspire.collection.extensions.getLoginUserDetails
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
@@ -38,7 +37,7 @@ class SettingsFragment : Fragment() {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
 
-    private var currentSyncRecord = listOf <TransactionTable>()
+    private var currentSyncRecord = listOf<TransactionTable>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,8 +56,8 @@ class SettingsFragment : Fragment() {
         dataBaseViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 Log.d("record found for upload", "record found for upload")
-                currentSyncRecord=listOf()
-                currentSyncRecord=it
+                currentSyncRecord = listOf()
+                currentSyncRecord = it
                 syncRecord()
             } else {
                 Log.d("record not found for upload", "record not found for upload")
@@ -128,9 +127,12 @@ class SettingsFragment : Fragment() {
             )
         }
         if (transactionDataForUploadList.isNotEmpty()) {
-            activity?.getLoginUserDetails()?.let { loginResponse ->
-                val dataSyncRequest = DataSyncRequest(transactionDataForUploadList, loginResponse.user.id.toString())
-                apiCallViewModel.dataSync(dataSyncRequest,loginResponse.token)
+            (activity?.application as MyApplication).loginUserDetails?.let { loginResponse ->
+                val dataSyncRequest =
+                    DataSyncRequest(transactionDataForUploadList, loginResponse.user.id.toString())
+                apiCallViewModel.dataSync(dataSyncRequest, loginResponse.token)
+            } ?: {
+                Log.d("User details not found", "User details not found please relogin")
             }
 
         }
@@ -139,7 +141,8 @@ class SettingsFragment : Fragment() {
     private fun updateUploadedRecord(dataSyncResponse: List<DataSyncResponse>) {
         currentSyncRecord.let {
             it.forEach { updateTransactionRecord ->
-                updateTransactionRecord.server_tran_id =getServerKey(dataSyncResponse,updateTransactionRecord.mobile_tran_key)
+                updateTransactionRecord.server_tran_id =
+                    getServerKey(dataSyncResponse, updateTransactionRecord.mobile_tran_key)
                 dataBaseViewModel
             }
         }
@@ -147,7 +150,10 @@ class SettingsFragment : Fragment() {
         dataBaseViewModel.updateList(currentSyncRecord)
     }
 
-    private fun getServerKey(dataSyncResponse: List<DataSyncResponse>, mobileTranKey: String): String? {
+    private fun getServerKey(
+        dataSyncResponse: List<DataSyncResponse>,
+        mobileTranKey: String
+    ): String? {
         dataSyncResponse.forEach {
             if (it.mobile_tran_key == mobileTranKey) {
                 return it.server_tran_id.toString()

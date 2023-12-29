@@ -19,7 +19,6 @@ import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentEntryBinding
 import com.example.ajspire.collection.extensions.appDataStore
-import com.example.ajspire.collection.extensions.getInvoiceNumberPrefix
 import com.example.ajspire.collection.extensions.startBlinkAnimation
 import com.example.ajspire.collection.extensions.stopBlinkAnimation
 import com.example.ajspire.collection.room.entity.TransactionTable
@@ -66,7 +65,7 @@ class EntryFragment : Fragment() {
         dataStoreViewModel.lastInvoiceNumber.observe(viewLifecycleOwner) { lastInvoiceNumberFromStore ->
             lastInvoiceNumberFromStore?.let {
                 lastInvoiceNumber = it
-                binding.etInvoiceNumber.setText(activity?.getInvoiceNumberPrefix() + (lastInvoiceNumber + 1))
+                binding.etInvoiceNumber.setText((activity?.application as MyApplication).invoiceNumberPrefix + (lastInvoiceNumber + 1))
             }
         }
         dataStoreViewModel.getLastInvoiceNumber()
