@@ -22,7 +22,7 @@ import com.example.ajspire.escp_printer_lib.textparser.PrinterTextParserImg
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class PrinterBT_Utility constructor(
+class ThermalPrinterVaiBtUtility constructor(
     var activity: Activity
 ) {
     private var selectedDevice: BluetoothConnection? = null
