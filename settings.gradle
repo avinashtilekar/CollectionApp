@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CollectionApp"
 include ':app'
+include ':ESCP_Printer_Lib'
