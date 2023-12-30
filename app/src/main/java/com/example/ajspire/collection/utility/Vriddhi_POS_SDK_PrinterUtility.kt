@@ -28,6 +28,8 @@ import com.ftpos.library.smartpos.printer.Printer
 import com.ftpos.library.smartpos.psamreader.PsamReader
 import com.ftpos.library.smartpos.servicemanager.OnServiceConnectCallback
 import com.ftpos.library.smartpos.servicemanager.ServiceManager
+import java.text.SimpleDateFormat
+import java.util.Date
 
 //Reff Link https://bluprints.in/downloads/
 // "Vriddhi POS SDK 1.1" sdk only
@@ -148,33 +150,52 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 logMsg("IsHavePaper = true\n")
 
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
-                val bmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.client_logo)
-                // bpPrinter.printImage(bmp,0);
-                // bpPrinter.printImage(bmp,0);
-                ret = printer.printBmp(bmp)
-                printer.printStr("यह एक हिंदी टाइपिंग टेस्ट प्रोग्राम है\n" + "TWO INCH PRINTER: TEST PRINT\n" + "--------------------------------\n")
+                printer.printBmp(BitmapFactory.decodeResource(activity.resources, R.drawable.client_logo))
+                printer.printStr(activity.getString(R.string.client_name)+"\n")
+                printer.printStr("===========================\n")
+
+                //Invoice No
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
-                printer.printStr(
-                    "13 |ColgateGel  |35.00 |02|70.00\n" +
-                            "29 |Pears Soap |25.00 |01|25.00\n" +
-                            "128|Maggie TS  |36.00 |04|144.00\n" +
-                            "29 |Pears Soap |25.00 |01|25.00\n"
-                )
-                printer.printStr(
-                    ("52 |Dairy Milk |20.00 |10|200.00\n" +
-                            "128|Maggie TS  |36.00 |04|144.00\n" +
-                            "29 |Pears Soap |25.00 |01|25.00\n" +
-                            "128|Maggie TS  |36.00 |04|144.00\n")
-                )
-                printer.printStr(
-                    ("88 |Lux Shower |46.00|01|46.00\n" +
-                            "15 |Dabur Honey|65.00 |01|65.00\n" +
-                            "52 |Dairy Milk |20.00 |10|200.00\n")
-                )
-                printer.printStr(
-                    ("29 |Pears Soap |25.00 |01|25.00\n" +
-                            "128|Maggie TS |36.00|04|144.00\n" + "\n")
-                )
+                printer.printStr(activity.getString(R.string.reciept_number))
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
+                printer.printStr(invoiceNumber+"\n")
+
+                //date time
+                val format = SimpleDateFormat("dd-MMM-yyyy 'at' hh:mm:ss a")
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
+                printer.printStr(activity.getString(R.string.date))
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
+                printer.printStr("${format.format(Date())}\n")
+
+                //fee type
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
+                printer.printStr(activity.getString(R.string.fee_type)+"(${activity.getString(R.string.sq_fit)}) : ")
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
+                printer.printStr(getSqFit(amount)+"\n")
+
+                //Amount
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
+                printer.printStr(activity.getString(R.string.amount))
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
+                printer.printStr(amount+"\n")
+
+                //Name
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
+                printer.printStr(activity.getString(R.string.customer_name))
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
+                printer.printStr(customerName+"\n")
+
+                //Name
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
+                printer.printStr(activity.getString(R.string.customer_mobile_number))
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
+                printer.printStr(customerMobileNumber+"\n")
+
+                printer.printStr("===========================\n")
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
+                printer.printStr(activity.getString(R.string.footer_message)+"\n")
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
+
                 ret = printer.usedPaperLenManage
 
 
@@ -271,5 +292,16 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
             Log.e("SDK", "getSystemProperty: Unable to read system properties")
         }
         return Build.MODEL
+    }
+
+    private fun getSqFit(amt: String?): String {
+        if (amount == activity.getString(R.string.fee_type_24_amt))
+            return activity.getString(R.string.fee_type_24)
+        else if (amount == activity.getString(R.string.fee_type_24_48_amt))
+            return activity.getString(R.string.fee_type_24)
+        else if (amount == activity.getString(R.string.fee_type_48_72_amt))
+            return activity.getString(R.string.fee_type_48_72_amt)
+
+        return activity.getString(R.string.fee_type_72_100_amt)
     }
 }

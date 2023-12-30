@@ -63,4 +63,8 @@
     <string name="printer_connecting">प्रिंटर कनेक्ट करत आहे.</string>
     <string name="printer_connected">प्रिंटर कनेक्ट केलेले आहे.</string>
     <string name="printer_done">प्रिंट पूर्ण झाली.</string>
+    <string name="reciept_number">पावती क्र.</string>
+    <string name="sq_fit">चौरस फूट</string>
+    <string name="date">तारीख</string>
+    <string name="footer_message">पावतीची वैधता एक दिवसाची आहे. पावतीवर कोणत्याही स्वाक्षरीची आवश्यकता नाही.</string>
 </resources>
