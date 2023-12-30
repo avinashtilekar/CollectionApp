@@ -111,23 +111,23 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     fun printReceipt(insertTransactionTable: TransactionTable?) {
         try {
             printer?.let { printer ->
-                var ret: Int = printer.open() ?: ErrCode.ERR_SUCCESS
+                var ret: Int = printer.open()
                 if (ret != ErrCode.ERR_SUCCESS) {
                     logMsg("open failed" + String.format(" errCode = 0x%x\n", ret))
                     return
                 }
-                ret = printer.startCaching() ?: ErrCode.ERR_SUCCESS
+                ret = printer.startCaching()
                 if (ret != ErrCode.ERR_SUCCESS) {
                     logMsg("startCaching failed" + String.format(" errCode = 0x%x\n", ret))
                     return
                 }
-                ret = printer.setGray(3) ?: ErrCode.ERR_SUCCESS
+                ret = printer.setGray(3)
                 if (ret != ErrCode.ERR_SUCCESS) {
                     logMsg("startCaching failed" + String.format(" errCode = 0x%x\n", ret))
                     return
                 }
                 val printStatus = PrintStatus()
-                ret = printer.getStatus(printStatus) ?: ErrCode.ERR_SUCCESS
+                ret = printer.getStatus(printStatus)
                 if (ret != ErrCode.ERR_SUCCESS) {
                     logMsg("getStatus failed" + String.format(" errCode = 0x%x\n", ret))
                     return
@@ -173,8 +173,8 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                     logMsg("getUsedPaperLenManage failed" + String.format(" errCode = 0x%x\n", ret))
                 }
                 logMsg("UsedPaperLenManage = " + ret + "mm \n")
-                var bitmap: Bitmap? = Bitmap.createBitmap(384, 400, Bitmap.Config.RGB_565)
-                var k_CurX = 0
+                val bitmap: Bitmap = Bitmap.createBitmap(384, 400, Bitmap.Config.RGB_565)
+                val k_CurX: Int
                 var k_CurY = 0
                 val k_TextSize = 24
 
@@ -182,43 +182,24 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 paint.textSize = k_TextSize.toFloat()
                 paint.setColor(Color.BLACK)
 
-                var canvas: Canvas? = Canvas((bitmap)!!)
+                val canvas = Canvas((bitmap))
                 bitmap.eraseColor(Color.parseColor("#FFFFFF"))
                 val fm: Paint.FontMetrics = paint.getFontMetrics()
                 val k_LineHeight = Math.ceil((fm.descent - fm.ascent).toDouble()).toInt()
                 val displayStr = ""
                 val lineWidth: Int = getTextWidth(displayStr)
                 k_CurX = (384 - lineWidth) / 2
-                canvas!!.drawText(
+                canvas.drawText(
                     displayStr,
                     k_CurX.toFloat(),
                     (k_CurY + k_TextSize).toFloat(),
                     paint
                 )
                 k_CurY += k_LineHeight + 5
-                /*  displayStr =  "";
-            k_CurX = 0;
-            canvas.drawText(displayStr, k_CurX, k_CurY + k_TextSize, paint);
-            k_CurY += k_LineHeight;
-            displayStr =  "";
-            canvas.drawText(displayStr, k_CurX, k_CurY + k_TextSize, paint);
-            k_CurY += k_LineHeight;
 
-            displayStr =  "";
-            canvas.drawText(displayStr, k_CurX, k_CurY + k_TextSize, paint);
-            k_CurY += k_LineHeight;
+                val newbitmap: Bitmap = Bitmap.createBitmap((bitmap), 0, 0, 384, k_CurY)
+                ret = printer.printBmp(newbitmap)
 
-            displayStr =   "";
-            canvas.drawText(displayStr, k_CurX, k_CurY + k_TextSize, paint);
-            k_CurY += k_LineHeight;
-
-            displayStr = "";
-         //   canvas.drawText(displayStr, k_CurX, k_CurY + k_TextSize, paint);
-            k_CurY += k_LineHeight;
-
-*/
-                var newbitmap: Bitmap? = Bitmap.createBitmap((bitmap), 0, 0, 384, k_CurY)
-                ret = printer.printBmp(newbitmap) ?: ErrCode.ERR_SUCCESS
                 if (ret != ErrCode.ERR_SUCCESS) {
                     logMsg("printBmp failed" + String.format(" errCode = 0x%x\n", ret))
                     return
@@ -226,15 +207,12 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 if (!bitmap.isRecycled) {
                     val mFreeBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
                     canvas.setBitmap(mFreeBitmap)
-                    canvas = null
                     // canvas.drawColor(0, PorterDuff.Mode.CLEAR);
                     bitmap.recycle()
-                    bitmap = null
                     paint.typeface = (null)
                 }
-                if (newbitmap != null && !newbitmap.isRecycled) {
+                if (!newbitmap.isRecycled) {
                     newbitmap.recycle()
-                    newbitmap = null
                 }
                 printer.print(object : OnPrinterCallback {
                     override fun onSuccess() {
