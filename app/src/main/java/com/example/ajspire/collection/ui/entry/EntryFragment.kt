@@ -3,8 +3,6 @@ package com.example.ajspire.collection.ui.entry
 import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +24,7 @@ import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.utility.AppUtility
-import com.example.ajspire.collection.utility.PrinterUtilty
+import com.example.ajspire.collection.utility.Vriddhi_POS_SDK_PrinterUtility
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 
@@ -46,7 +44,7 @@ class EntryFragment : Fragment() {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
 
-    private lateinit var printerUtilty: PrinterUtilty
+    private lateinit var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +52,7 @@ class EntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
-        printerUtilty=PrinterUtilty(requireActivity())
+        vriddhiPOSSDKPrinterUtility=Vriddhi_POS_SDK_PrinterUtility(requireActivity())
         setObserver()
         updateUi()
         return binding.root
@@ -170,7 +168,7 @@ class EntryFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.close) { dialogInterface, which ->
-            printerUtilty.prePrepairePrinter()
+            vriddhiPOSSDKPrinterUtility.prePrepairePrinter()
            // printerUtilty.printReceipt(insertTransactionTable)
             dataStoreViewModel.getLastInvoiceNumber()
             dialogInterface.dismiss()

@@ -1,6 +1,5 @@
 package com.example.ajspire.collection.utility
 
-import BpPrinter.mylibrary.BpPrinter
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
@@ -29,15 +28,15 @@ import com.ftpos.library.smartpos.psamreader.PsamReader
 import com.ftpos.library.smartpos.servicemanager.OnServiceConnectCallback
 import com.ftpos.library.smartpos.servicemanager.ServiceManager
 
+//Reff Link https://bluprints.in/downloads/
+// "Vriddhi POS SDK 1.1" sdk only
 
-class PrinterUtilty constructor(var activity: Activity) {
+class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     val DEVICE_MODE_UNKOWN = -1
     val DEVICE_MODE_F100 = 1
     val DEVICE_MODE_F200 = 0
     val DEVICE_MODE_F600_300 = 2
 
-    private lateinit var bpPrinter: BpPrinter
-    private lateinit var private: Printer
     private lateinit var paint: Paint
     private var mDeviceModel = DEVICE_MODE_UNKOWN
 
@@ -98,6 +97,8 @@ class PrinterUtilty constructor(var activity: Activity) {
                         }
                     }
                 }
+
+                printReceipt(null)
             }
 
             override fun onFail(var1: Int) {
@@ -107,40 +108,40 @@ class PrinterUtilty constructor(var activity: Activity) {
     }
 
 
-    fun printReceipt(insertTransactionTable: TransactionTable) {
+    fun printReceipt(insertTransactionTable: TransactionTable?) {
         try {
-            prePrepairePrinter()
-            var ret: Int = printer?.open() ?: ErrCode.ERR_SUCCESS
-            if (ret != ErrCode.ERR_SUCCESS) {
-                logMsg("open failed" + String.format(" errCode = 0x%x\n", ret))
-                return
-            }
-            ret = printer?.startCaching() ?: ErrCode.ERR_SUCCESS
-            if (ret != ErrCode.ERR_SUCCESS) {
-                logMsg("startCaching failed" + String.format(" errCode = 0x%x\n", ret))
-                return
-            }
-            ret = printer?.setGray(3) ?: ErrCode.ERR_SUCCESS
-            if (ret != ErrCode.ERR_SUCCESS) {
-                logMsg("startCaching failed" + String.format(" errCode = 0x%x\n", ret))
-                return
-            }
-            val printStatus = PrintStatus()
-            ret = printer?.getStatus(printStatus) ?: ErrCode.ERR_SUCCESS
-            if (ret != ErrCode.ERR_SUCCESS) {
-                logMsg("getStatus failed" + String.format(" errCode = 0x%x\n", ret))
-                return
-            }
-            logMsg("Temperature = " + printStatus.getmTemperature() + "\n")
-            logMsg("Gray = " + printStatus.getmGray() + "\n")
-            if (!printStatus.getmIsHavePaper()) {
-                logMsg("Printer out of paper\n")
-                return
-            }
-            logMsg("IsHavePaper = true\n")
             printer?.let { printer ->
+                var ret: Int = printer.open() ?: ErrCode.ERR_SUCCESS
+                if (ret != ErrCode.ERR_SUCCESS) {
+                    logMsg("open failed" + String.format(" errCode = 0x%x\n", ret))
+                    return
+                }
+                ret = printer.startCaching() ?: ErrCode.ERR_SUCCESS
+                if (ret != ErrCode.ERR_SUCCESS) {
+                    logMsg("startCaching failed" + String.format(" errCode = 0x%x\n", ret))
+                    return
+                }
+                ret = printer.setGray(3) ?: ErrCode.ERR_SUCCESS
+                if (ret != ErrCode.ERR_SUCCESS) {
+                    logMsg("startCaching failed" + String.format(" errCode = 0x%x\n", ret))
+                    return
+                }
+                val printStatus = PrintStatus()
+                ret = printer.getStatus(printStatus) ?: ErrCode.ERR_SUCCESS
+                if (ret != ErrCode.ERR_SUCCESS) {
+                    logMsg("getStatus failed" + String.format(" errCode = 0x%x\n", ret))
+                    return
+                }
+                logMsg("Temperature = " + printStatus.getmTemperature() + "\n")
+                logMsg("Gray = " + printStatus.getmGray() + "\n")
+                if (!printStatus.getmIsHavePaper()) {
+                    logMsg("Printer out of paper\n")
+                    return
+                }
+                logMsg("IsHavePaper = true\n")
+
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
-                printer.printStr("BLUPRINT SMART PRINT\n" + "TWO INCH PRINTER: TEST PRINT\n" + "--------------------------------\n")
+                printer.printStr("यह एक हिंदी टाइपिंग टेस्ट प्रोग्राम है\n" + "TWO INCH PRINTER: TEST PRINT\n" + "--------------------------------\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(
                     "13 |ColgateGel  |35.00 |02|70.00\n" +
@@ -164,38 +165,38 @@ class PrinterUtilty constructor(var activity: Activity) {
                             "128|Maggie TS |36.00|04|144.00\n" + "\n")
                 )
                 ret = printer.usedPaperLenManage
-            }
 
 
 
-            if (ret < 0) {
-                logMsg("getUsedPaperLenManage failed" + String.format(" errCode = 0x%x\n", ret))
-            }
-            logMsg("UsedPaperLenManage = " + ret + "mm \n")
-            var bitmap: Bitmap? = Bitmap.createBitmap(384, 400, Bitmap.Config.RGB_565)
-            var k_CurX = 0
-            var k_CurY = 0
-            val k_TextSize = 24
 
-            paint = Paint()
-            paint.textSize = k_TextSize.toFloat()
-            paint.setColor(Color.BLACK)
+                if (ret < 0) {
+                    logMsg("getUsedPaperLenManage failed" + String.format(" errCode = 0x%x\n", ret))
+                }
+                logMsg("UsedPaperLenManage = " + ret + "mm \n")
+                var bitmap: Bitmap? = Bitmap.createBitmap(384, 400, Bitmap.Config.RGB_565)
+                var k_CurX = 0
+                var k_CurY = 0
+                val k_TextSize = 24
 
-            var canvas: Canvas? = Canvas((bitmap)!!)
-            bitmap.eraseColor(Color.parseColor("#FFFFFF"))
-            val fm: Paint.FontMetrics = paint.getFontMetrics()
-            val k_LineHeight = Math.ceil((fm.descent - fm.ascent).toDouble()).toInt()
-            val displayStr = ""
-            val lineWidth: Int = getTextWidth(displayStr)
-            k_CurX = (384 - lineWidth) / 2
-            canvas!!.drawText(
-                displayStr,
-                k_CurX.toFloat(),
-                (k_CurY + k_TextSize).toFloat(),
-                paint
-            )
-            k_CurY += k_LineHeight + 5
-            /*  displayStr =  "";
+                paint = Paint()
+                paint.textSize = k_TextSize.toFloat()
+                paint.setColor(Color.BLACK)
+
+                var canvas: Canvas? = Canvas((bitmap)!!)
+                bitmap.eraseColor(Color.parseColor("#FFFFFF"))
+                val fm: Paint.FontMetrics = paint.getFontMetrics()
+                val k_LineHeight = Math.ceil((fm.descent - fm.ascent).toDouble()).toInt()
+                val displayStr = ""
+                val lineWidth: Int = getTextWidth(displayStr)
+                k_CurX = (384 - lineWidth) / 2
+                canvas!!.drawText(
+                    displayStr,
+                    k_CurX.toFloat(),
+                    (k_CurY + k_TextSize).toFloat(),
+                    paint
+                )
+                k_CurY += k_LineHeight + 5
+                /*  displayStr =  "";
             k_CurX = 0;
             canvas.drawText(displayStr, k_CurX, k_CurY + k_TextSize, paint);
             k_CurY += k_LineHeight;
@@ -216,35 +217,36 @@ class PrinterUtilty constructor(var activity: Activity) {
             k_CurY += k_LineHeight;
 
 */
-            var newbitmap: Bitmap? = Bitmap.createBitmap((bitmap)!!, 0, 0, 384, k_CurY)
-            ret = printer?.printBmp(newbitmap) ?: ErrCode.ERR_SUCCESS
-            if (ret != ErrCode.ERR_SUCCESS) {
-                logMsg("printBmp failed" + String.format(" errCode = 0x%x\n", ret))
-                return
-            }
-            if (!bitmap.isRecycled) {
-                val mFreeBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
-                canvas.setBitmap(mFreeBitmap)
-                canvas = null
-                // canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-                bitmap.recycle()
-                bitmap = null
-                paint.typeface = (null)
-            }
-            if (newbitmap != null && !newbitmap.isRecycled) {
-                newbitmap.recycle()
-                newbitmap = null
-            }
-            printer?.print(object : OnPrinterCallback {
-                override fun onSuccess() {
-                    logMsg("print success\n")
-                    printer!!.feed(32)
+                var newbitmap: Bitmap? = Bitmap.createBitmap((bitmap), 0, 0, 384, k_CurY)
+                ret = printer.printBmp(newbitmap) ?: ErrCode.ERR_SUCCESS
+                if (ret != ErrCode.ERR_SUCCESS) {
+                    logMsg("printBmp failed" + String.format(" errCode = 0x%x\n", ret))
+                    return
                 }
+                if (!bitmap.isRecycled) {
+                    val mFreeBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565)
+                    canvas.setBitmap(mFreeBitmap)
+                    canvas = null
+                    // canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+                    bitmap.recycle()
+                    bitmap = null
+                    paint.typeface = (null)
+                }
+                if (newbitmap != null && !newbitmap.isRecycled) {
+                    newbitmap.recycle()
+                    newbitmap = null
+                }
+                printer.print(object : OnPrinterCallback {
+                    override fun onSuccess() {
+                        logMsg("print success\n")
+                        printer.feed(32)
+                    }
 
-                override fun onError(i: Int) {
-                    logMsg("printBmp failed" + String.format(" errCode = 0x%x\n", i))
-                }
-            })
+                    override fun onError(i: Int) {
+                        logMsg("printBmp failed" + String.format(" errCode = 0x%x\n", i))
+                    }
+                })
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             logMsg("print failed$e\n")
