@@ -1,15 +1,15 @@
 package com.example.ajspire.escp_printer_lib;
 
-import com.dantsu.escposprinter.connection.DeviceConnection;
-import com.dantsu.escposprinter.exceptions.EscPosBarcodeException;
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
-import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
-import com.dantsu.escposprinter.exceptions.EscPosParserException;
-import com.dantsu.escposprinter.textparser.IPrinterTextParserElement;
-import com.dantsu.escposprinter.textparser.PrinterTextParser;
-import com.dantsu.escposprinter.textparser.PrinterTextParserColumn;
-import com.dantsu.escposprinter.textparser.PrinterTextParserLine;
-import com.dantsu.escposprinter.textparser.PrinterTextParserString;
+import com.example.ajspire.escp_printer_lib.connection.DeviceConnection;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosBarcodeException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosConnectionException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosEncodingException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosParserException;
+import com.example.ajspire.escp_printer_lib.textparser.IPrinterTextParserElement;
+import com.example.ajspire.escp_printer_lib.textparser.PrinterTextParser;
+import com.example.ajspire.escp_printer_lib.textparser.PrinterTextParserColumn;
+import com.example.ajspire.escp_printer_lib.textparser.PrinterTextParserLine;
+import com.example.ajspire.escp_printer_lib.textparser.PrinterTextParserString;
 
 public class EscPosPrinter extends EscPosPrinterSize {
 

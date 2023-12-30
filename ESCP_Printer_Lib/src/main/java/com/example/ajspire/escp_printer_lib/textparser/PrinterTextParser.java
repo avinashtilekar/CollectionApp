@@ -1,10 +1,10 @@
 package com.example.ajspire.escp_printer_lib.textparser;
 
-import com.dantsu.escposprinter.EscPosPrinter;
-import com.dantsu.escposprinter.EscPosPrinterCommands;
-import com.dantsu.escposprinter.exceptions.EscPosBarcodeException;
-import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
-import com.dantsu.escposprinter.exceptions.EscPosParserException;
+import com.example.ajspire.escp_printer_lib.EscPosPrinter;
+import com.example.ajspire.escp_printer_lib.EscPosPrinterCommands;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosBarcodeException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosEncodingException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosParserException;
 
 public class PrinterTextParser {
     

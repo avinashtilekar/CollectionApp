@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothDevice;
 
 import androidx.annotation.Nullable;
 
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosConnectionException;
 
 public class BluetoothPrintersConnections extends BluetoothConnections {
 

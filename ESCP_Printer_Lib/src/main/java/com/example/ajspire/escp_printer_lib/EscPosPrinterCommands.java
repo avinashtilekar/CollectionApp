@@ -2,11 +2,11 @@ package com.example.ajspire.escp_printer_lib;
 
 import android.graphics.Bitmap;
 
-import com.dantsu.escposprinter.barcode.Barcode;
-import com.dantsu.escposprinter.connection.DeviceConnection;
-import com.dantsu.escposprinter.exceptions.EscPosBarcodeException;
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
-import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
+import com.example.ajspire.escp_printer_lib.barcode.Barcode;
+import com.example.ajspire.escp_printer_lib.connection.DeviceConnection;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosBarcodeException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosConnectionException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosEncodingException;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;

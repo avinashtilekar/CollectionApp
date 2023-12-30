@@ -1,8 +1,8 @@
 package com.example.ajspire.escp_printer_lib.textparser;
 
-import com.dantsu.escposprinter.exceptions.EscPosBarcodeException;
-import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
-import com.dantsu.escposprinter.exceptions.EscPosParserException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosBarcodeException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosEncodingException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosParserException;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

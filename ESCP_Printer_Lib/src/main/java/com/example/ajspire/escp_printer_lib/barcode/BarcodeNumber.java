@@ -1,7 +1,7 @@
 package com.example.ajspire.escp_printer_lib.barcode;
 
-import com.dantsu.escposprinter.EscPosPrinterSize;
-import com.dantsu.escposprinter.exceptions.EscPosBarcodeException;
+import com.example.ajspire.escp_printer_lib.EscPosPrinterSize;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosBarcodeException;
 
 public abstract class BarcodeNumber extends Barcode {
 

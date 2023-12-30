@@ -1,6 +1,6 @@
 package com.example.ajspire.escp_printer_lib.connection;
 
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosConnectionException;
 
 import java.io.IOException;
 import java.io.OutputStream;

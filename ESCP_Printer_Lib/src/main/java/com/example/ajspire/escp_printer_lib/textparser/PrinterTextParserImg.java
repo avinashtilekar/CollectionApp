@@ -4,11 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.dantsu.escposprinter.EscPosPrinter;
-import com.dantsu.escposprinter.EscPosPrinterCommands;
-import com.dantsu.escposprinter.EscPosPrinterSize;
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
-import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
+import com.example.ajspire.escp_printer_lib.EscPosPrinter;
+import com.example.ajspire.escp_printer_lib.EscPosPrinterCommands;
+import com.example.ajspire.escp_printer_lib.EscPosPrinterSize;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosConnectionException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosEncodingException;
 
 
 public class PrinterTextParserImg implements IPrinterTextParserElement {

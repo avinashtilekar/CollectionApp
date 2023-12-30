@@ -1,17 +1,17 @@
 package com.example.ajspire.escp_printer_lib.textparser;
 
-import com.dantsu.escposprinter.EscPosPrinter;
-import com.dantsu.escposprinter.EscPosPrinterCommands;
-import com.dantsu.escposprinter.barcode.Barcode;
-import com.dantsu.escposprinter.barcode.Barcode128;
-import com.dantsu.escposprinter.barcode.Barcode39;
-import com.dantsu.escposprinter.barcode.BarcodeEAN13;
-import com.dantsu.escposprinter.barcode.BarcodeEAN8;
-import com.dantsu.escposprinter.barcode.BarcodeUPCA;
-import com.dantsu.escposprinter.barcode.BarcodeUPCE;
-import com.dantsu.escposprinter.exceptions.EscPosBarcodeException;
-import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
-import com.dantsu.escposprinter.exceptions.EscPosParserException;
+import com.example.ajspire.escp_printer_lib.EscPosPrinter;
+import com.example.ajspire.escp_printer_lib.EscPosPrinterCommands;
+import com.example.ajspire.escp_printer_lib.barcode.Barcode;
+import com.example.ajspire.escp_printer_lib.barcode.Barcode128;
+import com.example.ajspire.escp_printer_lib.barcode.Barcode39;
+import com.example.ajspire.escp_printer_lib.barcode.BarcodeEAN13;
+import com.example.ajspire.escp_printer_lib.barcode.BarcodeEAN8;
+import com.example.ajspire.escp_printer_lib.barcode.BarcodeUPCA;
+import com.example.ajspire.escp_printer_lib.barcode.BarcodeUPCE;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosBarcodeException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosEncodingException;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosParserException;
 
 import java.util.Hashtable;
 

@@ -1,9 +1,9 @@
 package com.example.ajspire.escp_printer_lib.textparser;
 
-import com.dantsu.escposprinter.EscPosCharsetEncoding;
-import com.dantsu.escposprinter.EscPosPrinter;
-import com.dantsu.escposprinter.EscPosPrinterCommands;
-import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
+import com.example.ajspire.escp_printer_lib.EscPosCharsetEncoding;
+import com.example.ajspire.escp_printer_lib.EscPosPrinter;
+import com.example.ajspire.escp_printer_lib.EscPosPrinterCommands;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosEncodingException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;

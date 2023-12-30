@@ -3,8 +3,8 @@ package com.example.ajspire.escp_printer_lib.connection.usb;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 
-import com.dantsu.escposprinter.connection.DeviceConnection;
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
+import com.example.ajspire.escp_printer_lib.connection.DeviceConnection;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosConnectionException;
 
 import java.io.IOException;
 

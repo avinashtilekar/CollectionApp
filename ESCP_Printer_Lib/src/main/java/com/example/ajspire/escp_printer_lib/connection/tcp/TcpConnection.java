@@ -1,7 +1,7 @@
 package com.example.ajspire.escp_printer_lib.connection.tcp;
 
-import com.dantsu.escposprinter.connection.DeviceConnection;
-import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
+import com.example.ajspire.escp_printer_lib.connection.DeviceConnection;
+import com.example.ajspire.escp_printer_lib.exceptions.EscPosConnectionException;
 
 import java.io.IOException;
 import java.net.InetAddress;
