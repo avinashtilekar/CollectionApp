@@ -25,6 +25,7 @@ import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.utility.AppUtility
 import com.example.ajspire.collection.utility.Vriddhi_POS_SDK_PrinterUtility
+import com.example.ajspire.collection.utility.bt_printer.ThermalPrinterVaiBtUtility
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 
@@ -43,6 +44,7 @@ class EntryFragment : Fragment() {
     private val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
+    private var printerbtUtility :ThermalPrinterVaiBtUtility?=null
 
     private lateinit var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility
 
@@ -52,6 +54,7 @@ class EntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
+        printerbtUtility=ThermalPrinterVaiBtUtility(activity as Activity)
         vriddhiPOSSDKPrinterUtility=Vriddhi_POS_SDK_PrinterUtility(requireActivity())
         setObserver()
         updateUi()
@@ -105,8 +108,7 @@ class EntryFragment : Fragment() {
             btnSubmit.setOnClickListener {
                 val entryInvoiceNumber = lastInvoiceNumber + 1
                 AppUtility.hideSoftKeyboard(requireActivity())
-
-               val insertTransactionTable= TransactionTable(
+                val transactionTableInsert = TransactionTable(
                     fee_type = selectedFeeType,
                     amount = etAmount.text.toString(),
                     mobile_tran_key = AppUtility.getMobileTranKey(),
@@ -118,13 +120,13 @@ class EntryFragment : Fragment() {
                             .isNotEmpty()
                     ) etMobileNumber.text.toString() else null
                 )
-
-                dataBaseViewModel.insert(insertTransactionTable)
+                val returnResult = dataBaseViewModel.insert(transactionTableInsert)
 
                 updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
-                showConfirmAlert(insertTransactionTable)
+                //showConfirmAlert(transactionTableInsert)
+                callPrint(transactionTableInsert)
                 reSetScreen()
-               }
+            }
             btnCancel.setOnClickListener {
                 reSetScreen()
             }
@@ -159,7 +161,7 @@ class EntryFragment : Fragment() {
         _binding = null
     }
 
-    private fun showConfirmAlert(insertTransactionTable: TransactionTable) {
+    private fun showConfirmAlert(transactionTableInsert: TransactionTable) {
         val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
         //set title for alert dialog
         builder.setTitle(R.string.menu_entry)
@@ -172,6 +174,7 @@ class EntryFragment : Fragment() {
            // printerUtilty.printReceipt(insertTransactionTable)
             dataStoreViewModel.getLastInvoiceNumber()
             dialogInterface.dismiss()
+            callPrint(transactionTableInsert)
         }
 
         // Create the AlertDialog
@@ -190,5 +193,20 @@ class EntryFragment : Fragment() {
         })
 
         alertDialog.show()
+    }
+
+    private fun callPrint(transactionTableInsert: TransactionTable) {
+        activity?.let { activity ->
+            val invoiceNumber =
+                (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
+            printerbtUtility?.let {
+                it.invoiceNumber=invoiceNumber
+                it.customerName=transactionTableInsert.customer_name
+                it.customerMobileNumber=transactionTableInsert.customer_mobile_number
+                it.amount=transactionTableInsert.amount
+                it.printBluetooth()
+            }
+
+        }
     }
 }

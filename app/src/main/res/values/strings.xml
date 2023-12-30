@@ -58,4 +58,9 @@
     <string name="syn_sucess">सर्व डेटा सर्व्हरवर यशस्वीरित्या अपलोड झाला आहे.\nnAll data has uploaded to server successfully.</string>
     <string name="syn_inprogress">डेटा अपलोड चालू आहे.\n कृपया हे पेज किंवा अॅप बंद करू नका.\n\nData upload is inprogress. Please don not close the this page or App.</string>
     <string name="no_payment_collection">आजसाठी कोणतेही पेमेंट संकलन नाही.\n\nNo any payment collection for today.</string>
+    <string name="print">प्रिंट</string>
+    <string name="wait_for_print">प्रिंटसाठी प्रतीक्षा करा.</string>
+    <string name="printer_connecting">प्रिंटर कनेक्ट करत आहे.</string>
+    <string name="printer_connected">प्रिंटर कनेक्ट केलेले आहे.</string>
+    <string name="printer_done">प्रिंट पूर्ण झाली.</string>
 </resources>
