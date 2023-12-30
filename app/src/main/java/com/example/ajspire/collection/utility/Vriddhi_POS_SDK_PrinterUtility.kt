@@ -3,13 +3,14 @@ package com.example.ajspire.collection.utility
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import com.example.ajspire.collection.room.entity.TransactionTable
+import com.example.ajspire.collection.R
 import com.ftpos.library.smartpos.buzzer.Buzzer
 import com.ftpos.library.smartpos.crypto.Crypto
 import com.ftpos.library.smartpos.device.Device
@@ -51,6 +52,11 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     var device: Device? = null
     var crypto: Crypto? = null
     var memoryReader: MemoryReader? = null
+
+    lateinit var invoiceNumber: String
+    var customerMobileNumber: String? = null
+    var customerName: String? = null
+    var amount: String? = null
 
     private fun getDeviceModel(): Int {
         if (mDeviceModel == DEVICE_MODE_UNKOWN) {
@@ -98,7 +104,8 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                     }
                 }
 
-                printReceipt(null)
+                //try for print
+                printReceipt()
             }
 
             override fun onFail(var1: Int) {
@@ -108,7 +115,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     }
 
 
-    fun printReceipt(insertTransactionTable: TransactionTable?) {
+    fun printReceipt() {
         try {
             printer?.let { printer ->
                 var ret: Int = printer.open()
@@ -141,6 +148,10 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 logMsg("IsHavePaper = true\n")
 
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
+                val bmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.client_logo)
+                // bpPrinter.printImage(bmp,0);
+                // bpPrinter.printImage(bmp,0);
+                ret = printer.printBmp(bmp)
                 printer.printStr("यह एक हिंदी टाइपिंग टेस्ट प्रोग्राम है\n" + "TWO INCH PRINTER: TEST PRINT\n" + "--------------------------------\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(
@@ -224,7 +235,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                         logMsg("printBmp failed" + String.format(" errCode = 0x%x\n", i))
                     }
                 })
-            }
+            } ?: prePrepairePrinter()
         } catch (e: Exception) {
             e.printStackTrace()
             logMsg("print failed$e\n")

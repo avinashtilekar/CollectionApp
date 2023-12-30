@@ -44,9 +44,9 @@ class EntryFragment : Fragment() {
     private val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
-    private var printerbtUtility :ThermalPrinterVaiBtUtility?=null
+    private var printerbtUtility: ThermalPrinterVaiBtUtility? = null
 
-    private lateinit var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility
+    private var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,8 +54,8 @@ class EntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
-        printerbtUtility=ThermalPrinterVaiBtUtility(activity as Activity)
-        vriddhiPOSSDKPrinterUtility=Vriddhi_POS_SDK_PrinterUtility(requireActivity())
+        printerbtUtility = ThermalPrinterVaiBtUtility(activity as Activity)
+        vriddhiPOSSDKPrinterUtility = Vriddhi_POS_SDK_PrinterUtility(requireActivity())
         setObserver()
         updateUi()
         return binding.root
@@ -123,8 +123,9 @@ class EntryFragment : Fragment() {
                 val returnResult = dataBaseViewModel.insert(transactionTableInsert)
 
                 updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
-                //showConfirmAlert(transactionTableInsert)
-                callPrint(transactionTableInsert)
+
+               // callPrintViaBluetoothThermalPrinter(transactionTableInsert)
+                callPrintViaVriddhiPOSPrinter(transactionTableInsert)
                 reSetScreen()
             }
             btnCancel.setOnClickListener {
@@ -170,11 +171,9 @@ class EntryFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.close) { dialogInterface, which ->
-            vriddhiPOSSDKPrinterUtility.prePrepairePrinter()
-           // printerUtilty.printReceipt(insertTransactionTable)
+
             dataStoreViewModel.getLastInvoiceNumber()
             dialogInterface.dismiss()
-            callPrint(transactionTableInsert)
         }
 
         // Create the AlertDialog
@@ -195,18 +194,33 @@ class EntryFragment : Fragment() {
         alertDialog.show()
     }
 
-    private fun callPrint(transactionTableInsert: TransactionTable) {
+    private fun callPrintViaBluetoothThermalPrinter(transactionTableInsert: TransactionTable) {
         activity?.let { activity ->
             val invoiceNumber =
                 (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
             printerbtUtility?.let {
-                it.invoiceNumber=invoiceNumber
-                it.customerName=transactionTableInsert.customer_name
-                it.customerMobileNumber=transactionTableInsert.customer_mobile_number
-                it.amount=transactionTableInsert.amount
+                it.invoiceNumber = invoiceNumber
+                it.customerName = transactionTableInsert.customer_name
+                it.customerMobileNumber = transactionTableInsert.customer_mobile_number
+                it.amount = transactionTableInsert.amount
                 it.printBluetooth()
             }
 
+        }
+    }
+
+    private fun callPrintViaVriddhiPOSPrinter(transactionTableInsert: TransactionTable) {
+        activity?.let { activity ->
+            val invoiceNumber =
+                (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
+
+            vriddhiPOSSDKPrinterUtility?.let {
+                it.invoiceNumber = invoiceNumber
+                it.customerName = transactionTableInsert.customer_name
+                it.customerMobileNumber = transactionTableInsert.customer_mobile_number
+                it.amount = transactionTableInsert.amount
+                it.printReceipt()
+            }
         }
     }
 }
