@@ -170,7 +170,7 @@ class PrinterBT_Utility constructor(
                     )
                 )
             }</img>
-            [L]
+            [C]================================
             [C]<b type='double'>${format.format(Date())}</b>
             [C]<b><font size='big'>Receipt No. :</b> ${invoiceNumber}</font>
             [C]<b><font size='big'>Name :</b> ${if(customerName!=null) customerName else "NA"}</font>
