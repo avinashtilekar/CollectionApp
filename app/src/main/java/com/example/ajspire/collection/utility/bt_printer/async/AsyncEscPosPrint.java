@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.example.ajspire.collection.R;
 import com.example.ajspire.escp_printer_lib.EscPosCharsetEncoding;
 import com.example.ajspire.escp_printer_lib.EscPosPrinter;
 import com.example.ajspire.escp_printer_lib.connection.DeviceConnection;
@@ -106,7 +107,7 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
             }
 
             this.dialog = new ProgressDialog(context);
-            this.dialog.setTitle("Printing in progress...");
+            this.dialog.setTitle(context.getString(R.string.print));
             this.dialog.setMessage("...");
             this.dialog.setProgressNumberFormat("%1d / %2d");
             this.dialog.setCancelable(false);
@@ -119,16 +120,16 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
     protected void onProgressUpdate(Integer... progress) {
         switch (progress[0]) {
             case AsyncEscPosPrint.PROGRESS_CONNECTING:
-                this.dialog.setMessage("Connecting printer...");
+                this.dialog.setMessage(this.dialog.getContext().getString(R.string.printer_connecting));
                 break;
             case AsyncEscPosPrint.PROGRESS_CONNECTED:
-                this.dialog.setMessage("Printer is connected...");
+                this.dialog.setMessage(this.dialog.getContext().getString(R.string.printer_connected));
                 break;
             case AsyncEscPosPrint.PROGRESS_PRINTING:
-                this.dialog.setMessage("Printer is printing...");
+                this.dialog.setMessage(this.dialog.getContext().getString(R.string.wait_for_print));
                 break;
             case AsyncEscPosPrint.PROGRESS_PRINTED:
-                this.dialog.setMessage("Printer has finished...");
+                this.dialog.setMessage(this.dialog.getContext().getString(R.string.printer_done));
                 break;
         }
         this.dialog.setProgress(progress[0]);
@@ -147,10 +148,10 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
 
         switch (result.getPrinterStatus()) {
             case AsyncEscPosPrint.FINISH_SUCCESS:
-                new AlertDialog.Builder(context)
+                /*new AlertDialog.Builder(context)
                         .setTitle("Success")
                         .setMessage("Congratulation ! The texts are printed !")
-                        .show();
+                        .show();*/
                 break;
             case AsyncEscPosPrint.FINISH_NO_PRINTER:
                 new AlertDialog.Builder(context)

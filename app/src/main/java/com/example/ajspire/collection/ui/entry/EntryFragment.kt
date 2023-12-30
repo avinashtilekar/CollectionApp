@@ -26,6 +26,7 @@ import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.utility.AppUtility
+import com.example.ajspire.collection.utility.bt_printer.PrinterBT_Utility
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 
@@ -44,13 +45,14 @@ class EntryFragment : Fragment() {
     private val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
-
+    private var printerbtUtility :PrinterBT_Utility?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
+        printerbtUtility=PrinterBT_Utility(activity as Activity)
         setObserver()
         updateUi()
         return binding.root
@@ -103,25 +105,25 @@ class EntryFragment : Fragment() {
             btnSubmit.setOnClickListener {
                 val entryInvoiceNumber = lastInvoiceNumber + 1
                 AppUtility.hideSoftKeyboard(requireActivity())
-                val returnResult = dataBaseViewModel.insert(
-                    TransactionTable(
-                        fee_type = selectedFeeType,
-                        amount = etAmount.text.toString(),
-                        mobile_tran_key = AppUtility.getMobileTranKey(),
-                        invoice_number = entryInvoiceNumber,
-                        customer_name = if (etUserName.text.toString()
-                                .isNotEmpty()
-                        ) etUserName.text.toString() else null,
-                        customer_mobile_number = if (etMobileNumber.text.toString()
-                                .isNotEmpty()
-                        ) etMobileNumber.text.toString() else null
-                    )
+                val transactionTableInsert = TransactionTable(
+                    fee_type = selectedFeeType,
+                    amount = etAmount.text.toString(),
+                    mobile_tran_key = AppUtility.getMobileTranKey(),
+                    invoice_number = entryInvoiceNumber,
+                    customer_name = if (etUserName.text.toString()
+                            .isNotEmpty()
+                    ) etUserName.text.toString() else null,
+                    customer_mobile_number = if (etMobileNumber.text.toString()
+                            .isNotEmpty()
+                    ) etMobileNumber.text.toString() else null
                 )
+                val returnResult = dataBaseViewModel.insert(transactionTableInsert)
 
                 updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
-                showConfirmAlert()
+                //showConfirmAlert(transactionTableInsert)
+                callPrint(transactionTableInsert)
                 reSetScreen()
-               }
+            }
             btnCancel.setOnClickListener {
                 reSetScreen()
             }
@@ -156,7 +158,7 @@ class EntryFragment : Fragment() {
         _binding = null
     }
 
-    private fun showConfirmAlert() {
+    private fun showConfirmAlert(transactionTableInsert: TransactionTable) {
         val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
         //set title for alert dialog
         builder.setTitle(R.string.menu_entry)
@@ -167,6 +169,7 @@ class EntryFragment : Fragment() {
         builder.setPositiveButton(R.string.close) { dialogInterface, which ->
             dataStoreViewModel.getLastInvoiceNumber()
             dialogInterface.dismiss()
+            callPrint(transactionTableInsert)
         }
 
         // Create the AlertDialog
@@ -185,5 +188,19 @@ class EntryFragment : Fragment() {
         })
 
         alertDialog.show()
+    }
+
+    private fun callPrint(transactionTableInsert: TransactionTable) {
+        activity?.let { activity ->
+            val invoiceNumber =
+                (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
+            printerbtUtility?.let {
+                it.invoiceNumber=invoiceNumber
+                it.customerName=transactionTableInsert.customer_name
+                it.customerMobileNumber=transactionTableInsert.customer_mobile_number
+                it.printBluetooth()
+            }
+
+        }
     }
 }
