@@ -26,6 +26,7 @@ import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.utility.AppUtility
+import com.example.ajspire.collection.utility.PrinterUtilty
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 
@@ -45,12 +46,15 @@ class EntryFragment : Fragment() {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
 
+    private lateinit var printerUtilty: PrinterUtilty
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
+        printerUtilty=PrinterUtilty(requireActivity())
         setObserver()
         updateUi()
         return binding.root
@@ -103,23 +107,24 @@ class EntryFragment : Fragment() {
             btnSubmit.setOnClickListener {
                 val entryInvoiceNumber = lastInvoiceNumber + 1
                 AppUtility.hideSoftKeyboard(requireActivity())
-                val returnResult = dataBaseViewModel.insert(
-                    TransactionTable(
-                        fee_type = selectedFeeType,
-                        amount = etAmount.text.toString(),
-                        mobile_tran_key = AppUtility.getMobileTranKey(),
-                        invoice_number = entryInvoiceNumber,
-                        customer_name = if (etUserName.text.toString()
-                                .isNotEmpty()
-                        ) etUserName.text.toString() else null,
-                        customer_mobile_number = if (etMobileNumber.text.toString()
-                                .isNotEmpty()
-                        ) etMobileNumber.text.toString() else null
-                    )
+
+               val insertTransactionTable= TransactionTable(
+                    fee_type = selectedFeeType,
+                    amount = etAmount.text.toString(),
+                    mobile_tran_key = AppUtility.getMobileTranKey(),
+                    invoice_number = entryInvoiceNumber,
+                    customer_name = if (etUserName.text.toString()
+                            .isNotEmpty()
+                    ) etUserName.text.toString() else null,
+                    customer_mobile_number = if (etMobileNumber.text.toString()
+                            .isNotEmpty()
+                    ) etMobileNumber.text.toString() else null
                 )
 
+                dataBaseViewModel.insert(insertTransactionTable)
+
                 updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
-                showConfirmAlert()
+                showConfirmAlert(insertTransactionTable)
                 reSetScreen()
                }
             btnCancel.setOnClickListener {
@@ -156,7 +161,7 @@ class EntryFragment : Fragment() {
         _binding = null
     }
 
-    private fun showConfirmAlert() {
+    private fun showConfirmAlert(insertTransactionTable: TransactionTable) {
         val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
         //set title for alert dialog
         builder.setTitle(R.string.menu_entry)
@@ -165,6 +170,8 @@ class EntryFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.close) { dialogInterface, which ->
+            printerUtilty.prePrepairePrinter()
+           // printerUtilty.printReceipt(insertTransactionTable)
             dataStoreViewModel.getLastInvoiceNumber()
             dialogInterface.dismiss()
         }

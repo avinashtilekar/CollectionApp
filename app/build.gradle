@@ -75,4 +75,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:2.6.1"
     kapt "androidx.room:room-compiler:2.6.1"
+
+    implementation files('libs/FTSDK_api_V1.0.0.71_20220401.jar')
+    implementation files('libs/PrinterLib_24.aar')
 }
