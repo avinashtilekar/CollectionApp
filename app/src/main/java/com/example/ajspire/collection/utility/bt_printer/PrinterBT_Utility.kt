@@ -33,10 +33,11 @@ class PrinterBT_Utility constructor(
     private var onBluetoothPermissionsGranted: OnBluetoothPermissionsGranted? = null
 
     lateinit var invoiceNumber: String
-    var customerMobileNumber: String?=null
-    var customerName: String?=null
+    var customerMobileNumber: String? = null
+    var customerName: String? = null
+    var amount: String? = null
 
-    fun browseBluetoothDevice() {
+    private fun browseBluetoothDevice() {
         checkBluetoothPermissions(object : OnBluetoothPermissionsGranted {
             @SuppressLint("MissingPermission")
             override fun onPermissionsGranted() {
@@ -151,7 +152,7 @@ class PrinterBT_Utility constructor(
                         .execute(finalAsyncEscPosPrinterthis)
                 }
             })
-        }?:browseBluetoothDevice()
+        } ?: browseBluetoothDevice()
     }
 
 
@@ -165,7 +166,7 @@ class PrinterBT_Utility constructor(
                 PrinterTextParserImg.bitmapToHexadecimalString(
                     printer,
                     activity.applicationContext.resources.getDrawableForDensity(
-                        R.drawable.header_rs_20_white_bg,
+                        getHeaderImage(),
                         DisplayMetrics.DENSITY_MEDIUM
                     )
                 )
@@ -173,8 +174,8 @@ class PrinterBT_Utility constructor(
             [C]================================
             [C]<b type='double'>${format.format(Date())}</b>
             [C]<b><font size='big'>Receipt No. :</b> ${invoiceNumber}</font>
-            [C]<b><font size='big'>Name :</b> ${if(customerName!=null) customerName else "NA"}</font>
-            [C]<b><font size='big'>Mobile No. :</b> ${if(customerMobileNumber!=null) customerMobileNumber else "NA"}</font>
+            [C]<b><font size='big'>Name :</b> ${if (customerName != null) customerName else "NA"}</font>
+            [C]<b><font size='big'>Mobile No. :</b> ${if (customerMobileNumber != null) customerMobileNumber else "NA"}</font>
             [C]================================
             [C]<img>${
                 PrinterTextParserImg.bitmapToHexadecimalString(
@@ -187,6 +188,16 @@ class PrinterBT_Utility constructor(
             }</img>
             """.trimIndent()
         )
+    }
+
+    private fun getHeaderImage(): Int {
+        if (amount == activity.getString(R.string.fee_type_24_48_amt))
+            return R.drawable.heder_40
+        if (amount == activity.getString(R.string.fee_type_48_72_amt))
+            return R.drawable.heder_60
+        if (amount == activity.getString(R.string.fee_type_72_100_amt))
+            return R.drawable.header_80
+        return R.drawable.heder_20
     }
 
     interface OnBluetoothPermissionsGranted {

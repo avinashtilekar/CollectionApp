@@ -198,6 +198,7 @@ class EntryFragment : Fragment() {
                 it.invoiceNumber=invoiceNumber
                 it.customerName=transactionTableInsert.customer_name
                 it.customerMobileNumber=transactionTableInsert.customer_mobile_number
+                it.amount=transactionTableInsert.amount
                 it.printBluetooth()
             }
 
