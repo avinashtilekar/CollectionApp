@@ -157,11 +157,10 @@ class PrinterBT_Utility constructor(
 
     @SuppressLint("SimpleDateFormat")
     private fun getAsyncEscPosPrinterCollection(printerConnection: DeviceConnection?): AsyncEscPosPrinter? {
-        val format = SimpleDateFormat("dd-MMM-dd-yyyy 'at' hh:mm:ss a")
+        val format = SimpleDateFormat("dd-MMM-yyyy 'at' hh:mm:ss a")
         val printer = AsyncEscPosPrinter(printerConnection, 203, 48f, 32)
         return printer.addTextToPrint(
             """
-            [C]**Start**
             [C]<img>${
                 PrinterTextParserImg.bitmapToHexadecimalString(
                     printer,
@@ -171,10 +170,11 @@ class PrinterBT_Utility constructor(
                     )
                 )
             }</img>
-            [C]<b><font size='big'>Invoice Number :</b> ${invoiceNumber}</font>
-            [C]<b><font size='big'>Customer Mobile No :</b> ${if(customerMobileNumber!=null) customerMobileNumber else "NA"}</font>
-            [C]<b><font size='big'>Customer Name :</b> ${if(customerName!=null) customerName else "NA"}</font>
+            [L]
             [C]<b type='double'>${format.format(Date())}</b>
+            [C]<b><font size='big'>Receipt No. :</b> ${invoiceNumber}</font>
+            [C]<b><font size='big'>Name :</b> ${if(customerName!=null) customerName else "NA"}</font>
+            [C]<b><font size='big'>Mobile No. :</b> ${if(customerMobileNumber!=null) customerMobileNumber else "NA"}</font>
             [C]================================
             [C]<img>${
                 PrinterTextParserImg.bitmapToHexadecimalString(
@@ -185,8 +185,6 @@ class PrinterBT_Utility constructor(
                     )
                 )
             }</img>
-            [C]**End**
-            
             """.trimIndent()
         )
     }
