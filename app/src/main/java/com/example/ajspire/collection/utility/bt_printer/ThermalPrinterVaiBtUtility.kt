@@ -21,7 +21,7 @@ import com.example.ajspire.escp_printer_lib.connection.bluetooth.BluetoothPrinte
 import com.example.ajspire.escp_printer_lib.textparser.PrinterTextParserImg
 import java.text.SimpleDateFormat
 import java.util.Date
-
+// Code Reff https://github.com/DantSu/ESCPOS-ThermalPrinter-Android
 class ThermalPrinterVaiBtUtility constructor(
     var activity: Activity
 ) {
