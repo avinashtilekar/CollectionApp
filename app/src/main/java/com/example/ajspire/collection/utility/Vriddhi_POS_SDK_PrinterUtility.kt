@@ -183,13 +183,13 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.customer_name))
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr(customerName+"\n")
+                printer.printStr((customerName?:"NA")+"\n")
 
                 //Name
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.customer_mobile_number))
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr(customerMobileNumber+"\n")
+                printer.printStr((customerMobileNumber?:"NA")+"\n")
 
                 printer.printStr("===========================\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
