@@ -342,7 +342,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
         dialog = ProgressDialog(activity)
         dialog.apply {
             setTitle(activity.getString(R.string.print))
-            setIcon(R.drawable.footer_latest)
+            setIcon(R.drawable.ic_print)
             setMessage(activity.getString(R.string.wait_for_print))
             setCancelable(false)
             isIndeterminate = false
