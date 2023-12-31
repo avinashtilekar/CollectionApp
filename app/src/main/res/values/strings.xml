@@ -23,9 +23,10 @@
     <string name="rs_sign">₹</string>
 
     <string name="user_name">नाव (Name)</string>
-    <string name="customer_name">ग्राहक नाव</string>
+    <string name="customer_name">नाव</string>
     <string name="mobile_number">मोबाईल नंबर (Mobile Number)</string>
-    <string name="customer_mobile_number">ग्राहक मोबाईल नंबर</string>
+    <string name="customer_mobile_number">मोबाईल नंबर</string>
+    <string name="customer_mobile_number1">मो. नंबर</string>
     <string name="email">ई-मेल आयडी (Email Id)</string>
     <string name="address">पत्ता (Address)</string>
     <string name="submit">जमा (Submit)</string>

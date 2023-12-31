@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Build
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import com.example.ajspire.collection.R
@@ -150,6 +152,8 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 logMsg("IsHavePaper = true\n")
 
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
+                //set default font
+                printer.setFont(getFontBundle())
                 printer.printBmp(BitmapFactory.decodeResource(activity.resources, R.drawable.header_latest))
                 printer.printStr(activity.getString(R.string.mgp_client_name)+"\n")
                 printer.printStr("===========================\n")
@@ -167,18 +171,6 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
                 printer.printStr("${format.format(Date())}\n")
 
-                //fee type
-                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
-                printer.printStr(activity.getString(R.string.fee_type)+"(${activity.getString(R.string.sq_fit)}) : ")
-                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr(getSqFit(amount)+"\n")
-
-                //Amount
-                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
-                printer.printStr(activity.getString(R.string.amount))
-                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr(amount+"\n")
-
                 //Name
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.customer_name))
@@ -187,9 +179,23 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
 
                 //Name
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
-                printer.printStr(activity.getString(R.string.customer_mobile_number))
+                printer.printStr(activity.getString(R.string.customer_mobile_number1))
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
                 printer.printStr((customerMobileNumber?:"NA")+"\n")
+
+                //fee type
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
+                printer.printStr(activity.getString(R.string.fee_type)+"(${activity.getString(R.string.sq_fit)}) ")
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
+                printer.printStr(getSqFit(amount)+"\n")
+
+                //Amount
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
+                printer.setFont(getFontBundle(35,true))
+                printer.printStr(activity.getString(R.string.amount)+" "+amount+"\n")
+
+                //reset default font
+                printer.setFont(getFontBundle())
 
                 printer.printStr("===========================\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
@@ -306,5 +312,16 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
             return activity.getString(R.string.fee_type_48_72_amt)
 
         return activity.getString(R.string.fee_type_72_100_amt)
+    }
+
+    private fun getFontBundle(textSize:Int=0,isBold:Boolean=false):Bundle
+    {
+
+        val bundle = Bundle()
+        bundle.putString("font", "DEFAULT")
+        bundle.putInt("format", if(isBold) Typeface.BOLD else Typeface.NORMAL)
+        bundle.putInt("style", 0)
+        bundle.putInt("size", if(textSize>0) textSize else 24)
+        return bundle
     }
 }
