@@ -1,0 +1,7 @@
+This are sign apk details
+don't delete this and BillerPOS.jks file
+
+Sign Details
+Alias : BillerPOS
+Password :  Ajspire@3323
+Key Password :  Ajspire#3323
