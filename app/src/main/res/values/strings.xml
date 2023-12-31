@@ -11,6 +11,7 @@
     <string name="menu_profile">प्रोफाइल (Profile)</string>
     <string name="menu_settings">सेटिंग (Settings)</string>
     <string name="client_name">बारामती नगर परिषद\n MGP Infrastructure Pvt. Ltd.</string>
+    <string name="mgp_client_name">MGP Infrastructure Pvt. Ltd.</string>
     <string name="ajspire_tec">© Ajspire Technologies Pvt. Ltd.</string>
     <string name="sync">Sync To Server</string>
     <string name="title_activity_login">LoginActivity</string>

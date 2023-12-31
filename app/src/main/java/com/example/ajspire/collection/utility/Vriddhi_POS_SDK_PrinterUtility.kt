@@ -150,8 +150,8 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 logMsg("IsHavePaper = true\n")
 
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
-                printer.printBmp(BitmapFactory.decodeResource(activity.resources, R.drawable.client_logo))
-                printer.printStr(activity.getString(R.string.client_name)+"\n")
+                printer.printBmp(BitmapFactory.decodeResource(activity.resources, R.drawable.header_latest))
+                printer.printStr(activity.getString(R.string.mgp_client_name)+"\n")
                 printer.printStr("===========================\n")
 
                 //Invoice No
@@ -195,6 +195,9 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
                 printer.printStr(activity.getString(R.string.footer_message)+"\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
+                printer.printStr(activity.getString(R.string.powered_by)+"\n")
+                printer.printBmp(BitmapFactory.decodeResource(activity.resources, R.drawable.footer_latest))
+
 
                 ret = printer.usedPaperLenManage
 
