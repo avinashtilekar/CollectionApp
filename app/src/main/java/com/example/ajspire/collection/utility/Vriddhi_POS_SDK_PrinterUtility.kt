@@ -320,12 +320,12 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     private fun getSqFit(amt: String?): String {
         if (amount == activity.getString(R.string.fee_type_24_amt))
             return activity.getString(R.string.fee_type_24)
-        else if (amount == activity.getString(R.string.fee_type_24_48_amt))
+        else if (amount == activity.getString(R.string.fee_type_24_48))
             return activity.getString(R.string.fee_type_24)
-        else if (amount == activity.getString(R.string.fee_type_48_72_amt))
-            return activity.getString(R.string.fee_type_48_72_amt)
+        else if (amount == activity.getString(R.string.fee_type_48_72))
+            return activity.getString(R.string.fee_type_48_72)
 
-        return activity.getString(R.string.fee_type_72_100_amt)
+        return activity.getString(R.string.fee_type_72_100)
     }
 
     private fun getFontBundle(textSize: Int = 0, isBold: Boolean = false): Bundle {
