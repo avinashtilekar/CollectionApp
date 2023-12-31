@@ -192,7 +192,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.printStr((customerMobileNumber?:"NA")+"\n")
 
                 printer.printStr("===========================\n")
-                printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
+                printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.footer_message)+"\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
                 printer.printStr(activity.getString(R.string.powered_by)+"\n")
