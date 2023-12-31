@@ -30,7 +30,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             dataStoreViewModel.getUserDetails()
-        }, 5000)
+        }, 1000)
 
         binding.txtHeading.text = getString(R.string.client_name)
 
