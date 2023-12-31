@@ -1,6 +1,7 @@
 package com.example.ajspire.collection.utility
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -61,7 +62,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     var customerMobileNumber: String? = null
     var customerName: String? = null
     var amount: String? = null
-
+    private lateinit var dialog: ProgressDialog
     private fun getDeviceModel(): Int {
         if (mDeviceModel == DEVICE_MODE_UNKOWN) {
 //            String deviceModel = android.os.Build.MODEL;
@@ -122,6 +123,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     fun printReceipt() {
         try {
             printer?.let { printer ->
+                showWaitingMessage()
                 var ret: Int = printer.open()
                 if (ret != ErrCode.ERR_SUCCESS) {
                     logMsg("open failed" + String.format(" errCode = 0x%x\n", ret))
@@ -154,15 +156,20 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
                 //set default font
                 printer.setFont(getFontBundle())
-                printer.printBmp(BitmapFactory.decodeResource(activity.resources, R.drawable.header_latest))
-                printer.printStr(activity.getString(R.string.mgp_client_name)+"\n")
+                printer.printBmp(
+                    BitmapFactory.decodeResource(
+                        activity.resources,
+                        R.drawable.header_latest
+                    )
+                )
+                printer.printStr(activity.getString(R.string.mgp_client_name) + "\n")
                 printer.printStr("===========================\n")
 
                 //Invoice No
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.reciept_number))
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr(invoiceNumber+"\n")
+                printer.printStr(invoiceNumber + "\n")
 
                 //date time
                 val format = SimpleDateFormat("dd-MMM-yyyy 'at' hh:mm:ss a")
@@ -175,34 +182,39 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.customer_name))
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr((customerName?:"NA")+"\n")
+                printer.printStr((customerName ?: "NA") + "\n")
 
                 //Name
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.customer_mobile_number1))
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr((customerMobileNumber?:"NA")+"\n")
+                printer.printStr((customerMobileNumber ?: "NA") + "\n")
 
                 //fee type
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
-                printer.printStr(activity.getString(R.string.fee_type)+"(${activity.getString(R.string.sq_fit)}) ")
+                printer.printStr(activity.getString(R.string.fee_type) + "(${activity.getString(R.string.sq_fit)}) ")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
-                printer.printStr(getSqFit(amount)+"\n")
+                printer.printStr(getSqFit(amount) + "\n")
 
                 //Amount
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
-                printer.setFont(getFontBundle(35,true))
-                printer.printStr(activity.getString(R.string.amount)+" "+amount+"\n")
+                printer.setFont(getFontBundle(35, true))
+                printer.printStr(activity.getString(R.string.amount) + " " + amount + "\n")
 
                 //reset default font
                 printer.setFont(getFontBundle())
 
                 printer.printStr("===========================\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
-                printer.printStr(activity.getString(R.string.footer_message)+"\n")
+                printer.printStr(activity.getString(R.string.footer_message) + "\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
-                printer.printStr(activity.getString(R.string.powered_by)+"\n")
-                printer.printBmp(BitmapFactory.decodeResource(activity.resources, R.drawable.footer_latest))
+                printer.printStr(activity.getString(R.string.powered_by) + "\n")
+                printer.printBmp(
+                    BitmapFactory.decodeResource(
+                        activity.resources,
+                        R.drawable.footer_latest
+                    )
+                )
 
 
                 ret = printer.usedPaperLenManage
@@ -259,9 +271,11 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                     override fun onSuccess() {
                         logMsg("print success\n")
                         printer.feed(32)
+                        dismissWaitingMessage()
                     }
 
                     override fun onError(i: Int) {
+                        dismissWaitingMessage()
                         logMsg("printBmp failed" + String.format(" errCode = 0x%x\n", i))
                     }
                 })
@@ -314,14 +328,31 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
         return activity.getString(R.string.fee_type_72_100_amt)
     }
 
-    private fun getFontBundle(textSize:Int=0,isBold:Boolean=false):Bundle
-    {
+    private fun getFontBundle(textSize: Int = 0, isBold: Boolean = false): Bundle {
 
         val bundle = Bundle()
         bundle.putString("font", "DEFAULT")
-        bundle.putInt("format", if(isBold) Typeface.BOLD else Typeface.NORMAL)
+        bundle.putInt("format", if (isBold) Typeface.BOLD else Typeface.NORMAL)
         bundle.putInt("style", 0)
-        bundle.putInt("size", if(textSize>0) textSize else 24)
+        bundle.putInt("size", if (textSize > 0) textSize else 24)
         return bundle
+    }
+
+    private fun showWaitingMessage() {
+        dialog = ProgressDialog(activity)
+        dialog.apply {
+            setTitle(activity.getString(R.string.print))
+            setIcon(R.drawable.footer_latest)
+            setMessage(activity.getString(R.string.wait_for_print))
+            setCancelable(false)
+            isIndeterminate = false
+            setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            show()
+        }
+
+    }
+
+    private fun dismissWaitingMessage() {
+        dialog.dismiss()
     }
 }
