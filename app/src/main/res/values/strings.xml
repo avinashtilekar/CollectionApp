@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
-    <string name="app_name">CollectionApp</string>
+    <string name="app_name">BillerPOS</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">username00288434948</string>
@@ -11,6 +11,7 @@
     <string name="menu_profile">प्रोफाइल (Profile)</string>
     <string name="menu_settings">सेटिंग (Settings)</string>
     <string name="client_name">बारामती नगर परिषद\n MGP Infrastructure Pvt. Ltd.</string>
+    <string name="mgp_client_name">MGP Infrastructure Pvt. Ltd.</string>
     <string name="ajspire_tec">© Ajspire Technologies Pvt. Ltd.</string>
     <string name="sync">Sync To Server</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -22,9 +23,10 @@
     <string name="rs_sign">₹</string>
 
     <string name="user_name">नाव (Name)</string>
-    <string name="customer_name">ग्राहक नाव</string>
+    <string name="customer_name">नाव</string>
     <string name="mobile_number">मोबाईल नंबर (Mobile Number)</string>
-    <string name="customer_mobile_number">ग्राहक मोबाईल नंबर</string>
+    <string name="customer_mobile_number">मोबाईल नंबर</string>
+    <string name="customer_mobile_number1">मो. नंबर</string>
     <string name="email">ई-मेल आयडी (Email Id)</string>
     <string name="address">पत्ता (Address)</string>
     <string name="submit">जमा (Submit)</string>
@@ -58,4 +60,14 @@
     <string name="syn_sucess">सर्व डेटा सर्व्हरवर यशस्वीरित्या अपलोड झाला आहे.\nnAll data has uploaded to server successfully.</string>
     <string name="syn_inprogress">डेटा अपलोड चालू आहे.\n कृपया हे पेज किंवा अॅप बंद करू नका.\n\nData upload is inprogress. Please don not close the this page or App.</string>
     <string name="no_payment_collection">आजसाठी कोणतेही पेमेंट संकलन नाही.\n\nNo any payment collection for today.</string>
+    <string name="print">प्रिंट</string>
+    <string name="wait_for_print">प्रिंटसाठी प्रतीक्षा करा.</string>
+    <string name="printer_connecting">प्रिंटर कनेक्ट करत आहे.</string>
+    <string name="printer_connected">प्रिंटर कनेक्ट केलेले आहे.</string>
+    <string name="printer_done">प्रिंट पूर्ण झाली.</string>
+    <string name="reciept_number">पावती क्र.</string>
+    <string name="sq_fit">चौरस फूट</string>
+    <string name="date">तारीख</string>
+    <string name="footer_message">*पावतीची वैधता एक दिवसाची आहे.\n*ही एक सिस्टिम जनरेट केलेली पावती आहे, आणि कोणत्याही स्वाक्षरीची आवश्यकता नाही\n*ही पावती तुमच्याकडे सुरक्षित ठेवा.</string>
+    <string name="powered_by">Powered by :</string>
 </resources>

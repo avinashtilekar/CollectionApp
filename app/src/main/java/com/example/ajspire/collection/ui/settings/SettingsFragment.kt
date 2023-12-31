@@ -102,9 +102,10 @@ class SettingsFragment : Fragment() {
 
     private fun updateUi() {
         binding.txtHeading.text = getString(R.string.client_name)
-        binding.txtTitle.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
-        binding.txtFooter.text =
-            "${BuildConfig.BUILD_DATE_TIME} \n\n${getString(R.string.ajspire_tec)}"
+
+        binding.txtFooter.text = getString(R.string.ajspire_tec)
+        binding.txtBuild.text =
+            "${BuildConfig.BUILD_DATE_TIME}\n"+BuildConfig.VERSION_NAME
 
         binding.btnSync.setOnClickListener {
             dataBaseViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
