@@ -67,4 +67,5 @@
     <string name="sq_fit">चौरस फूट</string>
     <string name="date">तारीख</string>
     <string name="footer_message">पावतीची वैधता एक दिवसाची आहे. पावतीवर कोणत्याही स्वाक्षरीची आवश्यकता नाही.</string>
+    <string name="powered_by">Powered by :</string>
 </resources>

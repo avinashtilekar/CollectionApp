@@ -33,9 +33,9 @@ class SplashActivity : AppCompatActivity() {
         }, 5000)
 
         binding.txtHeading.text = getString(R.string.client_name)
-        binding.txtTitle.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
-        binding.txtFooter.text =
-            "${BuildConfig.BUILD_DATE_TIME} \n\n${getString(R.string.ajspire_tec)}"
+
+        binding.txtFooter.text =  getString(R.string.ajspire_tec)
+
     }
 
     private fun setObserver() {
