@@ -105,7 +105,7 @@ class SettingsFragment : Fragment() {
 
         binding.txtFooter.text = getString(R.string.ajspire_tec)
         binding.txtBuild.text =
-            "${BuildConfig.BUILD_DATE_TIME}\n"+BuildConfig.VERSION_NAME
+            "${BuildConfig.BUILD_DATE_TIME}\n"+BuildConfig.VERSION_NAME +(if(BuildConfig.DEBUG)" Debug App" else "")
 
         binding.btnSync.setOnClickListener {
             dataBaseViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)

@@ -103,7 +103,7 @@
         <TextView
             android:id="@+id/txtBuild"
             android:textColor="@color/gray"
-            style="@style/AppFont.XLabelSmall"
+            style="@style/AppFont.XXLabelSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

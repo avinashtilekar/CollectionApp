@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.txtTitle.text = getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME
+        binding.txtTitle.text = "${BuildConfig.BUILD_DATE_TIME}\n"+BuildConfig.VERSION_NAME +(if(BuildConfig.DEBUG)" Debug App" else "")
         setObserver()
 
     }

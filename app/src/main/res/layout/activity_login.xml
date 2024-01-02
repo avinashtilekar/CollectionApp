@@ -117,13 +117,39 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txtTitle"
-        style="@style/AppFont.LabelSmall"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_8sdp"
         android:gravity="center"
-        android:text="@string/app_name"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/AppFont.XLabelSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:gravity="center"
+            android:text="@string/powered_by"
+            android:textStyle="bold" />
+
+
+        <ImageView
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            style="@style/AppFont.XXLabelSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>
