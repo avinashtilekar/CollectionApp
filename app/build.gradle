@@ -49,7 +49,7 @@ android {
         }
         debug {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String","API_URL","\"https://bmc-mgp.billerpos.com/\""
+            buildConfigField "String","API_URL","\"https://dev.bmc-mgp.billerpos.com/\""
             applicationIdSuffix ".debug"
             buildConfigField "String","BUILD_TYPE_NAME","\"Debug\""
             signingConfig signingConfigs.debug
@@ -58,7 +58,7 @@ android {
         }
         mock {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String","API_URL","\"https://bmc-mgp.billerpos.com/\""
+            buildConfigField "String","API_URL","\"https://dev.bmc-mgp.billerpos.com/\""
             applicationIdSuffix ".mock"
             buildConfigField "String","BUILD_TYPE_NAME","\"Mock\""
             signingConfig signingConfigs.debug
