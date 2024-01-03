@@ -11,6 +11,7 @@ import com.example.ajspire.collection.room.entity.TransactionTable
 class TransactionTableRespository(private val transactionTableDAO: TransactionTableDAO) {
     val allTransactions: LiveData<List<TransactionTable>> = transactionTableDAO.getTodaysTransaction()
     val transactionSummary: LiveData<String> = transactionTableDAO.getTransactionSummaryTodayOnly()
+    val maxInvoiceNumber: LiveData<Int?> = transactionTableDAO.getMaxInvoiceNumber()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

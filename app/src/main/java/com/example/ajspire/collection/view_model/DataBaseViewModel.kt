@@ -17,6 +17,8 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
         transactionTableRespository.allTransactions
     val transactionSummary: LiveData<String> = transactionTableRespository.transactionSummary
 
+    val maxInvoiceNumber: LiveData<Int?> = transactionTableRespository.maxInvoiceNumber
+
     var _allUnSyncTransactions = MutableLiveData<List<TransactionTable>>()
     val allUnSyncTransactions: LiveData<List<TransactionTable>>
         get() = _allUnSyncTransactions
