@@ -18,6 +18,8 @@ object AppUtility {
     const val ROOM_DB_NAME = "collectionDB"
     var UPLOAD_ITEM_LIMIT = (if (BuildConfig.DEBUG) 2 else 500)
 
+    const val REQUEST_TYPE = "requestDevice"
+
 
     fun hideSoftKeyboard(activity: Activity) {
         try {

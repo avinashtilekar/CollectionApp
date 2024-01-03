@@ -1,6 +1,8 @@
 package com.example.ajspire.collection.api
 
 import com.example.ajspire.collection.BuildConfig
+import com.example.ajspire.collection.api.mock_data.MockDataInterceptor
+import com.example.ajspire.collection.utility.AppUtility
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,6 +15,7 @@ class AppRetrofitBuilder {
 
         private var okHttpClient: OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(getHttpLoggingInterceptor())
+            .addInterceptor(MockDataInterceptor(getCommonHeaders()))
             .build()
 
         private var gson = GsonBuilder()
@@ -33,5 +36,13 @@ class AppRetrofitBuilder {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             return httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
+
+        private fun getCommonHeaders():Map<String, String>{
+            val headers= HashMap<String, String>()
+            headers[AppUtility.REQUEST_TYPE] = "MOBILE"
+            return headers
+        }
     }
+
+
 }
