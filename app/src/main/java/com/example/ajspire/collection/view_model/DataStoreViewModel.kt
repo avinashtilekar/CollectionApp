@@ -61,6 +61,7 @@ class DataStoreViewModel constructor(
 
     fun updateLastInvoiceNumber(lastInvoiceNumber: Int) = viewModelScope.launch {
         userDataStorePreferencesRepository.updateLastInvoiceNumber(lastInvoiceNumber)
+        _lastInvoiceNumber.postValue(lastInvoiceNumber)
     }
 
     fun getLastInvoiceNumber() = viewModelScope.launch {
