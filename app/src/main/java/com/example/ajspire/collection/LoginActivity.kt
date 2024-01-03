@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.api.helper.NetworkResult
 import com.example.ajspire.collection.api.model.request.LoginRequest
+import com.example.ajspire.collection.api.model.response.LoginResponse
+import com.example.ajspire.collection.api.model.response.User
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.MyViewModelFactory
 import com.example.ajspire.collection.databinding.ActivityLoginBinding
@@ -93,6 +95,11 @@ class LoginActivity : AppCompatActivity() {
                     binding.llLoadding.visibility = View.GONE
                     Log.d("Api", "Error")
                     toastMessageUtility.showToastMessage(getString(R.string.technicale_error), true)
+                    if(BuildConfig.DEBUG)
+                    {
+                        dummyLogin()
+                    }
+
                 }
             }
         }
@@ -100,5 +107,18 @@ class LoginActivity : AppCompatActivity() {
 
     private fun callLoginApi(username: String, password: String) {
         apiCallViewModel.login(LoginRequest(username, password))
+    }
+
+    private fun dummyLogin()
+    {
+        val loginResponse= LoginResponse("dummy", User("Dummy","Dummy","Dummy",0,"Dummy","Dummy","Dummy","Dummy",1,"Dummy","Dummy","Dummy","0"))
+        dataStoreViewModel.updateUserDetails(loginResponse)
+
+        dataStoreViewModel.updateInvoicePrefix("DUMMY")
+        dataStoreViewModel.updateLastInvoiceNumber(
+            0
+        )
+
+        callMainScreen()
     }
 }
