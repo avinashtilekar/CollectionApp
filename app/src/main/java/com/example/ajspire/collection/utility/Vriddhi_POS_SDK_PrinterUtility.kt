@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import com.example.ajspire.collection.R
+import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.ftpos.library.smartpos.buzzer.Buzzer
 import com.ftpos.library.smartpos.crypto.Crypto
 import com.ftpos.library.smartpos.device.Device
@@ -63,6 +64,8 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     var customerName: String? = null
     var amount: String? = null
     private lateinit var dialog: ProgressDialog
+    private var toastMessageUtility= ToastMessageUtility(activity)
+
     private fun getDeviceModel(): Int {
         if (mDeviceModel == DEVICE_MODE_UNKOWN) {
 //            String deviceModel = android.os.Build.MODEL;
@@ -80,43 +83,47 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
 
     fun prePrepairePrinter() {
         getDeviceModel()
-        ServiceManager.bindPosServer(activity as Context, object : OnServiceConnectCallback {
-            override fun onSuccess() {
-                led = Led.getInstance(activity)
-                buzzer = Buzzer.getInstance(activity)
-                psamReader = PsamReader.getInstance(activity)
-                nfcReader = NfcReader.getInstance(activity)
-                icReader = IcReader.getInstance(activity)
-                magReader = MagReader.getInstance(activity)
-                printer = Printer.getInstance(activity)
-                device = Device.getInstance(activity)
-                crypto = Crypto.getInstance(activity)
-                memoryReader = MemoryReader.getInstance(activity)
-                keyManager = KeyManager.getInstance(activity)
-                val packageName: String = activity.applicationContext.getPackageName()
-                if (mDeviceModel != DEVICE_MODE_UNKOWN && mDeviceModel != DEVICE_MODE_F100) {
-                    //After connecting to the Service, it must be called once to init the KeyManager, no need to call repeatedly
-                    keyManager?.let {
-                        val ret = it.setKeyGroupName(packageName)
-                        if (ret != ErrCode.ERR_SUCCESS) {
-                            Log.e(
-                                "ERR_SUCCESS", "setKeyGroupName(" + packageName + String.format(
-                                    ")failed,  errCode =0x%x",
-                                    ret
+        if(mDeviceModel>0) {
+            ServiceManager.bindPosServer(activity as Context, object : OnServiceConnectCallback {
+                override fun onSuccess() {
+                    led = Led.getInstance(activity)
+                    buzzer = Buzzer.getInstance(activity)
+                    psamReader = PsamReader.getInstance(activity)
+                    nfcReader = NfcReader.getInstance(activity)
+                    icReader = IcReader.getInstance(activity)
+                    magReader = MagReader.getInstance(activity)
+                    printer = Printer.getInstance(activity)
+                    device = Device.getInstance(activity)
+                    crypto = Crypto.getInstance(activity)
+                    memoryReader = MemoryReader.getInstance(activity)
+                    keyManager = KeyManager.getInstance(activity)
+                    val packageName: String = activity.applicationContext.getPackageName()
+                    if (mDeviceModel != DEVICE_MODE_UNKOWN && mDeviceModel != DEVICE_MODE_F100) {
+                        //After connecting to the Service, it must be called once to init the KeyManager, no need to call repeatedly
+                        keyManager?.let {
+                            val ret = it.setKeyGroupName(packageName)
+                            if (ret != ErrCode.ERR_SUCCESS) {
+                                Log.e(
+                                    "ERR_SUCCESS", "setKeyGroupName(" + packageName + String.format(
+                                        ")failed,  errCode =0x%x",
+                                        ret
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
+
+                    //try for print
+                    printReceipt()
                 }
 
-                //try for print
-                printReceipt()
-            }
-
-            override fun onFail(var1: Int) {
-                Log.e("binding", "onFail")
-            }
-        })
+                override fun onFail(var1: Int) {
+                    Log.e("binding", "onFail")
+                }
+            })
+        }else{
+            toastMessageUtility.showToastMessage(activity.getString(R.string.printer_not_found),true)
+        }
     }
 
 

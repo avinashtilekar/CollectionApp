@@ -70,4 +70,5 @@
     <string name="date">तारीख</string>
     <string name="footer_message">*पावतीची वैधता एक दिवसाची आहे.\n*ही एक सिस्टिम जनरेट केलेली पावती आहे, आणि कोणत्याही स्वाक्षरीची आवश्यकता नाही\n*ही पावती तुमच्याकडे सुरक्षित ठेवा.</string>
     <string name="powered_by">Powered by :</string>
+    <string name="printer_not_found">डेटा यशस्वीरित्या जतन झाला आहे परंतु प्रिंटर उपलब्ध नाही.</string>
 </resources>
