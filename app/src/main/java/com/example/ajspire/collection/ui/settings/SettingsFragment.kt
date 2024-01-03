@@ -12,6 +12,7 @@ import com.example.ajspire.collection.BuildConfig
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.api.helper.NetworkResult
+import com.example.ajspire.collection.api.helper.ToastTypeFields
 import com.example.ajspire.collection.api.model.request.DataSyncRequest
 import com.example.ajspire.collection.api.model.request.TransactionDataForUpload
 import com.example.ajspire.collection.api.model.response.DataSyncResponse
@@ -93,7 +94,7 @@ class SettingsFragment : Fragment() {
                     binding.llMainContaint.visibility = View.VISIBLE
                     binding.llLoadding.visibility = View.GONE
                     Log.d("Api", "Error")
-                    toastMessageUtility.showToastMessage(getString(R.string.technicale_error), true)
+                    toastMessageUtility.showToastMessage(getString(R.string.technicale_error), ToastTypeFields.Error)
                 }
             }
         }

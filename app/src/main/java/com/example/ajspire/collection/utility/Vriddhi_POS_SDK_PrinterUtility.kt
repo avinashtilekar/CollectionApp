@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import com.example.ajspire.collection.R
+import com.example.ajspire.collection.api.helper.ToastTypeFields
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.ftpos.library.smartpos.buzzer.Buzzer
 import com.ftpos.library.smartpos.crypto.Crypto
@@ -122,7 +123,8 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 }
             })
         }else{
-            toastMessageUtility.showToastMessage(activity.getString(R.string.printer_not_found),true)
+            toastMessageUtility.showToastMessage(activity.getString(R.string.printer_not_found),
+                ToastTypeFields.Warning)
         }
     }
 

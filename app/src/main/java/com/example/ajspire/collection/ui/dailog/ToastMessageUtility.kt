@@ -8,15 +8,17 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.ajspire.collection.R
+import com.example.ajspire.collection.api.helper.ToastType
+import com.example.ajspire.collection.api.helper.ToastTypeFields
 import com.example.ajspire.collection.utility.AppUtility
 
 class ToastMessageUtility constructor(val activity: Activity) {
 
     fun showToastMessage(
         message: String?,
-        isError :Boolean=false ,
-        duration: Int = Toast.LENGTH_LONG
+        toastType:ToastType=ToastTypeFields.Success
     ) {
+        val duration: Int = Toast.LENGTH_LONG
         AppUtility.hideSoftKeyboard(activity)
         val inflater = activity.layoutInflater
         val layout: View = inflater.inflate(
@@ -26,10 +28,20 @@ class ToastMessageUtility constructor(val activity: Activity) {
         val tvMessage = layout.findViewById<View>(R.id.tvMessage) as TextView
         val toastLayoutRoot = layout.findViewById<View>(R.id.toast_layout_root) as LinearLayout
 
-        if(isError)
-        {
-            toastLayoutRoot.setBackgroundResource(R.drawable.toast_backgrount_negative)
+        when (toastType) {
+            is ToastTypeFields.Error -> {
+                toastLayoutRoot.setBackgroundResource(R.drawable.toast_backgrount_negative)
+            }
+            is ToastTypeFields.Warning ->
+            {
+                toastLayoutRoot.setBackgroundResource(R.drawable.toast_backgrount_warning)
+            }
+
+            else -> {
+                toastLayoutRoot.setBackgroundResource(R.drawable.toast_backgrount_positive)
+            }
         }
+
         tvMessage.text = message
         val toast = Toast(activity)
         toast.setGravity(Gravity.CENTER, 0, 0)
@@ -38,3 +50,4 @@ class ToastMessageUtility constructor(val activity: Activity) {
         toast.show()
     }
 }
+

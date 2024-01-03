@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.api.helper.NetworkResult
+import com.example.ajspire.collection.api.helper.ToastTypeFields
 import com.example.ajspire.collection.api.model.request.LoginRequest
 import com.example.ajspire.collection.databinding.ActivityLoginBinding
 import com.example.ajspire.collection.extensions.appDataStore
@@ -44,9 +45,9 @@ class LoginActivity : AppCompatActivity() {
         binding.toolbar.title = getString(R.string.action_sign_in)
         binding.btnLogin.setOnClickListener {
             if (TextUtils.isEmpty(binding.etUsername.text.toString())) {
-                toastMessageUtility.showToastMessage(getString(R.string.user_id_error), true)
+                toastMessageUtility.showToastMessage(getString(R.string.user_id_error), ToastTypeFields.Error)
             } else if (TextUtils.isEmpty(binding.etPassword.text.toString())) {
-                toastMessageUtility.showToastMessage(getString(R.string.password_error), true)
+                toastMessageUtility.showToastMessage(getString(R.string.password_error), ToastTypeFields.Error)
             } else {
                 callLoginApi(binding.etUsername.text.toString(), binding.etPassword.text.toString())
             }
@@ -92,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
                     binding.llMainContaint.visibility = View.VISIBLE
                     binding.llLoadding.visibility = View.GONE
                     Log.d("Api", "Error")
-                    toastMessageUtility.showToastMessage(getString(R.string.technicale_error), true)
+                    toastMessageUtility.showToastMessage(getString(R.string.technicale_error), ToastTypeFields.Error)
                 }
             }
         }
