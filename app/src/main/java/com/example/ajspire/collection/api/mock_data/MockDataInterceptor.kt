@@ -23,7 +23,7 @@ class MockDataInterceptor(private val headers: Map<String, String>) : Intercepto
             requestBuilder.addHeader(key, value)
         }
         if (BuildConfig.BUILD_TYPE_NAME == "Mock") {
-            Thread.sleep(1000)
+            Thread.sleep(500)
             return getMockResponse(request)
         }
         return chain.proceed(request)
@@ -76,7 +76,7 @@ class MockDataInterceptor(private val headers: Map<String, String>) : Intercepto
                 1,
                 "MockDummy",
                 "MockDummy",
-                "MockDummy",
+                "MOC",
                 "0"
             )
         )
