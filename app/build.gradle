@@ -30,18 +30,40 @@ android {
         def buildDateTime = date.format('dd-MMM-yyyy HH:mm:ss a')
         buildConfigField "String", "BUILD_DATE_TIME", "\"${buildDateTime}\""
     }
-
+    signingConfigs {
+        release {
+            storeFile file("BillerPOS.jks")
+            storePassword "Ajspire@3323"
+            keyAlias "BillerPOS"
+            keyPassword "Ajspire#3323"
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String","API_URL","\"https://bmc-mgp.billerpos.com/\""
-            signingConfig signingConfigs.debug
+            buildConfigField "String","BUILD_TYPE_NAME","\" \""
+            signingConfig signingConfigs.release
+            debuggable false
+            minifyEnabled false
         }
         debug {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String","API_URL","\"https://bmc-mgp.billerpos.com/\""
+            applicationIdSuffix ".debug"
+            buildConfigField "String","BUILD_TYPE_NAME","\"Debug\""
+            signingConfig signingConfigs.debug
+            debuggable true
+            minifyEnabled false
+        }
+        mock {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String","API_URL","\"https://bmc-mgp.billerpos.com/\""
+            applicationIdSuffix ".mock"
+            buildConfigField "String","BUILD_TYPE_NAME","\"Mock\""
+            signingConfig signingConfigs.debug
+            debuggable true
+            minifyEnabled false
         }
     }
     compileOptions {

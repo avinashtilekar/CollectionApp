@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.txtTitle.text = "${BuildConfig.BUILD_DATE_TIME}\n"+BuildConfig.VERSION_NAME +(if(BuildConfig.DEBUG)" Debug App" else "")
+        binding.txtTitle.text = "${BuildConfig.BUILD_DATE_TIME}\n"+BuildConfig.VERSION_NAME +(if(!BuildConfig.BUILD_TYPE_NAME.isNullOrBlank()) " "+ BuildConfig.BUILD_TYPE_NAME else "")
         setObserver()
 
     }

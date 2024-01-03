@@ -6,11 +6,11 @@ def libraryVersionCode = 1001000
 def libraryVersionName = "1.0.0"
 android {
     namespace 'com.example.ajspire.escp_printer_lib'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
-        minSdk 16
-        targetSdk 33
+        minSdk 24
+        targetSdk 34
         versionCode libraryVersionCode
         versionName libraryVersionName
 
@@ -20,13 +20,24 @@ android {
 
     buildTypes {
         release {
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        mock {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
