@@ -42,7 +42,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     //region printer
-    fun printReceipt(printerCallBack: PrinterCallBack?=null) {
+    fun printReceipt(printerCallBack: PrinterCallBack? = null) {
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
             callPrintViaVriddhiPOSPrinter(printerCallBack)
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
@@ -52,21 +52,26 @@ abstract class BaseFragment : Fragment() {
             printerNotFoundError()
         }
     }
-    fun printerNotFoundError()
-    {
+
+    fun printerNotFoundError() {
+        val message =
+            getString(R.string.reciept_number) + (activity?.application as MyApplication).invoiceNumberPrefix + currentTransactionTableInsert?.invoice_number + " " + getString(
+                R.string.printer_not_found
+            )
         android.app.AlertDialog.Builder(context)
             .setTitle(getString(R.string.printer_not_found_error))
-            .setMessage(getString(R.string.printer_not_found))
+            .setMessage(message)
             .setIcon(R.drawable.ic_error)
             .show()
     }
-    private fun callPrintViaBluetoothThermalPrinter(printerCallBack: PrinterCallBack?=null) {
+
+    private fun callPrintViaBluetoothThermalPrinter(printerCallBack: PrinterCallBack? = null) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
                     (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
                 thermalPrinterVaiBtUtility?.let {
-                    it.printerCallBack=printerCallBack
+                    it.printerCallBack = printerCallBack
                     it.invoiceNumber = invoiceNumber
                     it.customerName = transactionTableInsert.customer_name
                     it.customerMobileNumber = transactionTableInsert.customer_mobile_number
@@ -78,14 +83,14 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    private fun callPrintViaVriddhiPOSPrinter(printerCallBack: PrinterCallBack?=null) {
+    private fun callPrintViaVriddhiPOSPrinter(printerCallBack: PrinterCallBack? = null) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
                     (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
 
                 vriddhiPOSSDKPrinterUtility?.let {
-                    it.printerCallBack=printerCallBack
+                    it.printerCallBack = printerCallBack
                     it.invoiceNumber = invoiceNumber
                     it.customerName = transactionTableInsert.customer_name
                     it.customerMobileNumber = transactionTableInsert.customer_mobile_number

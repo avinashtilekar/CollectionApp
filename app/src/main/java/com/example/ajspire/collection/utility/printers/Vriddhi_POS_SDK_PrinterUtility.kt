@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
@@ -67,7 +68,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     var amount: String? = null
     private lateinit var dialog: ProgressDialog
     private var toastMessageUtility = ToastMessageUtility(activity)
-    var printerCallBack: PrinterCallBack?=null
+    var printerCallBack: PrinterCallBack? = null
     private fun getDeviceModel(): Int {
         if (mDeviceModel == DEVICE_MODE_UNKOWN) {
 //            String deviceModel = android.os.Build.MODEL;
@@ -126,9 +127,14 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 }
             })
         } else {
+
+            val message =
+                activity.getString(R.string.reciept_number) + invoiceNumber +" "+ activity.getString(
+                    R.string.printer_not_found
+                )
             android.app.AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.printer_not_found_error))
-                .setMessage(activity.getString(R.string.printer_not_found))
+                .setMessage(message)
                 .setIcon(R.drawable.ic_error)
                 .show()
 
