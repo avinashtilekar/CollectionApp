@@ -10,6 +10,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.utility.printers.bt_printer.thermal.AsyncBluetoothEscPosPrint
 import com.example.ajspire.collection.utility.printers.bt_printer.thermal.AsyncEscPosPrint
@@ -34,7 +35,7 @@ class ThermalPrinterVaiBtUtility constructor(
     var customerMobileNumber: String? = null
     var customerName: String? = null
     var amount: String? = null
-
+    var printerCallBack: PrinterCallBack?=null
     private fun browseBluetoothDevice() {
         checkBluetoothPermissions(object : OnBluetoothPermissionsGranted {
             @SuppressLint("MissingPermission")
@@ -138,6 +139,7 @@ class ThermalPrinterVaiBtUtility constructor(
                                     "Async.OnPrintFinished",
                                     "AsyncEscPosPrint.OnPrintFinished : An error occurred !"
                                 )
+                                printerCallBack?.askForReprint()
                             }
 
                             override fun onSuccess(asyncEscPosPrinter: AsyncEscPosPrinter?) {
@@ -145,10 +147,10 @@ class ThermalPrinterVaiBtUtility constructor(
                                     "Async.OnPrintFinished",
                                     "AsyncEscPosPrint.OnPrintFinished : Print is finished !"
                                 )
+                                printerCallBack?.askForReprint()
                             }
                         }
-                    )
-                        .execute(finalAsyncEscPosPrinterthis)
+                    ).execute(finalAsyncEscPosPrinterthis)
                 }
             })
         } ?: browseBluetoothDevice()

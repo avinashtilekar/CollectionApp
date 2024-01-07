@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.ajspire.collection.MyApplication
+import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
@@ -41,11 +42,11 @@ abstract class BaseFragment : Fragment() {
     }
 
     //region printer
-    fun printReceipt() {
+    fun printReceipt(printerCallBack: PrinterCallBack?=null) {
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
-            callPrintViaVriddhiPOSPrinter()
+            callPrintViaVriddhiPOSPrinter(printerCallBack)
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
-            callPrintViaBluetoothThermalPrinter()
+            callPrintViaBluetoothThermalPrinter(printerCallBack)
         } else {
             //callPrintViaBluetoothThermalPrinter()
             printerNotFoundError()
@@ -59,12 +60,13 @@ abstract class BaseFragment : Fragment() {
             .setIcon(R.drawable.ic_error)
             .show()
     }
-    private fun callPrintViaBluetoothThermalPrinter() {
+    private fun callPrintViaBluetoothThermalPrinter(printerCallBack: PrinterCallBack?=null) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
                     (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
                 thermalPrinterVaiBtUtility?.let {
+                    it.printerCallBack=printerCallBack
                     it.invoiceNumber = invoiceNumber
                     it.customerName = transactionTableInsert.customer_name
                     it.customerMobileNumber = transactionTableInsert.customer_mobile_number
@@ -76,13 +78,14 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    private fun callPrintViaVriddhiPOSPrinter() {
+    private fun callPrintViaVriddhiPOSPrinter(printerCallBack: PrinterCallBack?=null) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
                     (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
 
                 vriddhiPOSSDKPrinterUtility?.let {
+                    it.printerCallBack=printerCallBack
                     it.invoiceNumber = invoiceNumber
                     it.customerName = transactionTableInsert.customer_name
                     it.customerMobileNumber = transactionTableInsert.customer_mobile_number
@@ -105,7 +108,7 @@ abstract class BaseFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.reciept_reprint) { dialogInterface, which ->
-            printReceipt()
+            printReceipt(null)
             dialogInterface.dismiss()
         }
 

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.ajspire.collection.MyApplication
+import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentEntryBinding
 import com.example.ajspire.collection.extensions.appDataStore
@@ -27,7 +28,7 @@ import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
-class EntryFragment : BaseFragment() {
+class EntryFragment : BaseFragment(), PrinterCallBack {
 
     private var _binding: FragmentEntryBinding? = null
 
@@ -116,8 +117,7 @@ class EntryFragment : BaseFragment() {
                 currentTransactionTableInsert?.let {
                     dataBaseViewModel.insert(it)
                     updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
-                    printReceipt()
-                    showRePrintAlert()
+                    printReceipt(this@EntryFragment)
                     reSetScreen()
                 }
             }
@@ -187,6 +187,10 @@ class EntryFragment : BaseFragment() {
         })
 
         alertDialog.show()
+    }
+
+    override fun askForReprint() {
+        showRePrintAlert()
     }
 
 
