@@ -57,7 +57,7 @@
     <string name="collection_list">एकूण पेमेंट संकलन</string>
     <string name="collection_list_menu">एकूण पेमेंट संकलन (Collection)</string>
     <string name="collection_summary">पेमेंट संकलन सारांश</string>
-    <string name="syn_sucess">सर्व डेटा सर्व्हरवर यशस्वीरित्या अपलोड झाला आहे.\nnAll data has uploaded to server successfully.</string>
+    <string name="syn_sucess">सर्व डेटा सर्व्हरवर यशस्वीरित्या अपलोड झाला आहे.\nAll data has uploaded to server successfully.</string>
     <string name="syn_inprogress">डेटा अपलोड चालू आहे.\n कृपया हे पेज किंवा अॅप बंद करू नका.\n\nData upload is inprogress. Please don not close the this page or App.</string>
     <string name="no_payment_collection">आजसाठी कोणतेही पेमेंट संकलन नाही.\n\nNo any payment collection for today.</string>
     <string name="print">प्रिंट</string>
@@ -70,9 +70,13 @@
     <string name="date">तारीख</string>
     <string name="footer_message">*पावतीची वैधता एक दिवसाची आहे.\n*ही एक सिस्टिम जनरेट केलेली पावती आहे, आणि कोणत्याही स्वाक्षरीची आवश्यकता नाही\n*ही पावती तुमच्याकडे सुरक्षित ठेवा.</string>
     <string name="powered_by">Powered by :</string>
-    <string name="printer_not_found">डेटा यशस्वीरित्या जतन झाला आहे परंतु प्रिंटर उपलब्ध नाही.</string>
+    <string name="printer_not_found">डेटा यशस्वीरित्या जतन झाला आहे, परंतु प्रिंटर उपलब्ध नाही.\nकृपया ब्लूटूथ सेटिंग चालू असल्याची खात्री करा.</string>
+    <string name="printer_not_found_error">प्रिंटर उपलब्ध नाही.</string>
     <string name="reciept_reprint_title">पावती क्र. <b>%1$s</b> पुनर्मुद्रण</string>
     <string name="reciept_reprint_message">पावती क्र. <b>%1$s</b> डेटा यशस्वीरित्या जतन झाला आहे. प्रिंटसाठी प्रतीक्षा करा. प्रिंटमध्ये काही समस्या असल्यास कृपया पुनर्मुद्रण बटणावर क्लिक करा.</string>
     <string name="reciept_reprint">पुनर्मुद्रण पावती</string>
     <string name="not_required">आवश्यक नाही</string>
+    <string name="select_printer">प्रिंटर निवडा (Select Printer)</string>
+    <string name="default_POS_printer">डीफॉल्ट प्रिंटर (Default printer)</string>
+    <string name="externale_printer">बाह्य ब्लूटूथ प्रिंटर (External bluetooth printer)</string>
 </resources>

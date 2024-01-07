@@ -14,7 +14,7 @@ import com.example.ajspire.collection.R
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.PrinterType
-import com.example.ajspire.collection.utility.UserPrinters
+import com.example.ajspire.collection.utility.ToastTypeFields
 import com.example.ajspire.collection.utility.printers.Vriddhi_POS_SDK_PrinterUtility
 import com.example.ajspire.collection.utility.printers.bt_printer.ThermalPrinterVaiBtUtility
 
@@ -47,10 +47,18 @@ abstract class BaseFragment : Fragment() {
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
             callPrintViaBluetoothThermalPrinter()
         } else {
-            callPrintViaBluetoothThermalPrinter()
+            //callPrintViaBluetoothThermalPrinter()
+            printerNotFoundError()
         }
     }
-
+    fun printerNotFoundError()
+    {
+        android.app.AlertDialog.Builder(context)
+            .setTitle(getString(R.string.printer_not_found_error))
+            .setMessage(getString(R.string.printer_not_found))
+            .setIcon(R.drawable.ic_error)
+            .show()
+    }
     private fun callPrintViaBluetoothThermalPrinter() {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->

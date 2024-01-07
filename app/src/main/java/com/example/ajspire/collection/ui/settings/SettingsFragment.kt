@@ -1,5 +1,6 @@
 package com.example.ajspire.collection.ui.settings
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,13 +19,16 @@ import com.example.ajspire.collection.api.model.request.TransactionDataForUpload
 import com.example.ajspire.collection.api.model.response.DataSyncResponse
 import com.example.ajspire.collection.databinding.FragmentSettingsBinding
 import com.example.ajspire.collection.room.entity.TransactionTable
+import com.example.ajspire.collection.ui.BaseFragment
+import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
+import com.example.ajspire.collection.utility.PrinterType
 import com.example.ajspire.collection.view_model.ApiCallViewModel
 import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private lateinit var settingsViewModel: SettingsViewModel
@@ -33,7 +37,6 @@ class SettingsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var toastMessageUtility: ToastMessageUtility
     private val dataBaseViewModel: DataBaseViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
@@ -94,7 +97,10 @@ class SettingsFragment : Fragment() {
                     binding.llMainContaint.visibility = View.VISIBLE
                     binding.llLoadding.visibility = View.GONE
                     Log.d("Api", "Error")
-                    toastMessageUtility.showToastMessage(getString(R.string.technicale_error), ToastTypeFields.Error)
+                    toastMessageUtility.showToastMessage(
+                        getString(R.string.technicale_error),
+                        ToastTypeFields.Error
+                    )
                 }
             }
         }
@@ -105,12 +111,38 @@ class SettingsFragment : Fragment() {
         binding.txtHeading.text = getString(R.string.client_name)
 
         binding.txtFooter.text = getString(R.string.ajspire_tec)
-        binding.txtBuild.text = "${BuildConfig.BUILD_DATE_TIME}\n"+BuildConfig.VERSION_NAME +(if(!BuildConfig.BUILD_TYPE_NAME.isNullOrBlank()) " "+ BuildConfig.BUILD_TYPE_NAME else "")
+        binding.txtBuild.text =
+            "${BuildConfig.BUILD_DATE_TIME}\n" + BuildConfig.VERSION_NAME + (if (!BuildConfig.BUILD_TYPE_NAME.isNullOrBlank()) " " + BuildConfig.BUILD_TYPE_NAME else "")
 
 
         binding.btnSync.setOnClickListener {
             dataBaseViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
         }
+        if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
+            binding.rbDefaultPOSPrinter.isChecked = true
+        } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
+            binding.rbExternalePrinter.isChecked = true
+        }
+
+        binding.rgPrinterType.setOnCheckedChangeListener(object :
+            RadioGridGroup.OnCheckedChangeListener {
+            override fun onCheckedChanged(group: RadioGridGroup?, checkedId: Int) {
+                AppUtility.hideSoftKeyboard(activity as Activity)
+                when (checkedId) {
+                    R.id.rb_default_POS_printer -> {
+                        (activity?.application as MyApplication).userPrinters =
+                            PrinterType.VriddhiDefault
+                    }
+
+                    R.id.rb_externale_printer -> {
+                        (activity?.application as MyApplication).userPrinters =
+                            PrinterType.VriddhiExternal
+                    }
+                }
+            }
+
+        })
+
     }
 
     private fun syncRecord() {

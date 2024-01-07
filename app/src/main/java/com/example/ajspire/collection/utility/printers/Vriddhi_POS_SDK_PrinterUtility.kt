@@ -65,7 +65,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     var customerName: String? = null
     var amount: String? = null
     private lateinit var dialog: ProgressDialog
-    private var toastMessageUtility= ToastMessageUtility(activity)
+    private var toastMessageUtility = ToastMessageUtility(activity)
 
     private fun getDeviceModel(): Int {
         if (mDeviceModel == DEVICE_MODE_UNKOWN) {
@@ -84,7 +84,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
 
     fun prePrepairePrinter() {
         getDeviceModel()
-        if(mDeviceModel>0) {
+        if (mDeviceModel > 0) {
             ServiceManager.bindPosServer(activity as Context, object : OnServiceConnectCallback {
                 override fun onSuccess() {
                     led = Led.getInstance(activity)
@@ -122,10 +122,13 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                     Log.e("binding", "onFail")
                 }
             })
-        }else{
-            toastMessageUtility.showToastMessage(activity.getString(R.string.printer_not_found),
-                ToastTypeFields.Warning
-            )
+        } else {
+            android.app.AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.printer_not_found_error))
+                .setMessage(activity.getString(R.string.printer_not_found))
+                .setIcon(R.drawable.ic_error)
+                .show()
+
         }
     }
 

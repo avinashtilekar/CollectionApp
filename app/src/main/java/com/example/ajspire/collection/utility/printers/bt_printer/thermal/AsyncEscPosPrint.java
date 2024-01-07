@@ -55,7 +55,7 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
         try {
             DeviceConnection deviceConnection = printerData.getPrinterConnection();
 
-            if(deviceConnection == null) {
+            if (deviceConnection == null) {
                 return new PrinterStatus(null, AsyncEscPosPrint.FINISH_NO_PRINTER);
             }
 
@@ -73,7 +73,7 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
 
             String[] textsToPrint = printerData.getTextsToPrint();
 
-            for(String textToPrint : textsToPrint) {
+            for (String textToPrint : textsToPrint) {
                 printer.printFormattedTextAndCut(textToPrint);
                 Thread.sleep(500);
             }
@@ -155,36 +155,41 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
                 break;
             case AsyncEscPosPrint.FINISH_NO_PRINTER:
                 new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.ic_error)
                         .setTitle("No printer")
                         .setMessage("The application can't find any printer connected.")
                         .show();
                 break;
             case AsyncEscPosPrint.FINISH_PRINTER_DISCONNECTED:
                 new AlertDialog.Builder(context)
-                    .setTitle("Broken connection")
-                    .setMessage("Unable to connect the printer.")
-                    .show();
+                        .setTitle(R.string.printer_not_found_error)
+                        .setIcon(R.drawable.ic_error)
+                        .setMessage(R.string.printer_not_found)
+                        .show();
                 break;
             case AsyncEscPosPrint.FINISH_PARSER_ERROR:
                 new AlertDialog.Builder(context)
-                    .setTitle("Invalid formatted text")
-                    .setMessage("It seems to be an invalid syntax problem.")
-                    .show();
+                        .setIcon(R.drawable.ic_error)
+                        .setTitle("Invalid formatted text")
+                        .setMessage("It seems to be an invalid syntax problem.")
+                        .show();
                 break;
             case AsyncEscPosPrint.FINISH_ENCODING_ERROR:
                 new AlertDialog.Builder(context)
-                    .setTitle("Bad selected encoding")
-                    .setMessage("The selected encoding character returning an error.")
-                    .show();
+                        .setIcon(R.drawable.ic_error)
+                        .setTitle("Bad selected encoding")
+                        .setMessage("The selected encoding character returning an error.")
+                        .show();
                 break;
             case AsyncEscPosPrint.FINISH_BARCODE_ERROR:
                 new AlertDialog.Builder(context)
-                    .setTitle("Invalid barcode")
-                    .setMessage("Data send to be converted to barcode or QR code seems to be invalid.")
-                    .show();
+                        .setIcon(R.drawable.ic_error)
+                        .setTitle("Invalid barcode")
+                        .setMessage("Data send to be converted to barcode or QR code seems to be invalid.")
+                        .show();
                 break;
         }
-        if(this.onPrintFinished != null) {
+        if (this.onPrintFinished != null) {
             if (result.getPrinterStatus() == AsyncEscPosPrint.FINISH_SUCCESS) {
                 this.onPrintFinished.onSuccess(result.getAsyncEscPosPrinter());
             } else {
@@ -197,7 +202,7 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
         private AsyncEscPosPrinter asyncEscPosPrinter;
         private int printerStatus;
 
-        public PrinterStatus (AsyncEscPosPrinter asyncEscPosPrinter, int printerStatus) {
+        public PrinterStatus(AsyncEscPosPrinter asyncEscPosPrinter, int printerStatus) {
             this.asyncEscPosPrinter = asyncEscPosPrinter;
             this.printerStatus = printerStatus;
         }
@@ -213,6 +218,7 @@ public abstract class AsyncEscPosPrint extends AsyncTask<AsyncEscPosPrinter, Int
 
     public static abstract class OnPrintFinished {
         public abstract void onError(AsyncEscPosPrinter asyncEscPosPrinter, int codeException);
+
         public abstract void onSuccess(AsyncEscPosPrinter asyncEscPosPrinter);
     }
 }
