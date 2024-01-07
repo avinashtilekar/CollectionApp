@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.ajspire.collection.BuildConfig
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
@@ -125,16 +128,23 @@ class SettingsFragment : BaseFragment() {
             RadioGridGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(group: RadioGridGroup?, checkedId: Int) {
                 AppUtility.hideSoftKeyboard(activity as Activity)
+                var printerName=""
                 when (checkedId) {
                     R.id.rb_default_POS_printer -> {
+                        printerName=getString(R.string.default_POS_printer)
                         (activity?.application as MyApplication).userPrinters =
                             PrinterType.VriddhiDefault
                     }
 
                     R.id.rb_externale_printer -> {
+                        printerName=getString(R.string.externale_printer)
                         (activity?.application as MyApplication).userPrinters =
                             PrinterType.VriddhiExternal
                     }
+                }
+                toastMessageUtility.showToastMessage(printerName+" " +getString(R.string.printers_selected_sucessfuly))
+                view?.let {
+                    Navigation.findNavController(it).navigate(R.id.action_setting_to_entry)
                 }
             }
 

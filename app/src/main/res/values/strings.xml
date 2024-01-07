@@ -80,4 +80,5 @@
     <string name="default_POS_printer">डीफॉल्ट प्रिंटर (Default printer)</string>
     <string name="externale_printer">बाह्य ब्लूटूथ प्रिंटर (External bluetooth printer)</string>
     <string name="re_printed">पुनर्मुद्रित (Reprinted)</string>
+    <string name="printers_selected_sucessfuly">यशस्वीरित्या सेट केला आहे.</string>
 </resources>
