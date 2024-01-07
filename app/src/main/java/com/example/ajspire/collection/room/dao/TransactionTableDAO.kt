@@ -47,4 +47,6 @@ interface TransactionTableDAO {
 
     @Query("select * from transaction_table where invoice_number=:invoiceNumber")
     fun getTransactionViaInvoiceNumber(invoiceNumber:Int):TransactionTable?
+    @Query("update transaction_table set reprint=reprint+1 where invoice_number=:invoiceNumber")
+    fun updateReprint(invoiceNumber:Int)
 }

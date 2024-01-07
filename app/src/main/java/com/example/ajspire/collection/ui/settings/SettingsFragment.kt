@@ -37,9 +37,6 @@ class SettingsFragment : BaseFragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val dataBaseViewModel: DataBaseViewModel by viewModels {
-        EntryViewModelFactory((activity?.application as MyApplication).repository)
-    }
 
     private var currentSyncRecord = listOf<TransactionTable>()
 
@@ -157,7 +154,8 @@ class SettingsFragment : BaseFragment() {
                     it.fee_type,
                     it.mobile_tran_key,
                     it.invoice_number,
-                    it.createdAt
+                    it.createdAt,
+                    it.reprint
                 )
             )
         }

@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.ajspire.collection.room.dao.TransactionTableDAO
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.utility.AppUtility
 
-@Database(entities = [TransactionTable::class], version = 1)
+
+@Database(entities = [TransactionTable::class], version = 2)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun TransactionTableDAO(): TransactionTableDAO
@@ -25,6 +27,7 @@ abstract class AppDataBase : RoomDatabase() {
                     AppUtility.ROOM_DB_NAME
                 )
                     .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2)
                     .addCallback(roomCallback)
                     .build()
 
@@ -37,5 +40,16 @@ abstract class AppDataBase : RoomDatabase() {
                 super.onCreate(db)
             }
         }
+
+        var MIGRATION_1_2= object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.beginTransaction()
+                database.execSQL("ALTER TABLE ${AppUtility.TRANSACTION_TABLE_NAME} ADD COLUMN reprint INTEGER DEFAULT 0")
+                database.setTransactionSuccessful()
+                database.endTransaction()
+            }
+        }
     }
+
+
 }

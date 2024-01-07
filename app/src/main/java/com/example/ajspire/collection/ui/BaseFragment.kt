@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
@@ -18,6 +19,8 @@ import com.example.ajspire.collection.utility.PrinterType
 import com.example.ajspire.collection.utility.ToastTypeFields
 import com.example.ajspire.collection.utility.printers.Vriddhi_POS_SDK_PrinterUtility
 import com.example.ajspire.collection.utility.printers.bt_printer.ThermalPrinterVaiBtUtility
+import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 
 abstract class BaseFragment : Fragment() {
@@ -25,6 +28,9 @@ abstract class BaseFragment : Fragment() {
     private var thermalPrinterVaiBtUtility: ThermalPrinterVaiBtUtility? = null
     private var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility? = null
     var currentTransactionTableInsert: TransactionTable? = null
+    val dataBaseViewModel: DataBaseViewModel by viewModels {
+        EntryViewModelFactory((activity?.application as MyApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +48,17 @@ abstract class BaseFragment : Fragment() {
     }
 
     //region printer
-    fun printReceipt(printerCallBack: PrinterCallBack? = null,rePrint:Boolean?=false) {
+    fun printReceipt(printerCallBack: PrinterCallBack? = null, rePrint: Boolean? = false) {
+        if (rePrint == true) {
+            currentTransactionTableInsert?.let {
+                dataBaseViewModel.updateReprint(it.invoice_number)
+            }
+        }
+
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
-            callPrintViaVriddhiPOSPrinter(printerCallBack,rePrint)
+            callPrintViaVriddhiPOSPrinter(printerCallBack, rePrint)
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
-            callPrintViaBluetoothThermalPrinter(printerCallBack,rePrint)
+            callPrintViaBluetoothThermalPrinter(printerCallBack, rePrint)
         } else {
             //callPrintViaBluetoothThermalPrinter()
             printerNotFoundError()
@@ -65,7 +77,10 @@ abstract class BaseFragment : Fragment() {
             .show()
     }
 
-    private fun callPrintViaBluetoothThermalPrinter(printerCallBack: PrinterCallBack? = null,rePrint:Boolean?=false) {
+    private fun callPrintViaBluetoothThermalPrinter(
+        printerCallBack: PrinterCallBack? = null,
+        rePrint: Boolean? = false
+    ) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
@@ -84,7 +99,10 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    private fun callPrintViaVriddhiPOSPrinter(printerCallBack: PrinterCallBack? = null,rePrint:Boolean?=false) {
+    private fun callPrintViaVriddhiPOSPrinter(
+        printerCallBack: PrinterCallBack? = null,
+        rePrint: Boolean? = false
+    ) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
@@ -115,7 +133,7 @@ abstract class BaseFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.reciept_reprint) { dialogInterface, which ->
-            printReceipt(null,true)
+            printReceipt(null, true)
             dialogInterface.dismiss()
         }
 

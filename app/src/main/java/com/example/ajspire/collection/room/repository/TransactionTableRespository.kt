@@ -40,4 +40,10 @@ class TransactionTableRespository(private val transactionTableDAO: TransactionTa
     suspend fun getTransactionViaInvoiceNumber(invoiceNumber:Int):TransactionTable? {
         return transactionTableDAO.getTransactionViaInvoiceNumber(invoiceNumber)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateReprint(invoiceNumber:Int) {
+        transactionTableDAO.updateReprint(invoiceNumber)
+    }
 }

@@ -14,5 +14,6 @@ data class TransactionTable(
     val customer_name: String?=null,
     var server_tran_id: String?=null,
     val createdAt: String?=AppUtility.currentDateTime,
-    val updatedAt: String?=null
+    val updatedAt: String?=null,
+    val reprint: Int?=0
 )

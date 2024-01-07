@@ -59,6 +59,12 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
             transactionTableRespository.deleteSyncItems()
         }
     }
+
+    fun updateReprint(invoiceNumber:Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            transactionTableRespository.updateReprint(invoiceNumber)
+        }
+    }
 }
 
 class EntryViewModelFactory(private val repository: TransactionTableRespository) :

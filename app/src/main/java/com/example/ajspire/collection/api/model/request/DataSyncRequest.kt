@@ -11,5 +11,6 @@ data class TransactionDataForUpload(
     val fee_type: String,
     val mobile_tran_key: String,
     val invoice_number: Int,
-    val trans_date: String?=null
+    val trans_date: String?=null,
+    val reprint: Int?=0
 )

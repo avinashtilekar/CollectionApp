@@ -22,9 +22,6 @@ import com.example.ajspire.collection.view_model.EntryViewModelFactory
 class CollectionListFragment : BaseFragment() {
 
     private var _binding: FragmentCollectionListBinding? = null
-    private val dataBaseViewModel: DataBaseViewModel by viewModels {
-        EntryViewModelFactory((activity?.application as MyApplication).repository)
-    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -86,8 +83,11 @@ class CollectionListFragment : BaseFragment() {
             viewLifecycleOwner
         ) { transactionTable ->
             transactionTable?.let {
-                currentTransactionTableInsert=it
-                printReceipt(rePrint=true)
+                currentTransactionTableInsert = it
+                printReceipt(rePrint = true)
+                currentTransactionTableInsert?.let {
+                    dataBaseViewModel.updateReprint(it.invoice_number)
+                }
             }
         }
     }
