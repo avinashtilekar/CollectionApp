@@ -35,6 +35,7 @@
                     android:layout_height="@dimen/_32sdp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/_16sdp"
+                    android:padding="@dimen/_6sdp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_dropdown" />
 
@@ -73,6 +74,16 @@
                     android:gravity="right|center_vertical"
                     android:padding="@dimen/_4sdp"
                     tools:text="₹ 20" />
+                <ImageView
+                    android:id="@+id/ivPrint"
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_6sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:contentDescription="@string/app_name"
+                    android:background="@drawable/card_background"
+                    android:src="@drawable/ic_print_blue" />
             </LinearLayout>
 
             <TextView

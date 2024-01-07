@@ -3,11 +3,9 @@ package com.example.ajspire.collection.ui.collection_list
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -15,12 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
+import com.example.ajspire.collection.ui.BaseFragment
+import com.example.ajspire.collection.ui.model.ItemModel
 import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
-import com.example.ajspire.collection.ui.model.ItemModel
 
 
-class CollectionListFragment : Fragment() {
+class CollectionListFragment : BaseFragment() {
 
     private var _binding: FragmentCollectionListBinding? = null
     private val dataBaseViewModel: DataBaseViewModel by viewModels {
@@ -92,7 +91,7 @@ class CollectionListFragment : Fragment() {
     }
 
     private fun showRecord(list: List<ItemModel>) {
-        listAdapter = ListAdapter(list)
+        listAdapter = ListAdapter(list,(activity?.application as MyApplication).invoiceNumberPrefix)
         binding.rvList.adapter = listAdapter
     }
 }

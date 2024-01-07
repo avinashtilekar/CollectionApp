@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.ui.model.ItemModel
 
 
-class ListAdapter(private val mList: List<ItemModel>) :
+class ListAdapter(private val mList: List<ItemModel>,val invoiceNumberPrefix:String) :
     RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     // create new views
@@ -28,7 +29,7 @@ class ListAdapter(private val mList: List<ItemModel>) :
         val itemModel = mList[position]
 
         holder.ivSync.setImageResource(if (itemModel.server_tran_id != null) R.drawable.ic_upload_done else R.drawable.ic_upload_pending)
-        holder.tvTitle.text = itemModel.mobile_tran_key
+        holder.tvTitle.text =invoiceNumberPrefix+ itemModel.invoice_number
         holder.tvSubTitle.text = itemModel.fee_type
         holder.tvFooter.visibility = View.GONE
 
