@@ -8,15 +8,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.ajspire.collection.R
-import com.example.ajspire.collection.api.helper.ToastType
-import com.example.ajspire.collection.api.helper.ToastTypeFields
+import com.example.ajspire.collection.utility.ToastType
+import com.example.ajspire.collection.utility.ToastTypeFields
 import com.example.ajspire.collection.utility.AppUtility
 
 class ToastMessageUtility constructor(val activity: Activity) {
 
     fun showToastMessage(
         message: String?,
-        toastType:ToastType=ToastTypeFields.Success
+        toastType: ToastType = ToastTypeFields.Success
     ) {
         val duration: Int = Toast.LENGTH_LONG
         AppUtility.hideSoftKeyboard(activity)

@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.utility.bt_printer.async;
+package com.example.ajspire.collection.utility.printers.bt_printer.async;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

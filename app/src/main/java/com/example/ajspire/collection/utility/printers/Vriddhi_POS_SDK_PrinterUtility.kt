@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.utility
+package com.example.ajspire.collection.utility.printers
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -14,8 +14,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import com.example.ajspire.collection.R
-import com.example.ajspire.collection.api.helper.ToastTypeFields
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
+import com.example.ajspire.collection.utility.ToastTypeFields
 import com.ftpos.library.smartpos.buzzer.Buzzer
 import com.ftpos.library.smartpos.crypto.Crypto
 import com.ftpos.library.smartpos.device.Device
@@ -124,7 +124,8 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
             })
         }else{
             toastMessageUtility.showToastMessage(activity.getString(R.string.printer_not_found),
-                ToastTypeFields.Warning)
+                ToastTypeFields.Warning
+            )
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.api.helper
+package com.example.ajspire.collection.utility
 
 sealed class ToastTypeFields {
     object Error : ToastType() {

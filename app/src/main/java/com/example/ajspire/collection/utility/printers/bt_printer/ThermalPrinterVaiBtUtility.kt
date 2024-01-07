@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.utility.bt_printer
+package com.example.ajspire.collection.utility.printers.bt_printer
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -7,18 +7,16 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.DisplayMetrics
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.ajspire.collection.R
-import com.example.ajspire.collection.utility.bt_printer.async.AsyncBluetoothEscPosPrint
-import com.example.ajspire.collection.utility.bt_printer.async.AsyncEscPosPrint
-import com.example.ajspire.collection.utility.bt_printer.async.AsyncEscPosPrinter
+import com.example.ajspire.collection.utility.printers.bt_printer.async.AsyncBluetoothEscPosPrint
+import com.example.ajspire.collection.utility.printers.bt_printer.async.AsyncEscPosPrint
+import com.example.ajspire.collection.utility.printers.bt_printer.async.AsyncEscPosPrinter
 import com.example.ajspire.escp_printer_lib.connection.DeviceConnection
 import com.example.ajspire.escp_printer_lib.connection.bluetooth.BluetoothConnection
 import com.example.ajspire.escp_printer_lib.connection.bluetooth.BluetoothPrintersConnections
-import com.example.ajspire.escp_printer_lib.textparser.PrinterTextParserImg
 import java.text.SimpleDateFormat
 import java.util.Date
 // Code Reff https://github.com/DantSu/ESCPOS-ThermalPrinter-Android
@@ -130,7 +128,8 @@ class ThermalPrinterVaiBtUtility constructor(
                 override fun onPermissionsGranted() {
                     AsyncBluetoothEscPosPrint(
                         activity,
-                        object : AsyncEscPosPrint.OnPrintFinished() {
+                        object :
+                            AsyncEscPosPrint.OnPrintFinished() {
                             override fun onError(
                                 asyncEscPosPrinter: AsyncEscPosPrinter?,
                                 codeException: Int
@@ -159,7 +158,13 @@ class ThermalPrinterVaiBtUtility constructor(
     @SuppressLint("SimpleDateFormat")
     private fun getAsyncEscPosPrinterCollection(printerConnection: DeviceConnection?): AsyncEscPosPrinter? {
         val format = SimpleDateFormat("dd-MMM-yyyy 'at' hh:mm:ss a")
-        val printer = AsyncEscPosPrinter(printerConnection, 203, 48f, 32)
+        val printer =
+            AsyncEscPosPrinter(
+                printerConnection,
+                203,
+                48f,
+                32
+            )
         return printer.addTextToPrint(
             """
             [C]================================

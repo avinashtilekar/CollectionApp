@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.utility.bt_printer.async;
+package com.example.ajspire.collection.utility.printers.bt_printer.async;
 
 import android.content.Context;
 
@@ -17,13 +17,13 @@ public class AsyncBluetoothEscPosPrint extends AsyncEscPosPrint {
 
     protected PrinterStatus doInBackground(AsyncEscPosPrinter... printersData) {
         if (printersData.length == 0) {
-            return new PrinterStatus(null, AsyncEscPosPrint.FINISH_NO_PRINTER);
+            return new PrinterStatus(null, FINISH_NO_PRINTER);
         }
 
         AsyncEscPosPrinter printerData = printersData[0];
         DeviceConnection deviceConnection = printerData.getPrinterConnection();
 
-        this.publishProgress(AsyncEscPosPrint.PROGRESS_CONNECTING);
+        this.publishProgress(PROGRESS_CONNECTING);
 
         if (deviceConnection == null) {
             printersData[0] = new AsyncEscPosPrinter(

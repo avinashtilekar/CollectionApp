@@ -9,10 +9,9 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.api.helper.NetworkResult
-import com.example.ajspire.collection.api.helper.ToastTypeFields
+import com.example.ajspire.collection.utility.ToastTypeFields
 import com.example.ajspire.collection.api.model.request.LoginRequest
 import com.example.ajspire.collection.databinding.ActivityLoginBinding
 import com.example.ajspire.collection.extensions.appDataStore
