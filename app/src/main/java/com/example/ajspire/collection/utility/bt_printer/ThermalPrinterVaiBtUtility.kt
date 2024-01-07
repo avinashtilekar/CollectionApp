@@ -162,30 +162,12 @@ class ThermalPrinterVaiBtUtility constructor(
         val printer = AsyncEscPosPrinter(printerConnection, 203, 48f, 32)
         return printer.addTextToPrint(
             """
-            [C]<img>${
-                PrinterTextParserImg.bitmapToHexadecimalString(
-                    printer,
-                    activity.applicationContext.resources.getDrawableForDensity(
-                        getHeaderImage(),
-                        DisplayMetrics.DENSITY_MEDIUM
-                    )
-                )
-            }</img>
             [C]================================
             [C]<b type='double'>${format.format(Date())}</b>
             [C]<b><font size='big'>Receipt No. :</b> ${invoiceNumber}</font>
             [C]<b><font size='big'>Name :</b> ${if (customerName != null) customerName else "NA"}</font>
             [C]<b><font size='big'>Mobile No. :</b> ${if (customerMobileNumber != null) customerMobileNumber else "NA"}</font>
             [C]================================
-            [C]<img>${
-                PrinterTextParserImg.bitmapToHexadecimalString(
-                    printer,
-                    activity.applicationContext.resources.getDrawableForDensity(
-                        R.drawable.footer_white_new_bg,
-                        DisplayMetrics.DENSITY_MEDIUM
-                    )
-                )
-            }</img>
             """.trimIndent()
         )
     }
