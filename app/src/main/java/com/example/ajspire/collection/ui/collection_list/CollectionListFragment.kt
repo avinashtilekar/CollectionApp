@@ -6,7 +6,6 @@ import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +14,6 @@ import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.ui.model.ItemModel
-import com.example.ajspire.collection.view_model.DataBaseViewModel
-import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 
 class CollectionListFragment : BaseFragment() {
@@ -39,7 +36,7 @@ class CollectionListFragment : BaseFragment() {
     }
 
     private fun setObserver() {
-        dataBaseViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
+        roomDBViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val list = mutableListOf<ItemModel>()
                 it.map { tran ->
@@ -71,7 +68,7 @@ class CollectionListFragment : BaseFragment() {
             }
         })
 
-        dataBaseViewModel.transactionSummary.observe(viewLifecycleOwner) {
+        roomDBViewModel.transactionSummary.observe(viewLifecycleOwner) {
             it?.let {
                 var text: Spanned? = null
                 text = Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY)
@@ -79,14 +76,14 @@ class CollectionListFragment : BaseFragment() {
             }
         }
 
-        dataBaseViewModel.transactionTableViaInvoiceNumber.observe(
+        roomDBViewModel.transactionTableViaInvoiceNumber.observe(
             viewLifecycleOwner
         ) { transactionTable ->
             transactionTable?.let {
                 currentTransactionTableInsert = it
                 printReceipt(rePrint = true)
                 currentTransactionTableInsert?.let {
-                    dataBaseViewModel.updateReprint(it.invoice_number)
+                    roomDBViewModel.updateReprint(it.invoice_number)
                 }
             }
         }
@@ -106,7 +103,7 @@ class CollectionListFragment : BaseFragment() {
         )
         listAdapter.apply {
             onRePrintClick = {
-                dataBaseViewModel.getTransactionViaInvoiceNumber(it)
+                roomDBViewModel.getTransactionViaInvoiceNumber(it)
             }
         }
         binding.rvList.adapter = listAdapter

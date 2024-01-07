@@ -16,7 +16,6 @@ import com.example.ajspire.collection.R
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.PrinterType
-import com.example.ajspire.collection.utility.ToastTypeFields
 import com.example.ajspire.collection.utility.printers.Vriddhi_POS_SDK_PrinterUtility
 import com.example.ajspire.collection.utility.printers.bt_printer.ThermalPrinterVaiBtUtility
 import com.example.ajspire.collection.view_model.DataBaseViewModel
@@ -28,7 +27,7 @@ abstract class BaseFragment : Fragment() {
     private var thermalPrinterVaiBtUtility: ThermalPrinterVaiBtUtility? = null
     private var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility? = null
     var currentTransactionTableInsert: TransactionTable? = null
-    val dataBaseViewModel: DataBaseViewModel by viewModels {
+    val roomDBViewModel: DataBaseViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
 
@@ -51,7 +50,7 @@ abstract class BaseFragment : Fragment() {
     fun printReceipt(printerCallBack: PrinterCallBack? = null, rePrint: Boolean? = false) {
         if (rePrint == true) {
             currentTransactionTableInsert?.let {
-                dataBaseViewModel.updateReprint(it.invoice_number)
+                roomDBViewModel.updateReprint(it.invoice_number)
             }
         }
 

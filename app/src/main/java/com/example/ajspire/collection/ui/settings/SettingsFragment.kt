@@ -6,12 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.ajspire.collection.BuildConfig
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
@@ -28,8 +25,6 @@ import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
 import com.example.ajspire.collection.utility.PrinterType
 import com.example.ajspire.collection.view_model.ApiCallViewModel
-import com.example.ajspire.collection.view_model.DataBaseViewModel
-import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 class SettingsFragment : BaseFragment() {
 
@@ -57,7 +52,7 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun setObserver() {
-        dataBaseViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
+        roomDBViewModel.allUnSyncTransactions.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 Log.d("record found for upload", "record found for upload")
                 currentSyncRecord = listOf()
@@ -65,7 +60,7 @@ class SettingsFragment : BaseFragment() {
                 syncRecord()
             } else {
                 Log.d("record not found for upload", "record not found for upload")
-                dataBaseViewModel.deleteSyncItems()
+                roomDBViewModel.deleteSyncItems()
                 toastMessageUtility.showToastMessage(getString(R.string.syn_sucess))
                 binding.llMainContaint.visibility = View.VISIBLE
                 binding.llLoadding.visibility = View.GONE
@@ -87,7 +82,7 @@ class SettingsFragment : BaseFragment() {
                         //Update uploaded record server id
                         updateUploadedRecord(response.data)
                         //check once again for pending record
-                        dataBaseViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
+                        roomDBViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
                     }
 
 
@@ -116,7 +111,7 @@ class SettingsFragment : BaseFragment() {
 
 
         binding.btnSync.setOnClickListener {
-            dataBaseViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
+            roomDBViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
         }
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
             binding.rbDefaultPOSPrinter.isChecked = true
@@ -186,11 +181,11 @@ class SettingsFragment : BaseFragment() {
             it.forEach { updateTransactionRecord ->
                 updateTransactionRecord.server_tran_id =
                     getServerKey(dataSyncResponse, updateTransactionRecord.mobile_tran_key)
-                dataBaseViewModel
+                roomDBViewModel
             }
         }
 
-        dataBaseViewModel.updateList(currentSyncRecord)
+        roomDBViewModel.updateList(currentSyncRecord)
     }
 
     private fun getServerKey(

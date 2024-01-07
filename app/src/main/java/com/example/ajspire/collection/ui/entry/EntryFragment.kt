@@ -23,10 +23,8 @@ import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.utility.AppUtility
-import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
-import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 class EntryFragment : BaseFragment(), PrinterCallBack {
 
@@ -54,7 +52,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
     }
 
     private fun setObserver() {
-        dataBaseViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
+        roomDBViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Log.d("Data Found", it.toString())
             }
@@ -113,7 +111,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
                     ) etMobileNumber.text.toString() else null
                 )
                 currentTransactionTableInsert?.let {
-                    dataBaseViewModel.insert(it)
+                    roomDBViewModel.insert(it)
                     updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
                     printReceipt(this@EntryFragment)
                     reSetScreen()
