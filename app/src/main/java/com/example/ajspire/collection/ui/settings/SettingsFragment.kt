@@ -150,6 +150,11 @@ class SettingsFragment : BaseFragment() {
 
         })
 
+        if (BuildConfig.BUILD_TYPE_NAME.isBlank()) {
+            //disable for prod
+            binding.rbExternalePrinter.isEnabled = false
+        }
+
     }
 
     private fun syncRecord() {
