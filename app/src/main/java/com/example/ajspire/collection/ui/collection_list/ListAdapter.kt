@@ -11,8 +11,9 @@ import com.example.ajspire.collection.R
 import com.example.ajspire.collection.ui.model.ItemModel
 
 
-class ListAdapter(private val mList: List<ItemModel>,val invoiceNumberPrefix:String) :
+class ListAdapter(private val mList: List<ItemModel>, val invoiceNumberPrefix: String) :
     RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+    var onRePrintClick: ((invoiceNumber: Int) -> Unit)?=null
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +30,7 @@ class ListAdapter(private val mList: List<ItemModel>,val invoiceNumberPrefix:Str
         val itemModel = mList[position]
 
         holder.ivSync.setImageResource(if (itemModel.server_tran_id != null) R.drawable.ic_upload_done else R.drawable.ic_upload_pending)
-        holder.tvTitle.text =invoiceNumberPrefix+ itemModel.invoice_number
+        holder.tvTitle.text = invoiceNumberPrefix + itemModel.invoice_number
         holder.tvSubTitle.text = itemModel.fee_type
         holder.tvFooter.visibility = View.GONE
 
@@ -39,7 +40,9 @@ class ListAdapter(private val mList: List<ItemModel>,val invoiceNumberPrefix:Str
         }
 
         holder.btnAmt.text = itemModel.amount
-
+        holder.ivPrint.setOnClickListener {
+            onRePrintClick?.invoke(itemModel.invoice_number)
+        }
 
     }
 
@@ -51,6 +54,7 @@ class ListAdapter(private val mList: List<ItemModel>,val invoiceNumberPrefix:Str
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val ivSync: ImageView = itemView.findViewById(R.id.ivSync)
+        val ivPrint: ImageView = itemView.findViewById(R.id.ivPrint)
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         val tvSubTitle: TextView = itemView.findViewById(R.id.tvSubTitle)
         val tvFooter: TextView = itemView.findViewById(R.id.tvFooter)

@@ -92,6 +92,11 @@ class CollectionListFragment : BaseFragment() {
 
     private fun showRecord(list: List<ItemModel>) {
         listAdapter = ListAdapter(list,getString(R.string.reciept_number)+" "+(activity?.application as MyApplication).invoiceNumberPrefix)
+        listAdapter.apply {
+            onRePrintClick={
+
+            }
+        }
         binding.rvList.adapter = listAdapter
     }
 }
