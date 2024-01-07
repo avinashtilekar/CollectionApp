@@ -13,6 +13,7 @@ class TransactionTableRespository(private val transactionTableDAO: TransactionTa
     val transactionSummary: LiveData<String> = transactionTableDAO.getTransactionSummaryTodayOnly()
     val maxInvoiceNumber: LiveData<Int?> = transactionTableDAO.getMaxInvoiceNumber()
 
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(transactionTable: TransactionTable) {
@@ -33,5 +34,10 @@ class TransactionTableRespository(private val transactionTableDAO: TransactionTa
     @WorkerThread
     suspend fun deleteSyncItems() {
         transactionTableDAO.deleteSyncItems()
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getTransactionViaInvoiceNumber(invoiceNumber:Int):TransactionTable? {
+        return transactionTableDAO.getTransactionViaInvoiceNumber(invoiceNumber)
     }
 }

@@ -41,6 +41,10 @@ interface TransactionTableDAO {
             "from ${AppUtility.TRANSACTION_TABLE_NAME} " +
             "where  substr(createdAt,1,10) like strftime('%Y-%m-%d','now','localtime')) T ")
     fun getTransactionSummaryTodayOnly(): LiveData<String>
+
     @Query("select max(invoice_number) as max_invoice from transaction_table")
     fun getMaxInvoiceNumber(): LiveData<Int?>
+
+    @Query("select * from transaction_table where invoice_number=:invoiceNumber")
+    fun getTransactionViaInvoiceNumber(invoiceNumber:Int):TransactionTable?
 }

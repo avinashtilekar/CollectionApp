@@ -62,14 +62,14 @@ class CollectionListFragment : BaseFragment() {
                     )
                 }
                 if (list.isNotEmpty()) {
-                    binding.llSummarySection.visibility=View.VISIBLE
-                    binding.rvList.visibility=View.VISIBLE
-                    binding.tvNoCollectionError.visibility=View.GONE
+                    binding.llSummarySection.visibility = View.VISIBLE
+                    binding.rvList.visibility = View.VISIBLE
+                    binding.tvNoCollectionError.visibility = View.GONE
                     showRecord(list)
-                }else{
-                    binding.llSummarySection.visibility=View.GONE
-                    binding.rvList.visibility=View.GONE
-                    binding.tvNoCollectionError.visibility=View.VISIBLE
+                } else {
+                    binding.llSummarySection.visibility = View.GONE
+                    binding.rvList.visibility = View.GONE
+                    binding.tvNoCollectionError.visibility = View.VISIBLE
                 }
             }
         })
@@ -79,6 +79,15 @@ class CollectionListFragment : BaseFragment() {
                 var text: Spanned? = null
                 text = Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY)
                 binding.tvSummary.text = text
+            }
+        }
+
+        dataBaseViewModel.transactionTableViaInvoiceNumber.observe(
+            viewLifecycleOwner
+        ) { transactionTable ->
+            transactionTable?.let {
+                currentTransactionTableInsert=it
+                printReceipt(rePrint=true)
             }
         }
     }
@@ -91,10 +100,13 @@ class CollectionListFragment : BaseFragment() {
     }
 
     private fun showRecord(list: List<ItemModel>) {
-        listAdapter = ListAdapter(list,getString(R.string.reciept_number)+" "+(activity?.application as MyApplication).invoiceNumberPrefix)
+        listAdapter = ListAdapter(
+            list,
+            getString(R.string.reciept_number) + " " + (activity?.application as MyApplication).invoiceNumberPrefix
+        )
         listAdapter.apply {
-            onRePrintClick={
-
+            onRePrintClick = {
+                dataBaseViewModel.getTransactionViaInvoiceNumber(it)
             }
         }
         binding.rvList.adapter = listAdapter

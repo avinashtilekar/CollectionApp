@@ -69,6 +69,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
     private lateinit var dialog: ProgressDialog
     private var toastMessageUtility = ToastMessageUtility(activity)
     var printerCallBack: PrinterCallBack? = null
+    var rePrint:Boolean?=false
     private fun getDeviceModel(): Int {
         if (mDeviceModel == DEVICE_MODE_UNKOWN) {
 //            String deviceModel = android.os.Build.MODEL;
@@ -231,6 +232,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.printStr(activity.getString(R.string.footer_message) + "\n")
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_CENTER)
                 printer.printStr(activity.getString(R.string.powered_by) + "\n")
+                printer.printStr(if (rePrint == true) activity.getString(R.string.re_printed) + "\n" else "")
                 printer.printBmp(
                     BitmapFactory.decodeResource(
                         activity.resources,

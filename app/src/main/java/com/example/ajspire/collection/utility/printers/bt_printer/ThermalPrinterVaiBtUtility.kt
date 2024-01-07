@@ -20,6 +20,7 @@ import com.example.ajspire.escp_printer_lib.connection.bluetooth.BluetoothConnec
 import com.example.ajspire.escp_printer_lib.connection.bluetooth.BluetoothPrintersConnections
 import java.text.SimpleDateFormat
 import java.util.Date
+
 // Code Reff https://github.com/DantSu/ESCPOS-ThermalPrinter-Android
 class ThermalPrinterVaiBtUtility constructor(
     var activity: Activity
@@ -35,7 +36,8 @@ class ThermalPrinterVaiBtUtility constructor(
     var customerMobileNumber: String? = null
     var customerName: String? = null
     var amount: String? = null
-    var printerCallBack: PrinterCallBack?=null
+    var printerCallBack: PrinterCallBack? = null
+    var rePrint: Boolean? = false
     private fun browseBluetoothDevice() {
         checkBluetoothPermissions(object : OnBluetoothPermissionsGranted {
             @SuppressLint("MissingPermission")
@@ -175,6 +177,7 @@ class ThermalPrinterVaiBtUtility constructor(
             [C]<b><font size='big'>Name :</b> ${if (customerName != null) customerName else "NA"}</font>
             [C]<b><font size='big'>Mobile No. :</b> ${if (customerMobileNumber != null) customerMobileNumber else "NA"}</font>
             [C]================================
+            [C]${if (rePrint == true) activity.getString(R.string.re_printed) else ""}
             """.trimIndent()
         )
     }

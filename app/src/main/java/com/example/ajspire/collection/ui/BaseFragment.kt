@@ -42,11 +42,11 @@ abstract class BaseFragment : Fragment() {
     }
 
     //region printer
-    fun printReceipt(printerCallBack: PrinterCallBack? = null) {
+    fun printReceipt(printerCallBack: PrinterCallBack? = null,rePrint:Boolean?=false) {
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
-            callPrintViaVriddhiPOSPrinter(printerCallBack)
+            callPrintViaVriddhiPOSPrinter(printerCallBack,rePrint)
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
-            callPrintViaBluetoothThermalPrinter(printerCallBack)
+            callPrintViaBluetoothThermalPrinter(printerCallBack,rePrint)
         } else {
             //callPrintViaBluetoothThermalPrinter()
             printerNotFoundError()
@@ -65,7 +65,7 @@ abstract class BaseFragment : Fragment() {
             .show()
     }
 
-    private fun callPrintViaBluetoothThermalPrinter(printerCallBack: PrinterCallBack? = null) {
+    private fun callPrintViaBluetoothThermalPrinter(printerCallBack: PrinterCallBack? = null,rePrint:Boolean?=false) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
@@ -73,6 +73,7 @@ abstract class BaseFragment : Fragment() {
                 thermalPrinterVaiBtUtility?.let {
                     it.printerCallBack = printerCallBack
                     it.invoiceNumber = invoiceNumber
+                    it.rePrint = rePrint
                     it.customerName = transactionTableInsert.customer_name
                     it.customerMobileNumber = transactionTableInsert.customer_mobile_number
                     it.amount = transactionTableInsert.amount
@@ -83,7 +84,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    private fun callPrintViaVriddhiPOSPrinter(printerCallBack: PrinterCallBack? = null) {
+    private fun callPrintViaVriddhiPOSPrinter(printerCallBack: PrinterCallBack? = null,rePrint:Boolean?=false) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
@@ -92,6 +93,7 @@ abstract class BaseFragment : Fragment() {
                 vriddhiPOSSDKPrinterUtility?.let {
                     it.printerCallBack = printerCallBack
                     it.invoiceNumber = invoiceNumber
+                    it.rePrint = rePrint
                     it.customerName = transactionTableInsert.customer_name
                     it.customerMobileNumber = transactionTableInsert.customer_mobile_number
                     it.amount = transactionTableInsert.amount
@@ -113,7 +115,7 @@ abstract class BaseFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.reciept_reprint) { dialogInterface, which ->
-            printReceipt(null)
+            printReceipt(null,true)
             dialogInterface.dismiss()
         }
 

@@ -23,6 +23,8 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
     val allUnSyncTransactions: LiveData<List<TransactionTable>>
         get() = _allUnSyncTransactions
 
+    val _transactionTableViaInvoiceNumber = MutableLiveData<TransactionTable?>()
+    val transactionTableViaInvoiceNumber: LiveData<TransactionTable?> = _transactionTableViaInvoiceNumber
 
     fun insert(transaction: TransactionTable) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -39,6 +41,15 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
         CoroutineScope(Dispatchers.IO).launch {
             transactionTableRespository.getAllUnSyncTransactions(dataUploadLimit).let {
                 _allUnSyncTransactions.postValue(it)
+            }
+        }
+    }
+    fun getTransactionViaInvoiceNumber(invoiceNumber:Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            transactionTableRespository.getTransactionViaInvoiceNumber(invoiceNumber).let {
+                it?.let {
+                    _transactionTableViaInvoiceNumber.postValue(it)
+                }
             }
         }
     }
