@@ -13,12 +13,15 @@ import androidx.fragment.app.viewModels
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
+import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.PrinterType
 import com.example.ajspire.collection.utility.printers.Vriddhi_POS_SDK_PrinterUtility
 import com.example.ajspire.collection.utility.printers.bt_printer.ThermalPrinterVaiBtUtility
 import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 
@@ -29,6 +32,10 @@ abstract class BaseFragment : Fragment() {
     var currentTransactionTableInsert: TransactionTable? = null
     val roomDBViewModel: DataBaseViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
+    }
+
+    val dataStoreViewModel: DataStoreViewModel by viewModels {
+        DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

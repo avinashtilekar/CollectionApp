@@ -1,6 +1,5 @@
 package com.example.ajspire.collection.extensions
 
-import android.app.Activity
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -19,6 +18,7 @@ private object PreferencesKeys {
     val USER_DETAILS = stringPreferencesKey(AppUtility.DATA_STORE_KEY_USER_DETAILS)
     val LAST_INVOICE_NUMBER = intPreferencesKey(AppUtility.DATA_STORE_KEY_LAST_INVOICE_NUMBER)
     val LAST_INVOICE_PREFIX = stringPreferencesKey(AppUtility.DATA_STORE_KEY_INVOICE_PREFIX)
+    val USER_PRINTER = stringPreferencesKey(AppUtility.DATA_STORE_KEY_USER_PRINTER)
 }
 
 class UserPreferencesRepository(
@@ -45,5 +45,12 @@ class UserPreferencesRepository(
         }
     }
     suspend fun getLastInvoiceNumber() = dataStore.data.firstOrNull()?.get(PreferencesKeys.LAST_INVOICE_NUMBER)
+
+    suspend fun updateUserPrinter(userPrinter: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.USER_PRINTER] = userPrinter
+        }
+    }
+    suspend fun getUserPrinter() = dataStore.data.firstOrNull()?.get(PreferencesKeys.USER_PRINTER)
 }
 

@@ -123,21 +123,26 @@ class SettingsFragment : BaseFragment() {
             RadioGridGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(group: RadioGridGroup?, checkedId: Int) {
                 AppUtility.hideSoftKeyboard(activity as Activity)
-                var printerName=""
+                var printerName = ""
+                var userPrinterName: String? = null
                 when (checkedId) {
                     R.id.rb_default_POS_printer -> {
-                        printerName=getString(R.string.default_POS_printer)
+                        printerName = getString(R.string.default_POS_printer)
                         (activity?.application as MyApplication).userPrinters =
                             PrinterType.VriddhiDefault
+                        userPrinterName = PrinterType.VriddhiDefault.printerName
                     }
 
                     R.id.rb_externale_printer -> {
-                        printerName=getString(R.string.externale_printer)
+                        printerName = getString(R.string.externale_printer)
                         (activity?.application as MyApplication).userPrinters =
                             PrinterType.VriddhiExternal
+                        userPrinterName = PrinterType.VriddhiExternal.printerName
                     }
                 }
-                toastMessageUtility.showToastMessage(printerName+" " +getString(R.string.printers_selected_sucessfuly))
+                userPrinterName?.let { dataStoreViewModel.updateUserPrinter(userPrinterName) }
+
+                toastMessageUtility.showToastMessage(printerName + " " + getString(R.string.printers_selected_sucessfuly))
                 view?.let {
                     Navigation.findNavController(it).navigate(R.id.action_setting_to_entry)
                 }

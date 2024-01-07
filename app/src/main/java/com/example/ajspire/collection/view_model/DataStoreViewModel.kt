@@ -28,6 +28,8 @@ class DataStoreViewModel constructor(
     private val _lastInvoiceNumber = MutableLiveData<Int?>()
     val lastInvoiceNumber: LiveData<Int?> = _lastInvoiceNumber
 
+    private val _userPrinter = MutableLiveData<String?>()
+    val userPrinter: LiveData<String?> = _userPrinter
     fun updateUserDetails(loginResponse: LoginResponse?) = viewModelScope.launch {
         var userdetailsString = ""
         userdetailsString = gson.toJson(loginResponse)
@@ -67,6 +69,20 @@ class DataStoreViewModel constructor(
     fun getLastInvoiceNumber() = viewModelScope.launch {
         userDataStorePreferencesRepository.getLastInvoiceNumber().let {
             _lastInvoiceNumber.value = it
+        }
+    }
+
+    fun updateUserPrinter(userPrinter: String) = viewModelScope.launch {
+        userDataStorePreferencesRepository.updateUserPrinter(userPrinter)
+    }
+
+    fun getUserPrinter() = viewModelScope.launch {
+        userDataStorePreferencesRepository.getUserPrinter().let {
+            if (!it.isNullOrEmpty()) {
+                _userPrinter.value = it
+            } else {
+                _userPrinter.value = ""
+            }
         }
     }
 }

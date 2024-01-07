@@ -36,9 +36,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
 
     private var selectedFeeType = "24"
     private var lastInvoiceNumber = 0
-    private val dataStoreViewModel: DataStoreViewModel by viewModels {
-        DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

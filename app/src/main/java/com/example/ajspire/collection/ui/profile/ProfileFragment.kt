@@ -4,22 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.ajspire.collection.view_model.DataStoreViewModel
-import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.databinding.FragmentProfileBinding
-import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.ui.BaseFragment
 
 class ProfileFragment : BaseFragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private lateinit var profileViewModel: ProfileViewModel
-    private val dataStoreViewModel: DataStoreViewModel by viewModels {
-        DataStoreViewModelFactory(activity?.application!!,activity?.appDataStore()!!)
-    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.

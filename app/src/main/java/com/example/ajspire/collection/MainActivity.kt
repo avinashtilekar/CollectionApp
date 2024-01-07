@@ -24,6 +24,7 @@ import com.example.ajspire.collection.databinding.ActivityMainBinding
 import com.example.ajspire.collection.extensions.appDataStore
 
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
+import com.example.ajspire.collection.utility.PrinterType
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         binding.appBarMain.toolbar.setTitleTextAppearance(this, R.style.MyToolbarStyleMarathi)
         navHeader = navView.getHeaderView(0)
-
+        dataStoreViewModel.getUserPrinter()
 
     }
 
@@ -159,6 +160,25 @@ class MainActivity : AppCompatActivity() {
         dataStoreViewModel.invoicePrefix.observe(this) { invoiceNumberPrefix ->
             invoiceNumberPrefix?.let {
                 (application as MyApplication).invoiceNumberPrefix = (it)
+            }
+        }
+
+        dataStoreViewModel.userPrinter.observe(this) { userPrinter ->
+            userPrinter?.let {
+                when (userPrinter) {
+                    PrinterType.VriddhiDefault.printerName -> {
+                        (application as MyApplication).userPrinters = PrinterType.VriddhiDefault
+                    }
+
+                    PrinterType.VriddhiExternal.printerName -> {
+                        (application as MyApplication).userPrinters = PrinterType.VriddhiExternal
+                    }
+
+                    PrinterType.ThermalExternal.printerName -> {
+                        (application as MyApplication).userPrinters = PrinterType.ThermalExternal
+                    }
+                }
+
             }
         }
     }
