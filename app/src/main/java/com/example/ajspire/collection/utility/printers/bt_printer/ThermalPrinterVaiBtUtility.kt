@@ -11,9 +11,9 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.ajspire.collection.R
-import com.example.ajspire.collection.utility.printers.bt_printer.async.AsyncBluetoothEscPosPrint
-import com.example.ajspire.collection.utility.printers.bt_printer.async.AsyncEscPosPrint
-import com.example.ajspire.collection.utility.printers.bt_printer.async.AsyncEscPosPrinter
+import com.example.ajspire.collection.utility.printers.bt_printer.thermal.AsyncBluetoothEscPosPrint
+import com.example.ajspire.collection.utility.printers.bt_printer.thermal.AsyncEscPosPrint
+import com.example.ajspire.collection.utility.printers.bt_printer.thermal.AsyncEscPosPrinter
 import com.example.ajspire.escp_printer_lib.connection.DeviceConnection
 import com.example.ajspire.escp_printer_lib.connection.bluetooth.BluetoothConnection
 import com.example.ajspire.escp_printer_lib.connection.bluetooth.BluetoothPrintersConnections

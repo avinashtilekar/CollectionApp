@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.utility.printers.bt_printer.async;
+package com.example.ajspire.collection.utility.printers.bt_printer.thermal;
 
 
 import com.example.ajspire.escp_printer_lib.EscPosPrinterSize;
