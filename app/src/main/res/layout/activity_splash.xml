@@ -20,8 +20,8 @@
         tools:text="@string/client_name" />
 
     <ImageView
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
         android:scaleType="fitXY"
         android:src="@drawable/client_logo_color" />
 
@@ -50,7 +50,7 @@
 
     <ImageView
         android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_55sdp"
+        android:layout_height="@dimen/_40sdp"
         android:background="@color/white"
         android:scaleType="fitXY"
         android:src="@drawable/logo" />
