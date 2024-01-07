@@ -1,19 +1,19 @@
 package com.example.ajspire.collection.utility
 
 sealed class PrinterType {
-    object VriddhiDefault : Printers() {
+    object VriddhiDefault : UserPrinters() {
         override val printerName: String = "VriddhiDefault"
     }
 
-    object VriddhiExternal : Printers() {
+    object VriddhiExternal : UserPrinters() {
         override val printerName: String = "VriddhiExternal"
     }
 
-    object ThermalExternal : Printers() {
+    object ThermalExternal : UserPrinters() {
         override val printerName: String = "ThermalExternal"
     }
 }
 
-sealed class Printers {
+sealed class UserPrinters {
     abstract val printerName: String
 }

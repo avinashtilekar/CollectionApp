@@ -22,8 +22,6 @@ import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.utility.AppUtility
-import com.example.ajspire.collection.utility.printers.Vriddhi_POS_SDK_PrinterUtility
-import com.example.ajspire.collection.utility.printers.bt_printer.ThermalPrinterVaiBtUtility
 import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
@@ -44,19 +42,13 @@ class EntryFragment : BaseFragment() {
     private val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
-    private var printerbtUtility: ThermalPrinterVaiBtUtility? = null
 
-    private var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility? = null
-
-    private var currentTransactionTableInsert: TransactionTable? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
-        printerbtUtility = ThermalPrinterVaiBtUtility(activity as Activity)
-        vriddhiPOSSDKPrinterUtility = Vriddhi_POS_SDK_PrinterUtility(requireActivity())
         setObserver()
         updateUi()
         return binding.root
@@ -197,88 +189,5 @@ class EntryFragment : BaseFragment() {
         alertDialog.show()
     }
 
-    private fun printReceipt() {
-        callPrintViaBluetoothThermalPrinter()
-        //callPrintViaVriddhiPOSPrinter()
-    }
 
-    private fun callPrintViaBluetoothThermalPrinter() {
-        activity?.let { activity ->
-            currentTransactionTableInsert?.let { transactionTableInsert ->
-                val invoiceNumber =
-                    (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
-                printerbtUtility?.let {
-                    it.invoiceNumber = invoiceNumber
-                    it.customerName = transactionTableInsert.customer_name
-                    it.customerMobileNumber = transactionTableInsert.customer_mobile_number
-                    it.amount = transactionTableInsert.amount
-                    it.printBluetooth()
-                }
-            }
-
-        }
-    }
-
-    private fun callPrintViaVriddhiPOSPrinter() {
-        activity?.let { activity ->
-            currentTransactionTableInsert?.let { transactionTableInsert ->
-                val invoiceNumber =
-                    (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
-
-                vriddhiPOSSDKPrinterUtility?.let {
-                    it.invoiceNumber = invoiceNumber
-                    it.customerName = transactionTableInsert.customer_name
-                    it.customerMobileNumber = transactionTableInsert.customer_mobile_number
-                    it.amount = transactionTableInsert.amount
-                    it.printReceipt()
-                }
-            }
-
-        }
-    }
-
-    private fun showRePrintAlert() {
-        val invoiceData=(activity?.application as MyApplication).invoiceNumberPrefix + currentTransactionTableInsert!!.invoice_number
-        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
-        //set title for alert dialog
-        builder.setTitle(getHtml(getString(R.string.reciept_reprint_title,invoiceData)))
-        //set message for alert dialog
-        builder.setMessage(getHtml(getString(R.string.reciept_reprint_message,invoiceData)))
-
-        //performing positive action
-        builder.setPositiveButton(R.string.reciept_reprint) { dialogInterface, which ->
-            printReceipt()
-            dialogInterface.dismiss()
-        }
-
-        //performing negative action
-        builder.setNegativeButton(R.string.not_required) { dialogInterface, which ->
-            dialogInterface.dismiss()
-        }
-        // Create the AlertDialog
-        val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
-        alertDialog.setCancelable(false)
-        alertDialog.setOnShowListener(DialogInterface.OnShowListener { dialog ->
-
-            val buttonPositive: Button = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-            buttonPositive.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.colorAccent
-                )
-            )
-
-            val buttonNegative: Button = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-            buttonNegative.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.black
-                )
-            )
-
-        })
-
-        alertDialog.show()
-    }
 }
