@@ -11,8 +11,9 @@ import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.databinding.FragmentProfileBinding
 import com.example.ajspire.collection.extensions.appDataStore
+import com.example.ajspire.collection.ui.BaseFragment
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private lateinit var profileViewModel: ProfileViewModel
