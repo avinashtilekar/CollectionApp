@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.PrinterType
+import com.example.ajspire.collection.utility.printers.ExternelPrinterUtility
 import com.example.ajspire.collection.utility.printers.Vriddhi_POS_SDK_PrinterUtility
 import com.example.ajspire.collection.utility.printers.bt_printer.ThermalPrinterVaiBtUtility
 import com.example.ajspire.collection.view_model.DataBaseViewModel
@@ -29,7 +31,9 @@ abstract class BaseFragment : Fragment() {
     lateinit var toastMessageUtility: ToastMessageUtility
     private var thermalPrinterVaiBtUtility: ThermalPrinterVaiBtUtility? = null
     private var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility? = null
+    private var externelPrinterUtility : ExternelPrinterUtility?=null
     var currentTransactionTableInsert: TransactionTable? = null
+    var printViewObject: View?=null
     val roomDBViewModel: DataBaseViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
@@ -43,6 +47,7 @@ abstract class BaseFragment : Fragment() {
         toastMessageUtility = ToastMessageUtility(requireActivity())
         thermalPrinterVaiBtUtility = ThermalPrinterVaiBtUtility(requireActivity())
         vriddhiPOSSDKPrinterUtility = Vriddhi_POS_SDK_PrinterUtility(requireActivity())
+        externelPrinterUtility =ExternelPrinterUtility(requireActivity())
     }
 
     open fun getHtml(source: String?): Spanned? {
@@ -64,7 +69,8 @@ abstract class BaseFragment : Fragment() {
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
             callPrintViaVriddhiPOSPrinter(printerCallBack, rePrint)
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
-            callPrintViaBluetoothThermalPrinter(printerCallBack, rePrint)
+            //callPrintViaBluetoothThermalPrinter(printerCallBack, rePrint)
+            callExternelPrinter()
         } else {
             //callPrintViaBluetoothThermalPrinter()
             printerNotFoundError()
@@ -125,6 +131,13 @@ abstract class BaseFragment : Fragment() {
                 }
             }
 
+        }
+    }
+
+    private fun callExternelPrinter()
+    {
+        activity?.let { activity ->
+            externelPrinterUtility?.let { it.getPairedPrinters() }
         }
     }
 

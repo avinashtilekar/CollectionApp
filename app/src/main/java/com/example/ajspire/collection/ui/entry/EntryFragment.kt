@@ -46,6 +46,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
         setObserver()
         updateUi()
+        printViewObject= binding.btnSubmit
         return binding.root
     }
 
@@ -93,7 +94,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
                 }
 
             })
-            btnSubmit.setOnClickListener {
+            btnSubmit.setOnClickListener { viewSubmit ->
                 val entryInvoiceNumber = lastInvoiceNumber + 1
                 AppUtility.hideSoftKeyboard(requireActivity())
                 currentTransactionTableInsert = TransactionTable(
