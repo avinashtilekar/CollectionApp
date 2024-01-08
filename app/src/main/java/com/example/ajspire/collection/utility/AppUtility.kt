@@ -14,10 +14,10 @@ object AppUtility {
     const val DATA_STORE_KEY_USER_DETAILS = "user_details"
     const val DATA_STORE_KEY_LAST_INVOICE_NUMBER = "last_invoice_number"
     const val DATA_STORE_KEY_INVOICE_PREFIX = "invoice_prefix"
-    const val DATA_STORE_KEY_USER_PRINTER = "invoice_prefix"
+    const val DATA_STORE_KEY_USER_PRINTER = "user_printer"
     const val TRANSACTION_TABLE_NAME = "transaction_table"
     const val ROOM_DB_NAME = "collectionDB"
-    var UPLOAD_ITEM_LIMIT = (if (BuildConfig.DEBUG) 2 else 500)
+    var UPLOAD_ITEM_LIMIT = (if (BuildConfig.BUILD_TYPE_NAME.isEmpty()) 500 else 5)
 
     const val REQUEST_TYPE = "requestDevice"
 
