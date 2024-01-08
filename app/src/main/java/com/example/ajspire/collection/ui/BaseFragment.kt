@@ -137,7 +137,19 @@ abstract class BaseFragment : Fragment() {
     private fun callExternelPrinter()
     {
         activity?.let { activity ->
-            externelPrinterUtility?.let { it.getPairedPrinters() }
+            currentTransactionTableInsert?.let { transactionTableInsert ->
+                val invoiceNumber =
+                    (activity.application as MyApplication).invoiceNumberPrefix + (transactionTableInsert.invoice_number)
+
+                externelPrinterUtility?.let {
+                    it.invoiceNumber = invoiceNumber
+                   // it.rePrint = rePrint
+                    it.customerName = transactionTableInsert.customer_name
+                    it.customerMobileNumber = transactionTableInsert.customer_mobile_number
+                    it.amount = transactionTableInsert.amount
+                    it.getPairedPrinters()
+                }
+            }
         }
     }
 

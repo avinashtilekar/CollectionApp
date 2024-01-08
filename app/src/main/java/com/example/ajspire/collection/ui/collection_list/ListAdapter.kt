@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
-import com.example.ajspire.collection.ui.model.ItemModel
+import com.example.ajspire.collection.model.ItemModel
 
 
 class ListAdapter(private val mList: List<ItemModel>, val invoiceNumberPrefix: String) :

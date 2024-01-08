@@ -13,7 +13,7 @@ import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
 import com.example.ajspire.collection.ui.BaseFragment
-import com.example.ajspire.collection.ui.model.ItemModel
+import com.example.ajspire.collection.model.ItemModel
 
 
 class CollectionListFragment : BaseFragment() {

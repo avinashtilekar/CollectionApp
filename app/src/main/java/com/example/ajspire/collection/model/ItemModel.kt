@@ -1,4 +1,4 @@
-package com.example.ajspire.collection.ui.model
+package com.example.ajspire.collection.model
 import com.example.ajspire.collection.utility.AppUtility
 
 data class ItemModel (
