@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
@@ -38,12 +39,15 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
 
     private var selectedFeeType = "24"
     private var lastInvoiceNumber = 0
-    private val roomDBViewModel: DataBaseViewModel by viewModels {
-        EntryViewModelFactory((activity?.application as MyApplication).repository,(activity?.application as MyApplication))
-    }
+    private lateinit var roomDBViewModel: DataBaseViewModel
 
     private val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -52,6 +56,16 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
+        roomDBViewModel =
+            ViewModelProvider(
+                this,
+                EntryViewModelFactory(
+                    (activity?.application as MyApplication).repository,
+                    (activity?.application as MyApplication)
+                )
+            ).get(
+                DataBaseViewModel::class.java
+            )
         setObserver()
         updateUi()
         printViewObject = binding.btnSubmit
@@ -158,6 +172,11 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        roomDBViewModel.transactionSummary.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
     }
 
     private fun showConfirmAlert(transactionTableInsert: TransactionTable) {

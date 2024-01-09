@@ -6,13 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.ajspire.collection.extensions.UserPreferencesRepository
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.room.repository.TransactionTableRespository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DataBaseViewModel(private val transactionTableRespository: TransactionTableRespository,application: Application) :
+class DataBaseViewModel constructor(private val transactionTableRespository: TransactionTableRespository,application: Application) :
     AndroidViewModel(application) {
 
     val allTransactions: LiveData<List<TransactionTable>> =
@@ -21,11 +22,11 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
 
     val maxInvoiceNumber: LiveData<Int?> = transactionTableRespository.maxInvoiceNumber
 
-    var _allUnSyncTransactions = MutableLiveData<List<TransactionTable>>()
+    private var _allUnSyncTransactions = MutableLiveData<List<TransactionTable>>()
     val allUnSyncTransactions: LiveData<List<TransactionTable>>
         get() = _allUnSyncTransactions
 
-    val _transactionTableViaInvoiceNumber = MutableLiveData<TransactionTable?>()
+    private val _transactionTableViaInvoiceNumber = MutableLiveData<TransactionTable?>()
     val transactionTableViaInvoiceNumber: LiveData<TransactionTable?> = _transactionTableViaInvoiceNumber
 
     fun insert(transaction: TransactionTable) {
@@ -68,14 +69,9 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
         }
     }
 }
-
 class EntryViewModelFactory(private val repository: TransactionTableRespository,private val application: Application) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DataBaseViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return DataBaseViewModel(repository,application) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
+        return DataBaseViewModel(repository, application) as T
     }
 }

@@ -6,20 +6,17 @@ import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
-import com.example.ajspire.collection.extensions.appDataStore
-import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.model.ItemModel
+import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.view_model.DataBaseViewModel
-import com.example.ajspire.collection.view_model.DataStoreViewModel
-import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 
@@ -32,8 +29,10 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
     private val binding get() = _binding!!
     private lateinit var listAdapter: ListAdapter
 
-   private val roomDBViewModel: DataBaseViewModel by viewModels {
-        EntryViewModelFactory((activity?.application as MyApplication).repository,(activity?.application as MyApplication))
+    private lateinit var roomDBViewModel: DataBaseViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -42,9 +41,25 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionListBinding.inflate(inflater, container, false)
+        roomDBViewModel =
+            ViewModelProvider(
+                this,
+                EntryViewModelFactory(
+                    (activity?.application as MyApplication).repository,
+                    (activity?.application as MyApplication)
+                )
+            ).get(
+                DataBaseViewModel::class.java
+            )
+
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setObserver()
         updateUi()
-        return binding.root
     }
 
     private fun setObserver() {
@@ -99,6 +114,7 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
                 }
             }
         }
+
     }
 
     private fun updateUi() {
@@ -130,6 +146,15 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
             roomDBViewModel.updateReprint(it.invoice_number)
         }
         printReceipt()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        roomDBViewModel.transactionSummary.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
     }
 
 }

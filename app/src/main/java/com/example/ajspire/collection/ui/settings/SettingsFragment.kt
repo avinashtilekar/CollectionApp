@@ -42,13 +42,25 @@ class SettingsFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private var currentSyncRecord = listOf<TransactionTable>()
-    private val roomDBViewModel: DataBaseViewModel by viewModels {
-        EntryViewModelFactory((activity?.application as MyApplication).repository,(activity?.application as MyApplication))
-    }
-
+    private lateinit var roomDBViewModel: DataBaseViewModel
     val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        roomDBViewModel =
+            ViewModelProvider(
+                this,
+                EntryViewModelFactory(
+                    (activity?.application as MyApplication).repository,
+                    (activity?.application as MyApplication)
+                )
+            ).get(
+                DataBaseViewModel::class.java
+            )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
