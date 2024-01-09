@@ -10,13 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ajspire.collection.MyApplication
+import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.model.ItemModel
 
 
-class CollectionListFragment : BaseFragment() {
+class CollectionListFragment : BaseFragment(), PrinterCallBack {
 
     private var _binding: FragmentCollectionListBinding? = null
 
@@ -81,7 +82,7 @@ class CollectionListFragment : BaseFragment() {
         ) { transactionTable ->
             transactionTable?.let {
                 currentTransactionTableInsert = it
-                printReceipt(rePrint = true)
+                printReceipt(this,rePrint = true)
                 currentTransactionTableInsert?.let {
                     roomDBViewModel.updateReprint(it.invoice_number)
                 }
@@ -108,4 +109,12 @@ class CollectionListFragment : BaseFragment() {
         }
         binding.rvList.adapter = listAdapter
     }
+    override fun askForReprint() {
+        showRePrintAlert()
+    }
+
+    override fun reRePrint() {
+        printReceipt(this,rePrint = true)
+    }
+
 }

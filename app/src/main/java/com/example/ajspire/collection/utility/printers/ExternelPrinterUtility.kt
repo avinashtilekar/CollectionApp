@@ -313,21 +313,20 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
                 y += lineHeight
                 if (it.isBold || it.isBigSize) {
                     val (paintBold, lineHeightBold) = getDefaultPain(scale)
-                    if(it.isBigSize)
-                    {
-                        y += (lineHeightBold*0.30).toFloat()
-                        paintBold.textSize= (paintBold.textSize*1.5).toFloat()
+                    if (it.isBigSize) {
+                        y += (lineHeightBold * 0.30).toFloat()
+                        paintBold.textSize = (paintBold.textSize * 1.5).toFloat()
                     }
                     paintBold.typeface = typefaceBoldOnly
                     if (it.isCenter) {
                         //set center to bill
                         val boundsField1 = Rect()
                         val textValue = "${it.value1}";
-                        paint.getTextBounds(textValue, 0, it.value1.length/2, boundsField1)
+                        paint.getTextBounds(textValue, 0, it.value1.length / 2, boundsField1)
 
                         canvas.drawText(
                             it.value1,
-                            (((deviceX/2) - boundsField1.width()).toFloat()),
+                            (((deviceX / 2) - boundsField1.width()).toFloat()),
                             y,
                             paintBold
                         )
@@ -458,7 +457,11 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
             Handler(Looper.getMainLooper()).postDelayed({
                 ivDonePrint.visibility = View.VISIBLE
-                llReprintSection.visibility = View.VISIBLE
+                if (printerCallBack != null) {
+                    llReprintSection.visibility = View.VISIBLE
+                } else {
+                    dialog.dismiss()
+                }
                 dialog.setCancelable(true)
             }, 2800)
 

@@ -167,7 +167,7 @@ abstract class BaseFragment : Fragment() {
 
         //performing positive action
         builder.setPositiveButton(R.string.reciept_reprint) { dialogInterface, which ->
-            printReceipt(null, true)
+            printReceipt(null, false)
             dialogInterface.dismiss()
         }
 

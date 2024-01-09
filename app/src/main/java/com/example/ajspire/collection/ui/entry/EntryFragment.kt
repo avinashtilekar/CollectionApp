@@ -112,7 +112,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
                 currentTransactionTableInsert?.let {
                     roomDBViewModel.insert(it)
                     updateLastInvoiceNumberToStoreDate(entryInvoiceNumber)
-                    printReceipt(this@EntryFragment)
+                    printReceipt()
                     reSetScreen()
                 }
             }
@@ -189,7 +189,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
     }
 
     override fun reRePrint() {
-        printReceipt(this, true)
+        printReceipt()
     }
 
 

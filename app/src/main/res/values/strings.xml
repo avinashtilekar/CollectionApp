@@ -78,7 +78,7 @@
     <string name="printer_not_found_error">प्रिंटर उपलब्ध नाही.</string>
     <string name="reciept_reprint_title">पावती क्र. <b>%1$s</b> पुनर्मुद्रण</string>
     <string name="reciept_reprint_message">पावती क्र. <b>%1$s</b> डेटा यशस्वीरित्या जतन झाला आहे. प्रिंटसाठी प्रतीक्षा करा. प्रिंटमध्ये काही समस्या असल्यास कृपया पुनर्मुद्रण बटणावर क्लिक करा.</string>
-    <string name="reciept_reprint_message1">पावती क्र. <b>%1$s</b> डेटा यशस्वीरित्या जतन झाला आहे. प्रिंटमध्ये काही समस्या असल्यास कृपया पुनर्मुद्रण बटणावर क्लिक करा.</string>
+    <string name="reciept_reprint_message1">पावती क्र. <b>%1$s</b> प्रिंटमध्ये काही समस्या असल्यास कृपया पुनर्मुद्रण बटणावर क्लिक करा.</string>
     <string name="reciept_reprint">पुनर्मुद्रण पावती</string>
     <string name="not_required">आवश्यक नाही</string>
     <string name="select_printer">प्रिंटर निवडा (Select Printer)</string>
