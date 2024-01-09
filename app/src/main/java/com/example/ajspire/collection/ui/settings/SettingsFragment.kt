@@ -236,5 +236,6 @@ class SettingsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        roomDBViewModel.destroyViewModelData()
     }
 }

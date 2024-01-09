@@ -171,12 +171,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
-        roomDBViewModel.transactionSummary.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.destroyViewModelData()
     }
 
     private fun showConfirmAlert(transactionTableInsert: TransactionTable) {
@@ -218,6 +213,5 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
     override fun reRePrint() {
         printReceipt()
     }
-
 
 }

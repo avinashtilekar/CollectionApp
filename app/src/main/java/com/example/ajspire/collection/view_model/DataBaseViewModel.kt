@@ -25,8 +25,8 @@ class DataBaseViewModel constructor(
 
     val maxInvoiceNumber: LiveData<Int?> = transactionTableRespository.maxInvoiceNumber
 
-    private var _allUnSyncTransactions = MutableLiveData<List<TransactionTable>>()
-    val allUnSyncTransactions: LiveData<List<TransactionTable>>
+    private var _allUnSyncTransactions = MutableLiveData<List<TransactionTable>?>()
+    val allUnSyncTransactions: LiveData<List<TransactionTable>?>
         get() = _allUnSyncTransactions
 
     private val _transactionTableViaInvoiceNumber = MutableLiveData<TransactionTable?>()
@@ -81,6 +81,7 @@ class DataBaseViewModel constructor(
     fun destroyViewModelData() {
         super.onCleared()
         _transactionTableViaInvoiceNumber.postValue(null)
+        _allUnSyncTransactions.postValue(null)
     }
 }
 

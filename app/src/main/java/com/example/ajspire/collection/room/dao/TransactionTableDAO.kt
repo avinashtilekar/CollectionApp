@@ -28,7 +28,7 @@ interface TransactionTableDAO {
     fun getTodaysTransaction(): LiveData<List<TransactionTable>>
 
     @Query("select * from ${AppUtility.TRANSACTION_TABLE_NAME} where server_tran_id is null Limit :dataUploadLimit")
-    fun getUnSyncTransaction(dataUploadLimit:Int): List<TransactionTable>
+    fun getUnSyncTransaction(dataUploadLimit:Int): List<TransactionTable>?
 
     @Query("Select GROUP_CONCAT(('<b>'||T.tranDate ||'</b> : ₹ '|| T.totalCollection),'<br> ') as summary " +
             "from  (select sum(amount) as totalCollection ,substr(createdAt,1,10) tranDate " +
