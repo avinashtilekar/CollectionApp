@@ -216,7 +216,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
             if (glbPrinterWidth == 32) {
                 BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
-
+                //Header Section
                 headerBitmap?.let {
                     BPprinter!!.printImage(it, 0)
                 }
@@ -224,19 +224,24 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
                 BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
                 BPprinter!!.print(lineBreaker)
 
+                //Details Section
                 inputBitmapDetails?.let {
                     BPprinter!!.printImage(it, 0)
                 }
                 BPprinter!!.print(lineBreaker)
-                BPprinter!!.print(activity.getString(R.string.powered_by) + "\n")
 
+                //Note Section
+                inputBitmapFoterNote?.let {
+                    BPprinter!!.printImage(inputBitmapFoterNote, 0)
+                }
+
+
+                //Footer section
+                BPprinter!!.print(activity.getString(R.string.powered_by) + "\n")
                 footerBitmap?.let {
                     BPprinter!!.printImage(it, 0)
                 }
 
-                inputBitmapFoterNote?.let {
-                    BPprinter!!.printImage(inputBitmapFoterNote, 0)
-                }
 
                 BPprinter!!.print(lineEmpty)
                 BPprinter!!.print(lineEmpty)
