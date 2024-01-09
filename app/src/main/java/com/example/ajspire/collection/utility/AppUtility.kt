@@ -20,6 +20,7 @@ object AppUtility {
     var UPLOAD_ITEM_LIMIT = (if (BuildConfig.BUILD_TYPE_NAME.isEmpty()) 500 else 5)
 
     const val REQUEST_TYPE = "requestDevice"
+    const val DISPLAY_DATE_FORMAT = "dd-MMM-yyyy 'at' hh:mm a"
 
 
     fun hideSoftKeyboard(activity: Activity) {

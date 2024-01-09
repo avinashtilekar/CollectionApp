@@ -37,7 +37,10 @@ import com.example.ajspire.collection.extensions.setBitmapBackground
 import com.example.ajspire.collection.extensions.slideDownAnimation
 import com.example.ajspire.collection.extensions.slideUpAnimation
 import com.example.ajspire.collection.model.PrintDataModel
+import com.example.ajspire.collection.utility.AppUtility
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.concurrent.TimeoutException
 
 
@@ -151,8 +154,11 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     }
 
     private fun getPrintData(): List<PrintDataModel> {
+        val format = SimpleDateFormat(AppUtility.DISPLAY_DATE_FORMAT)
+
         val printData = mutableListOf<PrintDataModel>()
         printData.add(PrintDataModel(activity.getString(R.string.reciept_number), invoiceNumber))
+        printData.add(PrintDataModel(activity.getString(R.string.date), "${format.format(Date())}"))
         printData.add(
             PrintDataModel(
                 activity.getString(R.string.customer_name),

@@ -17,6 +17,7 @@ import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
+import com.example.ajspire.collection.utility.AppUtility
 import com.example.ajspire.collection.utility.ToastTypeFields
 import com.ftpos.library.smartpos.buzzer.Buzzer
 import com.ftpos.library.smartpos.crypto.Crypto
@@ -195,7 +196,7 @@ class Vriddhi_POS_SDK_PrinterUtility constructor(var activity: Activity) {
                 printer.printStr(invoiceNumber + "\n")
 
                 //date time
-                val format = SimpleDateFormat("dd-MMM-yyyy 'at' hh:mm:ss a")
+                val format = SimpleDateFormat(AppUtility.DISPLAY_DATE_FORMAT)
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_LEFT)
                 printer.printStr(activity.getString(R.string.date))
                 printer.setAlignStyle(AlignStyle.PRINT_STYLE_RIGHT)
