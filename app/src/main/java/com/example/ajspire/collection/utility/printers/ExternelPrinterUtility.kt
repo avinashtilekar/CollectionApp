@@ -16,7 +16,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -27,16 +26,13 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
-import com.example.ajspire.collection.extensions.fadeAnimation
 import com.example.ajspire.collection.extensions.setBitmapBackground
 import com.example.ajspire.collection.extensions.slideDownAnimation
-import com.example.ajspire.collection.extensions.slideUpAnimation
 import com.example.ajspire.collection.model.PrintDataModel
 import com.example.ajspire.collection.utility.AppUtility
 import java.io.IOException

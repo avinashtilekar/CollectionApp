@@ -1,5 +1,7 @@
 package com.example.ajspire.collection.view_model
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DataBaseViewModel(private val transactionTableRespository: TransactionTableRespository) :
-    ViewModel() {
+class DataBaseViewModel(private val transactionTableRespository: TransactionTableRespository,application: Application) :
+    AndroidViewModel(application) {
 
     val allTransactions: LiveData<List<TransactionTable>> =
         transactionTableRespository.allTransactions
@@ -67,12 +69,12 @@ class DataBaseViewModel(private val transactionTableRespository: TransactionTabl
     }
 }
 
-class EntryViewModelFactory(private val repository: TransactionTableRespository) :
+class EntryViewModelFactory(private val repository: TransactionTableRespository,private val application: Application) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DataBaseViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return DataBaseViewModel(repository) as T
+            return DataBaseViewModel(repository,application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

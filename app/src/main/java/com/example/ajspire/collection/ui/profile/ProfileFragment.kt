@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.ajspire.collection.databinding.FragmentProfileBinding
+import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.ui.BaseFragment
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 
 class ProfileFragment : BaseFragment() {
 
@@ -16,7 +20,9 @@ class ProfileFragment : BaseFragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    val dataStoreViewModel: DataStoreViewModel by viewModels {
+        DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -23,8 +23,10 @@ import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.utility.AppUtility
+import com.example.ajspire.collection.view_model.DataBaseViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
+import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 class EntryFragment : BaseFragment(), PrinterCallBack {
 
@@ -36,7 +38,13 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
 
     private var selectedFeeType = "24"
     private var lastInvoiceNumber = 0
+    private val roomDBViewModel: DataBaseViewModel by viewModels {
+        EntryViewModelFactory((activity?.application as MyApplication).repository,(activity?.application as MyApplication))
+    }
 
+    private val dataStoreViewModel: DataStoreViewModel by viewModels {
+        DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +54,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
         setObserver()
         updateUi()
-        printViewObject= binding.btnSubmit
+        printViewObject = binding.btnSubmit
         return binding.root
     }
 

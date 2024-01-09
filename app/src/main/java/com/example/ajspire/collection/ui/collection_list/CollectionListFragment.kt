@@ -6,6 +6,7 @@ import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +14,13 @@ import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
+import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.model.ItemModel
+import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
+import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 
 class CollectionListFragment : BaseFragment(), PrinterCallBack {
@@ -25,6 +31,11 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var listAdapter: ListAdapter
+
+   private val roomDBViewModel: DataBaseViewModel by viewModels {
+        EntryViewModelFactory((activity?.application as MyApplication).repository,(activity?.application as MyApplication))
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -82,7 +93,7 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
         ) { transactionTable ->
             transactionTable?.let {
                 currentTransactionTableInsert = it
-                printReceipt(this,rePrint = true)
+                printReceipt(this, rePrint = true)
                 currentTransactionTableInsert?.let {
                     roomDBViewModel.updateReprint(it.invoice_number)
                 }
@@ -109,12 +120,16 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
         }
         binding.rvList.adapter = listAdapter
     }
+
     override fun askForReprint() {
         showRePrintAlert()
     }
 
     override fun reRePrint() {
-        printReceipt(this,rePrint = true)
+        currentTransactionTableInsert?.let {
+            roomDBViewModel.updateReprint(it.invoice_number)
+        }
+        printReceipt()
     }
 
 }

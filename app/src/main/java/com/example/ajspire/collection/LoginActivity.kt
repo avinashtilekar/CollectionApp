@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var dataStoreViewModel: DataStoreViewModel
     private var lastDB_InvoiceNumber = 0
     private val dataBaseViewModel: DataBaseViewModel by viewModels {
-        EntryViewModelFactory((this.application as MyApplication).repository)
+        EntryViewModelFactory((this.application as MyApplication).repository,this.application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

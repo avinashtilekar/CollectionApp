@@ -18,6 +18,7 @@ import com.example.ajspire.collection.api.model.request.DataSyncRequest
 import com.example.ajspire.collection.api.model.request.TransactionDataForUpload
 import com.example.ajspire.collection.api.model.response.DataSyncResponse
 import com.example.ajspire.collection.databinding.FragmentSettingsBinding
+import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.ui.custom.RadioGridGroup
@@ -25,6 +26,10 @@ import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
 import com.example.ajspire.collection.utility.PrinterType
 import com.example.ajspire.collection.view_model.ApiCallViewModel
+import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModel
+import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
+import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 class SettingsFragment : BaseFragment() {
 
@@ -37,7 +42,13 @@ class SettingsFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private var currentSyncRecord = listOf<TransactionTable>()
+    private val roomDBViewModel: DataBaseViewModel by viewModels {
+        EntryViewModelFactory((activity?.application as MyApplication).repository,(activity?.application as MyApplication))
+    }
 
+    val dataStoreViewModel: DataStoreViewModel by viewModels {
+        DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

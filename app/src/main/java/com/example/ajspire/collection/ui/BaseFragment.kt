@@ -34,13 +34,7 @@ abstract class BaseFragment : Fragment() {
     private var externelPrinterUtility: ExternelPrinterUtility? = null
     var currentTransactionTableInsert: TransactionTable? = null
     var printViewObject: View? = null
-    val roomDBViewModel: DataBaseViewModel by viewModels {
-        EntryViewModelFactory((activity?.application as MyApplication).repository)
-    }
 
-    val dataStoreViewModel: DataStoreViewModel by viewModels {
-        DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,16 +55,14 @@ abstract class BaseFragment : Fragment() {
     //region printer
     fun printReceipt(printerCallBack: PrinterCallBack? = null, rePrint: Boolean? = false) {
         if (rePrint == true) {
-            currentTransactionTableInsert?.let {
-                roomDBViewModel.updateReprint(it.invoice_number)
-            }
+
         }
 
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
             callPrintViaVriddhiPOSPrinter(printerCallBack, rePrint)
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
             //callPrintViaBluetoothThermalPrinter(printerCallBack, rePrint)
-            callExternelPrinter(printerCallBack,rePrint)
+            callExternelPrinter(printerCallBack, rePrint)
         } else {
             //callPrintViaBluetoothThermalPrinter()
             printerNotFoundError()
@@ -201,5 +193,11 @@ abstract class BaseFragment : Fragment() {
 
         alertDialog.show()
     }
+
     //endregion printer
+    override fun onDestroyView() {
+        super.onDestroyView()
+        currentTransactionTableInsert = null
+        printViewObject = null
+    }
 }
