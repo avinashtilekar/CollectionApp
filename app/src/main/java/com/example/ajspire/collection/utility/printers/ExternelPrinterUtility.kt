@@ -17,6 +17,11 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.text.Html
+import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -61,7 +66,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     var customerName: String? = null
     var amount: String? = null
     private var selectedPrinter: String? = null
-
+    private var rePrint=false
     fun getPairedPrinters() {
         BpScrybeDevice = BluetoothConnectivity(this)
         ActivityCompat.requestPermissions(
@@ -179,6 +184,10 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         printData.add(PrintDataModel(activity.getString(R.string.footer_message2), null))
         printData.add(PrintDataModel(activity.getString(R.string.footer_message3), null))
         printData.add(PrintDataModel(activity.getString(R.string.footer_message4), null))
+        if(rePrint)
+        {
+            printData.add(PrintDataModel(activity.getString(R.string.re_printed), null))
+        }
 
         return printData
     }
@@ -342,21 +351,43 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
             val dialog = Dialog(activity)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
+            dialog.setCancelable(false)
             dialog.setContentView(R.layout.print_dialog)
 
             val viewBlank = dialog.findViewById<View>(R.id.view_blank)
             val rlMain = dialog.findViewById<View>(R.id.rlMain)
             val llPrintPreview = dialog.findViewById<View>(R.id.ll_print_preview)
+            val llReprintSection = dialog.findViewById<View>(R.id.llReprintSection)
+            val tvTitle = dialog.findViewById<TextView>(R.id.tvTitle)
+            val tvReprintMessage = dialog.findViewById<TextView>(R.id.tvReprintMessage)
+            val ivDonePrint = dialog.findViewById<ImageView>(R.id.ivDonePrint)
 
             val ivHeader = dialog.findViewById<ImageView>(R.id.ivHeader)
-            ivHeader.visibility = View.GONE
             val ivDetails = dialog.findViewById<ImageView>(R.id.ivDetails)
-            ivDetails.visibility = View.GONE
             val ivFooter = dialog.findViewById<ImageView>(R.id.ivFooter)
-            ivFooter.visibility = View.GONE
             val ivNote = dialog.findViewById<ImageView>(R.id.ivNote)
+
+            val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
+            val btnReprint = dialog.findViewById<Button>(R.id.btnReprint)
+
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+            btnReprint.setOnClickListener {
+                //Reprint invoice
+                rePrint=true
+                dialog.dismiss()
+                getPairedPrinters()
+            }
+
             ivNote.visibility = View.GONE
+            ivHeader.visibility = View.GONE
+            ivDetails.visibility = View.GONE
+            ivFooter.visibility = View.GONE
+            ivDonePrint.visibility = View.GONE
+            llReprintSection.visibility = View.GONE
+
+            tvTitle.text=invoiceNumber
 
             header?.let {
                 ivHeader.visibility = View.VISIBLE
@@ -376,14 +407,30 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
                 ivNote.visibility = View.VISIBLE
                 ivNote.setBitmapBackground(it)
             }
+
+            tvReprintMessage.text=getHtml(activity.getString(R.string.reciept_reprint_message1, invoiceNumber))
+
            // llPrintPreview.slideUpAnimation()
             viewBlank.slideDownAnimation()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             dialog.show()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                ivDonePrint.visibility = View.VISIBLE
+                llReprintSection.visibility = View.VISIBLE
+                dialog.setCancelable(true)
+            }, 2800)
 
         } catch (ex: Exception) {
 
         }
     }
 
-
+    private fun getHtml(source: String?): Spanned? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            Html.fromHtml(source)
+        }
+    }
 }
