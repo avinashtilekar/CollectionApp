@@ -66,7 +66,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     var customerMobileNumber: String? = null
     var customerName: String? = null
     var amount: String? = null
-    var rePrint:Boolean?=false
+    var rePrint: Boolean? = false
 
     private var selectedPrinter: String? = null
 
@@ -165,6 +165,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
                 (customerMobileNumber ?: "NA")
             )
         )
+
         printData.add(
             PrintDataModel(
                 activity.getString(R.string.fee_type) + " (${
@@ -176,9 +177,10 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         )
         printData.add(
             PrintDataModel(
-                activity.getString(R.string.amount), amount
+                activity.getString(R.string.amount) + " " + amount, null, true, true, true
             )
         )
+
         return printData
     }
 
@@ -188,9 +190,8 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         printData.add(PrintDataModel(activity.getString(R.string.footer_message2), null))
         printData.add(PrintDataModel(activity.getString(R.string.footer_message3), null))
         printData.add(PrintDataModel(activity.getString(R.string.footer_message4), null))
-        if(rePrint==true)
-        {
-            printData.add(PrintDataModel(activity.getString(R.string.re_printed), null))
+        if (rePrint == true) {
+            printData.add(PrintDataModel(activity.getString(R.string.re_printed), null, true, true))
         }
 
         return printData
@@ -251,6 +252,19 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
     }
 
+    private fun getDefaultPain(scale: Float): Pair<Paint, Float> {
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        // text color - #3D3D3D
+        paint.color = Color.rgb(61, 61, 61)
+        // text size in pixels
+        val textSize = (35 * scale).toInt().toFloat()
+        val lineHeight = (textSize * 1.20).toFloat()
+        paint.textSize = textSize
+        // text shadow
+        paint.setShadowLayer(3f, 0f, 3f, Color.WHITE)
+        return Pair(paint, lineHeight)
+    }
+
     private fun drawTextToBitmap(
         gResId: Int,
         printDataList: List<PrintDataModel>,
@@ -260,7 +274,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             val scale = resources.displayMetrics.density
             //Bitmap bitmap = Bitmap.createBitmap((int)(100*scale), (int)(70*scale), Bitmap.Config.ARGB_8888);
             val bitmapResource = BitmapFactory.decodeResource(resources, gResId)
-            val canvasHight = ((bitmapResource.width * 0.15) * (printDataList.size * 0.55)).toInt()
+            val canvasHight = ((bitmapResource.width * 0.15) * (printDataList.size * 0.60)).toInt()
             var bitmap = Bitmap.createBitmap(
                 bitmapResource.width,
                 canvasHight,
@@ -276,18 +290,16 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             bitmap = bitmap.copy(bitmapConfig, true)
             val canvas = Canvas(bitmap)
             // new antialised Paint
-            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-            // text color - #3D3D3D
-            paint.color = Color.rgb(61, 61, 61)
-            // text size in pixels
-            val textSize = (35 * scale).toInt().toFloat()
-            val lineHeight = (textSize * 1.20).toFloat()
-            paint.textSize = textSize
-            // text shadow
-            paint.setShadowLayer(3f, 0f, 3f, Color.WHITE)
-            //set font
-            val font = Typeface.createFromAsset(activity.getAssets(), "fonts/shivaji01_normal.ttf")
-            val typeface = Typeface.create(font, Typeface.BOLD)
+            val (paint, lineHeight) = getDefaultPain(scale)
+
+
+            val typefaceMarathiBoldFont = Typeface.create(
+                Typeface.createFromAsset(
+                    activity.getAssets(),
+                    "fonts/shivaji01_normal.ttf"
+                ), Typeface.BOLD
+            )
+            val typefaceBoldOnly = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
             //paint.typeface = typeface
             //draw text to the Canvas center
 
@@ -299,7 +311,32 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             //second row
             printDataList.forEach {
                 y += lineHeight
-                canvas.drawText(it.value1, x, y, paint)
+                if (it.isBold || it.isBigSize) {
+                    val (paintBold, lineHeightBold) = getDefaultPain(scale)
+                    if(it.isBigSize)
+                    {
+                        y += (lineHeightBold*0.30).toFloat()
+                        paintBold.textSize= (paintBold.textSize*1.5).toFloat()
+                    }
+                    paintBold.typeface = typefaceBoldOnly
+                    if (it.isCenter) {
+                        //set center to bill
+                        val boundsField1 = Rect()
+                        val textValue = "${it.value1}";
+                        paint.getTextBounds(textValue, 0, it.value1.length/2, boundsField1)
+
+                        canvas.drawText(
+                            it.value1,
+                            (((deviceX/2) - boundsField1.width()).toFloat()),
+                            y,
+                            paintBold
+                        )
+                    } else {
+                        canvas.drawText(it.value1, x, y, paintBold)
+                    }
+                } else {
+                    canvas.drawText(it.value1, x, y, paint)
+                }
 
                 it.value2?.let {
                     // draw text to the Canvas center
@@ -390,7 +427,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             ivDonePrint.visibility = View.GONE
             llReprintSection.visibility = View.GONE
 
-            tvTitle.text=invoiceNumber
+            tvTitle.text = invoiceNumber
 
             header?.let {
                 ivHeader.visibility = View.VISIBLE
@@ -411,9 +448,10 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
                 ivNote.setBitmapBackground(it)
             }
 
-            tvReprintMessage.text=getHtml(activity.getString(R.string.reciept_reprint_message1, invoiceNumber))
+            tvReprintMessage.text =
+                getHtml(activity.getString(R.string.reciept_reprint_message1, invoiceNumber))
 
-           // llPrintPreview.slideUpAnimation()
+            // llPrintPreview.slideUpAnimation()
             viewBlank.slideDownAnimation()
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             dialog.show()
