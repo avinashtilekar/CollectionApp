@@ -22,36 +22,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                style="@style/AppFont.LabelMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@string/customer_mobile_number" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/etMobileNumber"
+                <TextView
                     style="@style/AppFont.LabelMedium"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:autofillHints="false"
-                    android:background="@drawable/edittext_background"
-                    android:hint="@string/customer_mobile_number"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:padding="@dimen/_8sdp" />
+                    android:layout_marginRight="@dimen/_32sdp"
+                    android:text="@string/reciept_number" />
 
                 <EditText
                     android:id="@+id/etInvoiceNumber"
-                    style="@style/AppFont.LabelMedium"
+                    style="@style/AppFont.LabelSmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
@@ -63,8 +50,36 @@
                     android:gravity="right"
                     android:inputType="number"
                     android:padding="@dimen/_8sdp"
+                    android:textStyle="bold"
                     tools:text="TRN-8898-7" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/line" />
+
+            <TextView
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/customer_mobile_number" />
+
+            <EditText
+                android:id="@+id/etMobileNumber"
+                style="@style/AppFont.LabelMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:autofillHints="false"
+                android:background="@drawable/edittext_background"
+                android:hint="@string/customer_mobile_number"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:padding="@dimen/_8sdp" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
