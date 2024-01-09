@@ -6,6 +6,7 @@ import BpPrinter.mylibrary.Scrybe
 import android.Manifest.permission
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -15,12 +16,20 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.util.Log
+import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.example.ajspire.collection.R
+import com.example.ajspire.collection.extensions.setBitmapBackground
 import com.example.ajspire.collection.model.PrintDataModel
 import java.io.IOException
 import java.util.concurrent.TimeoutException
+
 
 //Reff Link https://bluprints.in/downloads/
 // "Vriddhi POS SDK 1.1" sdk only
@@ -99,7 +108,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
                 } catch (e: TimeoutException) {
                     showAlert("Unable to connect")
                     selectedPrinter = null
-                }catch (e: IOException) {
+                } catch (e: IOException) {
                     if (e.message!!.contains("Service discovery failed")) {
                         showAlert("Not Connected\n$selectedPrinter is unreachable or off otherwise it is connected with other device")
                     } else if (e.message!!.contains("Device or resource busy")) {
@@ -178,6 +187,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             val footerBitmap: Bitmap? = getDrawableToBitmap(R.drawable.ic_latest_footer_white)
             val inputBitmapFoterNote: Bitmap? =
                 drawTextToBitmap(R.drawable.header_latest, getFoterNoteData())
+            showDialog(headerBitmap, inputBitmapDetails, footerBitmap, inputBitmapFoterNote)
 
             if (glbPrinterWidth == 32) {
                 BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
@@ -318,4 +328,42 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
         return activity.getString(R.string.fee_type_72_100)
     }
+
+    private fun showDialog(header: Bitmap?, details: Bitmap?, footer: Bitmap?, note: Bitmap?) {
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.print_dialog)
+        val ivHeader = dialog.findViewById<ImageView>(R.id.ivHeader)
+        ivHeader.visibility = View.GONE
+        val ivDetails = dialog.findViewById<ImageView>(R.id.ivDetails)
+        ivDetails.visibility = View.GONE
+        val ivFooter = dialog.findViewById<ImageView>(R.id.ivFooter)
+        ivFooter.visibility = View.GONE
+        val ivNote = dialog.findViewById<ImageView>(R.id.ivNote)
+        ivNote.visibility = View.GONE
+
+        header?.let {
+            ivHeader.visibility = View.VISIBLE
+            //ivHeader.setBitmapBackground(it)
+            ivHeader.setBackgroundResource(R.drawable.header_latest_white)
+        }
+        details?.let {
+            ivDetails.visibility = View.VISIBLE
+            ivDetails.setBitmapBackground(it)
+        }
+        footer?.let {
+            ivFooter.visibility = View.VISIBLE
+            //ivFooter.setBitmapBackground(it)
+            ivFooter.setBackgroundResource(R.drawable.footer_latest)
+        }
+        note?.let {
+            ivNote.visibility = View.VISIBLE
+            ivNote.setBitmapBackground(it)
+        }
+
+        dialog.show()
+    }
+
+
 }

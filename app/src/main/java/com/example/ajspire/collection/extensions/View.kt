@@ -3,9 +3,14 @@ package com.example.ajspire.collection.extensions
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.ImageView
+
 
 fun View.startBlinkAnimation() {
     visibility=View.VISIBLE
@@ -37,4 +42,8 @@ private fun getBlingAnimation(view: View): ObjectAnimator {
     blinkanimation.repeatCount = -1 // Repeat animation infinitely
     blinkanimation.repeatMode = ValueAnimator.RESTART
     return blinkanimation
+}
+fun View.setBitmapBackground(bitmap: Bitmap) {
+    val bd = BitmapDrawable(this.context.resources, bitmap)
+    this.background = bd
 }
