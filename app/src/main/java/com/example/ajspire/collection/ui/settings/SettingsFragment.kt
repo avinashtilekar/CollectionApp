@@ -26,7 +26,7 @@ import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
 import com.example.ajspire.collection.utility.PrinterType
 import com.example.ajspire.collection.view_model.ApiCallViewModel
-import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.RoomDataBaseViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
@@ -42,7 +42,7 @@ class SettingsFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private var currentSyncRecord = listOf<TransactionTable>()
-    private lateinit var roomDBViewModel: DataBaseViewModel
+    private lateinit var roomDBViewModel: RoomDataBaseViewModel
     val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
@@ -57,7 +57,7 @@ class SettingsFragment : BaseFragment() {
                     (activity?.application as MyApplication)
                 )
             ).get(
-                DataBaseViewModel::class.java
+                RoomDataBaseViewModel::class.java
             )
     }
 

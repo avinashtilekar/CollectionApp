@@ -6,14 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.ajspire.collection.extensions.UserPreferencesRepository
 import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.room.repository.TransactionTableRespository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DataBaseViewModel constructor(
+class RoomDataBaseViewModel constructor(
     private val transactionTableRespository: TransactionTableRespository,
     application: Application
 ) :
@@ -91,6 +90,6 @@ class EntryViewModelFactory(
 ) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DataBaseViewModel(repository, application) as T
+        return RoomDataBaseViewModel(repository, application) as T
     }
 }

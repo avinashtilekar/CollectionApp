@@ -16,7 +16,7 @@ import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentCollectionListBinding
 import com.example.ajspire.collection.model.ItemModel
 import com.example.ajspire.collection.ui.BaseFragment
-import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.RoomDataBaseViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 
 
@@ -29,7 +29,7 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
     private val binding get() = _binding!!
     private lateinit var listAdapter: ListAdapter
 
-    private lateinit var roomDBViewModel: DataBaseViewModel
+    private lateinit var roomDBViewModel: RoomDataBaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
                     (activity?.application as MyApplication)
                 )
             ).get(
-                DataBaseViewModel::class.java
+                RoomDataBaseViewModel::class.java
             )
 
 

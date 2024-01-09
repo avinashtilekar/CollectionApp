@@ -24,7 +24,7 @@ import com.example.ajspire.collection.room.entity.TransactionTable
 import com.example.ajspire.collection.ui.BaseFragment
 import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.utility.AppUtility
-import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.RoomDataBaseViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
@@ -39,7 +39,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
 
     private var selectedFeeType = "24"
     private var lastInvoiceNumber = 0
-    private lateinit var roomDBViewModel: DataBaseViewModel
+    private lateinit var roomDBViewModel: RoomDataBaseViewModel
 
     private val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
@@ -64,7 +64,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
                     (activity?.application as MyApplication)
                 )
             ).get(
-                DataBaseViewModel::class.java
+                RoomDataBaseViewModel::class.java
             )
         setObserver()
         updateUi()

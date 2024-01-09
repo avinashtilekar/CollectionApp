@@ -18,7 +18,7 @@ import com.example.ajspire.collection.extensions.appDataStore
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
 import com.example.ajspire.collection.view_model.ApiCallViewModel
-import com.example.ajspire.collection.view_model.DataBaseViewModel
+import com.example.ajspire.collection.view_model.RoomDataBaseViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.view_model.MyViewModelFactory
@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var toastMessageUtility: ToastMessageUtility
     private lateinit var dataStoreViewModel: DataStoreViewModel
     private var lastDB_InvoiceNumber = 0
-    private val dataBaseViewModel: DataBaseViewModel by viewModels {
+    private val roomDataBaseViewModel: RoomDataBaseViewModel by viewModels {
         EntryViewModelFactory((this.application as MyApplication).repository,this.application)
     }
 
@@ -117,7 +117,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        dataBaseViewModel.maxInvoiceNumber.observe(this)
+        roomDataBaseViewModel.maxInvoiceNumber.observe(this)
         {
             it?.let {
                 lastDB_InvoiceNumber=it
