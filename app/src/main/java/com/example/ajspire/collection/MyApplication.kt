@@ -18,7 +18,7 @@ class MyApplication : Application() {
     var invoiceNumberPrefix: String = ""
     var userPrinters: UserPrinters? =
         if (BuildConfig.BUILD_TYPE_NAME.isBlank()) PrinterType.VriddhiDefault else PrinterType.VriddhiExternal
-
+    var selectedPrinter: String? = null
     override fun onCreate() {
         super.onCreate()
     }

@@ -30,6 +30,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.extensions.fadeAnimation
@@ -70,9 +71,6 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     var customerName: String? = null
     var amount: String? = null
     var rePrint: Boolean? = false
-
-    private var selectedPrinter: String? = null
-
     var printerCallBack: PrinterCallBack? = null
     fun getPairedPrinters() {
         BpScrybeDevice = BluetoothConnectivity(this)
@@ -82,7 +80,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             INITIAL_REQUEST
         )
         if (m_conn_type == CONN_TYPE_BT) {
-            selectedPrinter?.let {
+            (activity.application as MyApplication).selectedPrinter?.let {
                 onConnectWithPrinter()
             } ?: findPrinterList()
 
@@ -103,7 +101,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             printerList.toTypedArray()
         ) { dialog, which ->
             Log.d("Selected Printer ", printerList[which])
-            selectedPrinter = printerList[which]
+            (activity.application as MyApplication).selectedPrinter = printerList[which]
             onConnectWithPrinter()
         }
         val dialog = builder.create()
@@ -112,9 +110,9 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
     private fun onConnectWithPrinter() {
         try {
-            selectedPrinter?.let {
+            (activity.application as MyApplication).selectedPrinter?.let {
                 try {
-                    if (BpScrybeDevice!!.connectToPrinter(selectedPrinter)) {
+                    if (BpScrybeDevice!!.connectToPrinter((activity.application as MyApplication).selectedPrinter)) {
                         BPprinter = BpScrybeDevice!!.aemPrinter
                         // showAlert("Connected with $printerName")
                         printingSample()
@@ -123,29 +121,29 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
                     }
                 } catch (e: TimeoutException) {
                     showAlert("Unable to connect")
-                    selectedPrinter = null
+                    (activity.application as MyApplication).selectedPrinter = null
                 } catch (e: IOException) {
                     if (e.message!!.contains("Service discovery failed")) {
-                        showAlert("Not Connected\n$selectedPrinter is unreachable or off otherwise it is connected with other device")
+                        showAlert("Not Connected\n$(activity.application as MyApplication).selectedPrinter is unreachable or off otherwise it is connected with other device")
                     } else if (e.message!!.contains("Device or resource busy")) {
                         showAlert("the device is already connected")
                     } else {
                         showAlert("Unable to connect")
                     }
-                    selectedPrinter = null
+                    (activity.application as MyApplication).selectedPrinter = null
                 }
             }
 
 
         } catch (e: IOException) {
             if (e.message!!.contains("Service discovery failed")) {
-                showAlert("Not Connected\n$selectedPrinter is unreachable or off otherwise it is connected with other device")
+                showAlert("Not Connected\n$(activity.application as MyApplication).selectedPrinter is unreachable or off otherwise it is connected with other device")
             } else if (e.message!!.contains("Device or resource busy")) {
                 showAlert("the device is already connected")
             } else {
                 showAlert("Unable to connect")
             }
-            selectedPrinter = null
+            (activity.application as MyApplication).selectedPrinter = null
         }
     }
 
