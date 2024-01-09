@@ -27,7 +27,7 @@ import java.io.IOException
 class ExternelPrinterUtility constructor(private var activity: Activity) : Scrybe {
     private var BpScrybeDevice: BluetoothConnectivity? = null
     private var BPprinter: BpPrinter? = null
-    private val lineBreaker = " _______________________________\n"
+    private val lineBreaker = "_______________________________\n"
     private val lineEmpty = " \n"
     private val INITIAL_PERMS = arrayOf(
         permission.BLUETOOTH_SCAN,
@@ -140,9 +140,10 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
     private fun printingSample() {
         val headerBitmap: Bitmap = getDrawableToBitmap(R.drawable.header_latest_white)
-        val footerBitmap: Bitmap = getDrawableToBitmap(R.drawable.ic_latest_footer_white)
         val inputBitmapDetails: Bitmap? = drawTextToBitmap(R.drawable.header_latest, getPrintData())
+        val footerBitmap: Bitmap = getDrawableToBitmap(R.drawable.ic_latest_footer_white)
         val inputBitmapFoterNote: Bitmap? = drawTextToBitmap(R.drawable.header_latest, getFoterNoteData())
+
         if (glbPrinterWidth == 32) {
             BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
             BPprinter!!.printImage(headerBitmap, 0)
@@ -176,7 +177,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         val scale = resources.displayMetrics.density
         //Bitmap bitmap = Bitmap.createBitmap((int)(100*scale), (int)(70*scale), Bitmap.Config.ARGB_8888);
         val bitmapResource = BitmapFactory.decodeResource(resources, gResId)
-        val canvasHight=((bitmapResource.width * 0.15)*(printDataList.size*0.70)).toInt()
+        val canvasHight=((bitmapResource.width * 0.15)*(printDataList.size*0.55)).toInt()
         var bitmap = Bitmap.createBitmap(
             bitmapResource.width,
             canvasHight,
@@ -197,7 +198,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         paint.color = Color.rgb(61, 61, 61)
         // text size in pixels
         val textSize = (35 * scale).toInt().toFloat()
-        val lineHeight = (textSize * 1.50).toFloat()
+        val lineHeight = (textSize * 1.20).toFloat()
         paint.textSize = textSize
         // text shadow
         paint.setShadowLayer(3f, 0f, 3f, Color.WHITE)
@@ -220,8 +221,9 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             it.value2?.let {
                 // draw text to the Canvas center
                 val bounds = Rect()
-                paint.getTextBounds(it, 0, it.length, bounds)
-                canvas.drawText(it+" ", (((deviceX-bounds.width())-it.length).toFloat()), y, paint)
+                val textValue= "$it ";
+                paint.getTextBounds(textValue, 0, it.length, bounds)
+                canvas.drawText(textValue, (((deviceX-bounds.width())-(it.length+10)).toFloat()), y, paint)
             }
         }
         return bitmap
