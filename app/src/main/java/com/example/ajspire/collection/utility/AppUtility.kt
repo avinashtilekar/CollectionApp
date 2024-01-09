@@ -53,8 +53,10 @@ object AppUtility {
         }
 
     fun getMobileTranKey(preFixKey: String?=null): String {
-        var value = if (preFixKey != null) preFixKey + "_" + transactionCode else transactionCode
-        value=value.replace(" ", "_")
+        var value = if (preFixKey != null) "$preFixKey@$transactionCode" else transactionCode
+        value=value.replace(" ", "#")
+        value=value.replace("-", "$")
+        value=value.uppercase()
         return value
     }
 
