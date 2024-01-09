@@ -22,10 +22,14 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.example.ajspire.collection.R
+import com.example.ajspire.collection.extensions.fadeAnimation
 import com.example.ajspire.collection.extensions.setBitmapBackground
+import com.example.ajspire.collection.extensions.slideDownAnimation
+import com.example.ajspire.collection.extensions.slideUpAnimation
 import com.example.ajspire.collection.model.PrintDataModel
 import java.io.IOException
 import java.util.concurrent.TimeoutException
@@ -37,7 +41,7 @@ import java.util.concurrent.TimeoutException
 class ExternelPrinterUtility constructor(private var activity: Activity) : Scrybe {
     private var BpScrybeDevice: BluetoothConnectivity? = null
     private var BPprinter: BpPrinter? = null
-    private val lineBreaker = "- - _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n"
+    private val lineBreaker = "_______________________________\n"
     private val lineEmpty = " \n"
     private val INITIAL_PERMS = arrayOf(
         permission.BLUETOOTH_SCAN,
@@ -187,7 +191,8 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             val footerBitmap: Bitmap? = getDrawableToBitmap(R.drawable.ic_latest_footer_white)
             val inputBitmapFoterNote: Bitmap? =
                 drawTextToBitmap(R.drawable.header_latest, getFoterNoteData())
-            showDialog(headerBitmap, inputBitmapDetails, footerBitmap, inputBitmapFoterNote)
+
+
 
             if (glbPrinterWidth == 32) {
                 BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
@@ -225,6 +230,8 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             }
             //Disconnect once print done
             BpScrybeDevice!!.disConnectPrinter()
+
+            showDialog(headerBitmap, inputBitmapDetails, footerBitmap, inputBitmapFoterNote)
         } catch (ex: Exception) {
             showAlert("Unable to print")
         }
@@ -330,39 +337,52 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     }
 
     private fun showDialog(header: Bitmap?, details: Bitmap?, footer: Bitmap?, note: Bitmap?) {
-        val dialog = Dialog(activity)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.print_dialog)
-        val ivHeader = dialog.findViewById<ImageView>(R.id.ivHeader)
-        ivHeader.visibility = View.GONE
-        val ivDetails = dialog.findViewById<ImageView>(R.id.ivDetails)
-        ivDetails.visibility = View.GONE
-        val ivFooter = dialog.findViewById<ImageView>(R.id.ivFooter)
-        ivFooter.visibility = View.GONE
-        val ivNote = dialog.findViewById<ImageView>(R.id.ivNote)
-        ivNote.visibility = View.GONE
+        try {
 
-        header?.let {
-            ivHeader.visibility = View.VISIBLE
-            //ivHeader.setBitmapBackground(it)
-            ivHeader.setBackgroundResource(R.drawable.header_latest)
-        }
-        details?.let {
-            ivDetails.visibility = View.VISIBLE
-            ivDetails.setBitmapBackground(it)
-        }
-        footer?.let {
-            ivFooter.visibility = View.VISIBLE
-            //ivFooter.setBitmapBackground(it)
-            ivFooter.setBackgroundResource(R.drawable.footer_latest)
-        }
-        note?.let {
-            ivNote.visibility = View.VISIBLE
-            ivNote.setBitmapBackground(it)
-        }
 
-        dialog.show()
+            val dialog = Dialog(activity)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.print_dialog)
+
+            val viewBlank = dialog.findViewById<View>(R.id.view_blank)
+            val rlMain = dialog.findViewById<View>(R.id.rlMain)
+            val llPrintPreview = dialog.findViewById<View>(R.id.ll_print_preview)
+
+            val ivHeader = dialog.findViewById<ImageView>(R.id.ivHeader)
+            ivHeader.visibility = View.GONE
+            val ivDetails = dialog.findViewById<ImageView>(R.id.ivDetails)
+            ivDetails.visibility = View.GONE
+            val ivFooter = dialog.findViewById<ImageView>(R.id.ivFooter)
+            ivFooter.visibility = View.GONE
+            val ivNote = dialog.findViewById<ImageView>(R.id.ivNote)
+            ivNote.visibility = View.GONE
+
+            header?.let {
+                ivHeader.visibility = View.VISIBLE
+                //ivHeader.setBitmapBackground(it)
+                ivHeader.setBackgroundResource(R.drawable.header_latest)
+            }
+            details?.let {
+                ivDetails.visibility = View.VISIBLE
+                ivDetails.setBitmapBackground(it)
+            }
+            footer?.let {
+                ivFooter.visibility = View.VISIBLE
+                //ivFooter.setBitmapBackground(it)
+                ivFooter.setBackgroundResource(R.drawable.footer_latest)
+            }
+            note?.let {
+                ivNote.visibility = View.VISIBLE
+                ivNote.setBitmapBackground(it)
+            }
+           // llPrintPreview.slideUpAnimation()
+            viewBlank.slideDownAnimation()
+            dialog.show()
+
+        } catch (ex: Exception) {
+
+        }
     }
 
 
