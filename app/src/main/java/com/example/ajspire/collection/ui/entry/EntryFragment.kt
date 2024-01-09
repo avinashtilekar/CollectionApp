@@ -188,5 +188,9 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
         showRePrintAlert()
     }
 
+    override fun reRePrint() {
+        printReceipt(this, true)
+    }
+
 
 }

@@ -31,9 +31,9 @@ abstract class BaseFragment : Fragment() {
     lateinit var toastMessageUtility: ToastMessageUtility
     private var thermalPrinterVaiBtUtility: ThermalPrinterVaiBtUtility? = null
     private var vriddhiPOSSDKPrinterUtility: Vriddhi_POS_SDK_PrinterUtility? = null
-    private var externelPrinterUtility : ExternelPrinterUtility?=null
+    private var externelPrinterUtility: ExternelPrinterUtility? = null
     var currentTransactionTableInsert: TransactionTable? = null
-    var printViewObject: View?=null
+    var printViewObject: View? = null
     val roomDBViewModel: DataBaseViewModel by viewModels {
         EntryViewModelFactory((activity?.application as MyApplication).repository)
     }
@@ -47,7 +47,7 @@ abstract class BaseFragment : Fragment() {
         toastMessageUtility = ToastMessageUtility(requireActivity())
         thermalPrinterVaiBtUtility = ThermalPrinterVaiBtUtility(requireActivity())
         vriddhiPOSSDKPrinterUtility = Vriddhi_POS_SDK_PrinterUtility(requireActivity())
-        externelPrinterUtility =ExternelPrinterUtility(requireActivity())
+        externelPrinterUtility = ExternelPrinterUtility(requireActivity())
     }
 
     open fun getHtml(source: String?): Spanned? {
@@ -70,7 +70,7 @@ abstract class BaseFragment : Fragment() {
             callPrintViaVriddhiPOSPrinter(printerCallBack, rePrint)
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
             //callPrintViaBluetoothThermalPrinter(printerCallBack, rePrint)
-            callExternelPrinter()
+            callExternelPrinter(printerCallBack,rePrint)
         } else {
             //callPrintViaBluetoothThermalPrinter()
             printerNotFoundError()
@@ -134,8 +134,10 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    private fun callExternelPrinter()
-    {
+    private fun callExternelPrinter(
+        printerCallBack: PrinterCallBack? = null,
+        rePrint: Boolean? = false
+    ) {
         activity?.let { activity ->
             currentTransactionTableInsert?.let { transactionTableInsert ->
                 val invoiceNumber =
@@ -143,7 +145,8 @@ abstract class BaseFragment : Fragment() {
 
                 externelPrinterUtility?.let {
                     it.invoiceNumber = invoiceNumber
-                   // it.rePrint = rePrint
+                    it.rePrint = rePrint
+                    it.printerCallBack = printerCallBack
                     it.customerName = transactionTableInsert.customer_name
                     it.customerMobileNumber = transactionTableInsert.customer_mobile_number
                     it.amount = transactionTableInsert.amount

@@ -30,6 +30,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.extensions.fadeAnimation
 import com.example.ajspire.collection.extensions.setBitmapBackground
@@ -65,8 +66,11 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     var customerMobileNumber: String? = null
     var customerName: String? = null
     var amount: String? = null
+    var rePrint:Boolean?=false
+
     private var selectedPrinter: String? = null
-    private var rePrint=false
+
+    var printerCallBack: PrinterCallBack? = null
     fun getPairedPrinters() {
         BpScrybeDevice = BluetoothConnectivity(this)
         ActivityCompat.requestPermissions(
@@ -184,7 +188,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         printData.add(PrintDataModel(activity.getString(R.string.footer_message2), null))
         printData.add(PrintDataModel(activity.getString(R.string.footer_message3), null))
         printData.add(PrintDataModel(activity.getString(R.string.footer_message4), null))
-        if(rePrint)
+        if(rePrint==true)
         {
             printData.add(PrintDataModel(activity.getString(R.string.re_printed), null))
         }
@@ -375,9 +379,8 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             }
             btnReprint.setOnClickListener {
                 //Reprint invoice
-                rePrint=true
+                printerCallBack?.reRePrint()
                 dialog.dismiss()
-                getPairedPrinters()
             }
 
             ivNote.visibility = View.GONE
