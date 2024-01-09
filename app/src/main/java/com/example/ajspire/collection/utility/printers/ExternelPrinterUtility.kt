@@ -92,7 +92,9 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
 
     private fun showPrinterList() {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Choose an printer")
+        builder.setTitle(R.string.select_printer)
+        builder.setIcon(R.drawable.ic_print)
+        builder.setCancelable(false)
         builder.setItems(
             printerList.toTypedArray()
         ) { dialog, which ->
