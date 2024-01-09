@@ -122,7 +122,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
                 currentTransactionTableInsert = TransactionTable(
                     fee_type = selectedFeeType,
                     amount = etAmount.text.toString(),
-                    mobile_tran_key = AppUtility.getMobileTranKey(),
+                    mobile_tran_key = AppUtility.getMobileTranKey(etInvoiceNumber.text.toString()+etAmount.text.toString()+selectedFeeType),
                     invoice_number = entryInvoiceNumber,
                     customer_name = if (etUserName.text.toString()
                             .isNotEmpty()
