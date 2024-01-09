@@ -18,6 +18,7 @@ import com.example.ajspire.collection.PrinterCallBack
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.databinding.FragmentEntryBinding
 import com.example.ajspire.collection.extensions.appDataStore
+import com.example.ajspire.collection.extensions.onSingleClick
 import com.example.ajspire.collection.extensions.startBlinkAnimation
 import com.example.ajspire.collection.extensions.stopBlinkAnimation
 import com.example.ajspire.collection.room.entity.TransactionTable
@@ -116,7 +117,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
                 }
 
             })
-            btnSubmit.setOnClickListener { viewSubmit ->
+            btnSubmit.onSingleClick {
                 val entryInvoiceNumber = lastInvoiceNumber + 1
                 AppUtility.hideSoftKeyboard(requireActivity())
                 currentTransactionTableInsert = TransactionTable(
@@ -138,7 +139,7 @@ class EntryFragment : BaseFragment(), PrinterCallBack {
                     reSetScreen()
                 }
             }
-            btnCancel.setOnClickListener {
+            btnCancel.onSingleClick {
                 reSetScreen()
             }
 

@@ -76,8 +76,21 @@ fun View.slideDownAnimation() {
         AnimationUtils.loadAnimation(this.context.applicationContext, R.anim.slide_down)
     this.startAnimation(animSlideDown)
 }
+
 fun View.slideUpAnimation() {
     val animSlideDown: Animation =
         AnimationUtils.loadAnimation(this.context.applicationContext, R.anim.slide_up)
     this.startAnimation(animSlideDown)
+}
+
+fun View.onSingleClick(action: (v: View) -> Unit) {
+    setOnClickListener { v ->
+        isClickable = false
+        isEnabled = false
+        action(v)
+        postDelayed({
+            isClickable = true
+            isEnabled = true
+        }, 2000)
+    }
 }
