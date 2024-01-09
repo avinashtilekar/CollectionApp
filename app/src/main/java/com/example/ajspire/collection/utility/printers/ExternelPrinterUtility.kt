@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.model.PrintDataModel
 import java.io.IOException
+import java.util.concurrent.TimeoutException
 
 //Reff Link https://bluprints.in/downloads/
 // "Vriddhi POS SDK 1.1" sdk only
@@ -46,6 +47,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     var customerMobileNumber: String? = null
     var customerName: String? = null
     var amount: String? = null
+    private var selectedPrinter: String? = null
 
     fun getPairedPrinters() {
         BpScrybeDevice = BluetoothConnectivity(this)
@@ -55,11 +57,18 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             INITIAL_REQUEST
         )
         if (m_conn_type == CONN_TYPE_BT) {
-            printerList = BpScrybeDevice!!.pairedPrinters as List<String>
-            if (printerList.isNotEmpty()) {
-                showPrinterList()
-            } else showAlert("No Paired Printers found")
+            selectedPrinter?.let {
+                onConnectWithPrinter()
+            } ?: findPrinterList()
+
         }
+    }
+
+    private fun findPrinterList() {
+        printerList = BpScrybeDevice!!.pairedPrinters as List<String>
+        if (printerList.isNotEmpty()) {
+            showPrinterList()
+        } else showAlert("No Paired Printers found")
     }
 
     private fun showPrinterList() {
@@ -69,27 +78,49 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
             printerList.toTypedArray()
         ) { dialog, which ->
             Log.d("Selected Printer ", printerList[which])
-            onConnectWithPrinter(printerList[which])
+            selectedPrinter = printerList[which]
+            onConnectWithPrinter()
         }
         val dialog = builder.create()
         dialog.show()
     }
 
-    private fun onConnectWithPrinter(printerName: String) {
+    private fun onConnectWithPrinter() {
         try {
-            BpScrybeDevice!!.connectToPrinter(printerName)
-            BPprinter = BpScrybeDevice!!.aemPrinter
-            // showAlert("Connected with $printerName")
-            printingSample()
+            selectedPrinter?.let {
+                try {
+                    if (BpScrybeDevice!!.connectToPrinter(selectedPrinter)) {
+                        BPprinter = BpScrybeDevice!!.aemPrinter
+                        // showAlert("Connected with $printerName")
+                        printingSample()
+                    } else {
+                        showAlert("Unable to connect")
+                    }
+                } catch (e: TimeoutException) {
+                    showAlert("Unable to connect")
+                    selectedPrinter = null
+                }catch (e: IOException) {
+                    if (e.message!!.contains("Service discovery failed")) {
+                        showAlert("Not Connected\n$selectedPrinter is unreachable or off otherwise it is connected with other device")
+                    } else if (e.message!!.contains("Device or resource busy")) {
+                        showAlert("the device is already connected")
+                    } else {
+                        showAlert("Unable to connect")
+                    }
+                    selectedPrinter = null
+                }
+            }
+
 
         } catch (e: IOException) {
             if (e.message!!.contains("Service discovery failed")) {
-                showAlert("Not Connected\n$printerName is unreachable or off otherwise it is connected with other device")
+                showAlert("Not Connected\n$selectedPrinter is unreachable or off otherwise it is connected with other device")
             } else if (e.message!!.contains("Device or resource busy")) {
                 showAlert("the device is already connected")
             } else {
                 showAlert("Unable to connect")
             }
+            selectedPrinter = null
         }
     }
 
@@ -128,6 +159,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         )
         return printData
     }
+
     private fun getFoterNoteData(): List<PrintDataModel> {
         val printData = mutableListOf<PrintDataModel>()
         printData.add(PrintDataModel(activity.getString(R.string.footer_message1), null))
@@ -139,33 +171,53 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
     }
 
     private fun printingSample() {
-        val headerBitmap: Bitmap = getDrawableToBitmap(R.drawable.header_latest_white)
-        val inputBitmapDetails: Bitmap? = drawTextToBitmap(R.drawable.header_latest, getPrintData())
-        val footerBitmap: Bitmap = getDrawableToBitmap(R.drawable.ic_latest_footer_white)
-        val inputBitmapFoterNote: Bitmap? = drawTextToBitmap(R.drawable.header_latest, getFoterNoteData())
+        try {
+            val headerBitmap: Bitmap? = getDrawableToBitmap(R.drawable.header_latest_white)
+            val inputBitmapDetails: Bitmap? =
+                drawTextToBitmap(R.drawable.header_latest, getPrintData())
+            val footerBitmap: Bitmap? = getDrawableToBitmap(R.drawable.ic_latest_footer_white)
+            val inputBitmapFoterNote: Bitmap? =
+                drawTextToBitmap(R.drawable.header_latest, getFoterNoteData())
 
-        if (glbPrinterWidth == 32) {
-            BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
-            BPprinter!!.printImage(headerBitmap, 0)
-            BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
-            BPprinter!!.print(lineBreaker)
-            BPprinter!!.printImage(inputBitmapDetails, 0)
-            BPprinter!!.print(lineBreaker)
-            BPprinter!!.print(activity.getString(R.string.powered_by) + "\n")
-            BPprinter!!.printImage(footerBitmap, 0)
-            BPprinter!!.printImage(inputBitmapFoterNote, 0)
-            BPprinter!!.print(lineEmpty)
-            BPprinter!!.print(lineEmpty)
-            BPprinter!!.setCarriageReturn()
-            BPprinter!!.Initialize_Printer()
-        } else {
-            BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
-            BPprinter!!.printImage(headerBitmap, 1)
-            BPprinter!!.setCarriageReturn()
-            BPprinter!!.Initialize_Printer()
+            if (glbPrinterWidth == 32) {
+                BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
+
+                headerBitmap?.let {
+                    BPprinter!!.printImage(it, 0)
+                }
+
+                BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
+                BPprinter!!.print(lineBreaker)
+
+                inputBitmapDetails?.let {
+                    BPprinter!!.printImage(it, 0)
+                }
+                BPprinter!!.print(lineBreaker)
+                BPprinter!!.print(activity.getString(R.string.powered_by) + "\n")
+
+                footerBitmap?.let {
+                    BPprinter!!.printImage(it, 0)
+                }
+
+                inputBitmapFoterNote?.let {
+                    BPprinter!!.printImage(inputBitmapFoterNote, 0)
+                }
+
+                BPprinter!!.print(lineEmpty)
+                BPprinter!!.print(lineEmpty)
+                BPprinter!!.setCarriageReturn()
+                BPprinter!!.Initialize_Printer()
+            } else {
+                BPprinter!!.POS_Set_Text_alingment(0x01.toByte())
+                BPprinter!!.printImage(headerBitmap, 1)
+                BPprinter!!.setCarriageReturn()
+                BPprinter!!.Initialize_Printer()
+            }
+            //Disconnect once print done
+            BpScrybeDevice!!.disConnectPrinter()
+        } catch (ex: Exception) {
+            showAlert("Unable to print")
         }
-        //Disconnect once print done
-        BpScrybeDevice!!.disConnectPrinter()
 
     }
 
@@ -173,64 +225,77 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         gResId: Int,
         printDataList: List<PrintDataModel>,
     ): Bitmap? {
-        val resources: Resources = activity.resources
-        val scale = resources.displayMetrics.density
-        //Bitmap bitmap = Bitmap.createBitmap((int)(100*scale), (int)(70*scale), Bitmap.Config.ARGB_8888);
-        val bitmapResource = BitmapFactory.decodeResource(resources, gResId)
-        val canvasHight=((bitmapResource.width * 0.15)*(printDataList.size*0.55)).toInt()
-        var bitmap = Bitmap.createBitmap(
-            bitmapResource.width,
-            canvasHight,
-            Bitmap.Config.ARGB_8888
-        )
-        bitmap.eraseColor(Color.WHITE)
-        var bitmapConfig = bitmap.config
-        // set default bitmap config if none
-        bitmapConfig = Bitmap.Config.ARGB_8888
+        try {
+            val resources: Resources = activity.resources
+            val scale = resources.displayMetrics.density
+            //Bitmap bitmap = Bitmap.createBitmap((int)(100*scale), (int)(70*scale), Bitmap.Config.ARGB_8888);
+            val bitmapResource = BitmapFactory.decodeResource(resources, gResId)
+            val canvasHight = ((bitmapResource.width * 0.15) * (printDataList.size * 0.55)).toInt()
+            var bitmap = Bitmap.createBitmap(
+                bitmapResource.width,
+                canvasHight,
+                Bitmap.Config.ARGB_8888
+            )
+            bitmap.eraseColor(Color.WHITE)
+            var bitmapConfig = bitmap.config
+            // set default bitmap config if none
+            bitmapConfig = Bitmap.Config.ARGB_8888
 
-        // resource bitmaps are imutable,
-        // so we need to convert it to mutable one
-        bitmap = bitmap.copy(bitmapConfig, true)
-        val canvas = Canvas(bitmap)
-        // new antialised Paint
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        // text color - #3D3D3D
-        paint.color = Color.rgb(61, 61, 61)
-        // text size in pixels
-        val textSize = (35 * scale).toInt().toFloat()
-        val lineHeight = (textSize * 1.20).toFloat()
-        paint.textSize = textSize
-        // text shadow
-        paint.setShadowLayer(3f, 0f, 3f, Color.WHITE)
-        //set font
-        val font = Typeface.createFromAsset(activity.getAssets(), "fonts/shivaji01_normal.ttf")
-        val typeface = Typeface.create(font, Typeface.BOLD)
-        //paint.typeface = typeface
-        //draw text to the Canvas center
+            // resource bitmaps are imutable,
+            // so we need to convert it to mutable one
+            bitmap = bitmap.copy(bitmapConfig, true)
+            val canvas = Canvas(bitmap)
+            // new antialised Paint
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+            // text color - #3D3D3D
+            paint.color = Color.rgb(61, 61, 61)
+            // text size in pixels
+            val textSize = (35 * scale).toInt().toFloat()
+            val lineHeight = (textSize * 1.20).toFloat()
+            paint.textSize = textSize
+            // text shadow
+            paint.setShadowLayer(3f, 0f, 3f, Color.WHITE)
+            //set font
+            val font = Typeface.createFromAsset(activity.getAssets(), "fonts/shivaji01_normal.ttf")
+            val typeface = Typeface.create(font, Typeface.BOLD)
+            //paint.typeface = typeface
+            //draw text to the Canvas center
 
-        val deviceX = bitmap.width
-        val deviceY = bitmap.height
-        val x = 5f
-        var y = (10 + (22 * scale).toInt()).toFloat()
+            val deviceX = bitmap.width
+            val deviceY = bitmap.height
+            val x = 5f
+            var y = (10 + (22 * scale).toInt()).toFloat()
 
-        //second row
-        printDataList.forEach {
-            y += lineHeight
-            canvas.drawText(it.value1, x, y, paint)
+            //second row
+            printDataList.forEach {
+                y += lineHeight
+                canvas.drawText(it.value1, x, y, paint)
 
-            it.value2?.let {
-                // draw text to the Canvas center
-                val bounds = Rect()
-                val textValue= "$it ";
-                paint.getTextBounds(textValue, 0, it.length, bounds)
-                canvas.drawText(textValue, (((deviceX-bounds.width())-(it.length+10)).toFloat()), y, paint)
+                it.value2?.let {
+                    // draw text to the Canvas center
+                    val bounds = Rect()
+                    val textValue = "$it ";
+                    paint.getTextBounds(textValue, 0, it.length, bounds)
+                    canvas.drawText(
+                        textValue,
+                        (((deviceX - bounds.width()) - (it.length + 10)).toFloat()),
+                        y,
+                        paint
+                    )
+                }
             }
+            return bitmap
+        } catch (ex: Exception) {
+            return null
         }
-        return bitmap
     }
 
-    private fun getDrawableToBitmap(resourcesId: Int): Bitmap {
-        return BitmapFactory.decodeResource(activity.resources, resourcesId)
+    private fun getDrawableToBitmap(resourcesId: Int): Bitmap? {
+        try {
+            return BitmapFactory.decodeResource(activity.resources, resourcesId)
+        } catch (ex: Exception) {
+            return null
+        }
     }
 
     private fun showAlert(alertMsg: String?) {
