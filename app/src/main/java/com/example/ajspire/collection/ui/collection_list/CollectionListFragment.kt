@@ -150,11 +150,7 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        roomDBViewModel.transactionSummary.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.transactionTableViaInvoiceNumber.removeObservers(viewLifecycleOwner)
-        roomDBViewModel.allUnSyncTransactions.removeObservers(viewLifecycleOwner)
+        roomDBViewModel.destroyViewModelData()
     }
 
 }

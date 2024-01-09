@@ -13,7 +13,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DataBaseViewModel constructor(private val transactionTableRespository: TransactionTableRespository,application: Application) :
+class DataBaseViewModel constructor(
+    private val transactionTableRespository: TransactionTableRespository,
+    application: Application
+) :
     AndroidViewModel(application) {
 
     val allTransactions: LiveData<List<TransactionTable>> =
@@ -27,13 +30,15 @@ class DataBaseViewModel constructor(private val transactionTableRespository: Tra
         get() = _allUnSyncTransactions
 
     private val _transactionTableViaInvoiceNumber = MutableLiveData<TransactionTable?>()
-    val transactionTableViaInvoiceNumber: LiveData<TransactionTable?> = _transactionTableViaInvoiceNumber
+    var transactionTableViaInvoiceNumber: LiveData<TransactionTable?> =
+        _transactionTableViaInvoiceNumber
 
     fun insert(transaction: TransactionTable) {
         CoroutineScope(Dispatchers.IO).launch {
             transactionTableRespository.insert(transaction)
         }
     }
+
     fun updateList(transaction: List<TransactionTable>) {
         CoroutineScope(Dispatchers.IO).launch {
             transactionTableRespository.updateList(transaction)
@@ -47,11 +52,15 @@ class DataBaseViewModel constructor(private val transactionTableRespository: Tra
             }
         }
     }
-    fun getTransactionViaInvoiceNumber(invoiceNumber:Int) {
+
+    fun getTransactionViaInvoiceNumber(invoiceNumber: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             transactionTableRespository.getTransactionViaInvoiceNumber(invoiceNumber).let {
                 it?.let {
-                    _transactionTableViaInvoiceNumber.postValue(it)
+                    if (_transactionTableViaInvoiceNumber.value != it) {
+                        _transactionTableViaInvoiceNumber.postValue(it)
+                    }
+
                 }
             }
         }
@@ -63,13 +72,22 @@ class DataBaseViewModel constructor(private val transactionTableRespository: Tra
         }
     }
 
-    fun updateReprint(invoiceNumber:Int) {
+    fun updateReprint(invoiceNumber: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             transactionTableRespository.updateReprint(invoiceNumber)
         }
     }
+
+    fun destroyViewModelData() {
+        super.onCleared()
+        _transactionTableViaInvoiceNumber.postValue(null)
+    }
 }
-class EntryViewModelFactory(private val repository: TransactionTableRespository,private val application: Application) :
+
+class EntryViewModelFactory(
+    private val repository: TransactionTableRespository,
+    private val application: Application
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DataBaseViewModel(repository, application) as T
