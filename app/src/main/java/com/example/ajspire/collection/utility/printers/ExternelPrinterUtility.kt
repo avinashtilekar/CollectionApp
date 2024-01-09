@@ -37,7 +37,7 @@ import java.util.concurrent.TimeoutException
 class ExternelPrinterUtility constructor(private var activity: Activity) : Scrybe {
     private var BpScrybeDevice: BluetoothConnectivity? = null
     private var BPprinter: BpPrinter? = null
-    private val lineBreaker = "_______________________________\n"
+    private val lineBreaker = "- - _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n"
     private val lineEmpty = " \n"
     private val INITIAL_PERMS = arrayOf(
         permission.BLUETOOTH_SCAN,
@@ -346,7 +346,7 @@ class ExternelPrinterUtility constructor(private var activity: Activity) : Scryb
         header?.let {
             ivHeader.visibility = View.VISIBLE
             //ivHeader.setBitmapBackground(it)
-            ivHeader.setBackgroundResource(R.drawable.header_latest_white)
+            ivHeader.setBackgroundResource(R.drawable.header_latest)
         }
         details?.let {
             ivDetails.visibility = View.VISIBLE
