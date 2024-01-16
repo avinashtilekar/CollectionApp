@@ -17,6 +17,8 @@ object AppUtility {
     const val DATA_STORE_KEY_USER_PRINTER = "user_printer"
     const val TRANSACTION_TABLE_NAME = "transaction_table"
     const val ROOM_DB_NAME = "collectionDB"
+    const val BACKUP_ROOM_DB_NAME = "BackUpCollectionDB.db"
+    const val TXT_BACKUP_ROOM_DB_NAME = "BackUpCollectionDB.txt"
     var UPLOAD_ITEM_LIMIT = (if (BuildConfig.BUILD_TYPE_NAME.isEmpty()) 500 else 5)
 
     const val REQUEST_TYPE = "requestDevice"

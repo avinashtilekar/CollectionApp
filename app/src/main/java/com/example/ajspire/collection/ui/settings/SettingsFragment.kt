@@ -2,6 +2,7 @@ package com.example.ajspire.collection.ui.settings
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,14 @@ import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
 import com.example.ajspire.collection.view_model.RoomDataBaseViewModel
+import com.google.gson.Gson
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
 
 
 class SettingsFragment : BaseFragment() {
@@ -47,6 +56,7 @@ class SettingsFragment : BaseFragment() {
     val dataStoreViewModel: DataStoreViewModel by viewModels {
         DataStoreViewModelFactory(activity?.application!!, activity?.appDataStore()!!)
     }
+    private var isSyncRecordHit: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,10 +95,14 @@ class SettingsFragment : BaseFragment() {
             } else {
                 Log.d("record not found for upload", "record not found for upload")
                 roomDBViewModel.deleteSyncItems()
-                toastMessageUtility.showToastMessage(getString(R.string.syn_sucess))
+
+                if (isSyncRecordHit != null && isSyncRecordHit == true) {
+                    toastMessageUtility.showToastMessage(getString(R.string.syn_sucess))
+                }
                 binding.llMainContaint.visibility = View.VISIBLE
                 binding.llLoadding.visibility = View.GONE
-                binding.btnSync.visibility = View.GONE
+                //binding.btnSync.visibility = View.GONE
+                //binding.btnBackupData.visibility = View.GONE
             }
         }
         apiCallViewModel.responseDataSyncResponse.observe(viewLifecycleOwner) { response ->
@@ -138,15 +152,13 @@ class SettingsFragment : BaseFragment() {
 
 
         binding.btnSync.setOnClickListener {
+            isSyncRecordHit = true
             roomDBViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
         }
         binding.btnBackupData.setOnClickListener {
-            if(verifyStoragePermissions())
-            {
-                toastMessageUtility.showToastMessage(
-                    "Statrt backup",
-                    ToastTypeFields.Warning
-                )
+            if (verifyStoragePermissions()) {
+                isSyncRecordHit = false
+                roomDBViewModel.getAllUnSyncTransactions(5000)
             }
         }
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
@@ -213,7 +225,13 @@ class SettingsFragment : BaseFragment() {
                             transactionDataForUploadList,
                             loginResponse.user.id.toString()
                         )
-                    apiCallViewModel.dataSync(dataSyncRequest, loginResponse.token)
+                    if (isSyncRecordHit != null && isSyncRecordHit == true) {
+                        //Hit sync record api
+                        apiCallViewModel.dataSync(dataSyncRequest, loginResponse.token)
+                    } else {
+                        //Create backup file
+                        createTextFileBackUp(Gson().toJson(dataSyncRequest))
+                    }
                 } ?: {
                     Log.d("User details not found", "User details not found please relogin")
                 }
@@ -257,6 +275,71 @@ class SettingsFragment : BaseFragment() {
         roomDBViewModel.destroyViewModelData()
     }
 
+    fun createBackup() {
+        activity?.let { activity ->
+            (activity.application as MyApplication).appDataBase.closeDatabase()
+            val dbfile: File = activity.getDatabasePath(AppUtility.ROOM_DB_NAME)
+            val sdir = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                getString(R.string.app_name)
+            )
+            val sfpath =
+                sdir.path + File.separator + AppUtility.BACKUP_ROOM_DB_NAME
+            if (!sdir.exists()) {
+                sdir.mkdirs()
+            }
+            val savefile = File(sfpath)
+            try {
+                savefile.createNewFile()
+                val buffersize = 8 * 1024
+                val buffer = ByteArray(buffersize)
+                var bytes_read = buffersize
+                val savedb: OutputStream = FileOutputStream(sfpath)
+                val indb: InputStream = FileInputStream(dbfile)
+                while (indb.read(buffer, 0, buffersize).also { bytes_read = it } > 0) {
+                    savedb.write(buffer, 0, bytes_read)
+                }
+                savedb.flush()
+                indb.close()
+                savedb.close()
+                toastMessageUtility.showToastMessage(
+                    "Backup Created at " + savefile.absolutePath,
+                    ToastTypeFields.Warning
+                )
+                //Need to reopen db after backup
+                (activity.application as MyApplication).appDataBase.reOpenDataBase()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
+    fun createTextFileBackUp(jonsString: String) {
+        activity?.let { activity ->
+
+            val sdir = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                getString(R.string.app_name)
+            )
+            val sfpath =
+                sdir.path + File.separator + AppUtility.TXT_BACKUP_ROOM_DB_NAME
+            if (!sdir.exists()) {
+                sdir.mkdirs()
+            }
+            val savefile = File(sfpath)
+            try {
+                savefile.createNewFile()
+                savefile.writeBytes(jonsString.toByteArray())
+                toastMessageUtility.showToastMessage(
+                    "Backup Created at " + savefile.absolutePath,
+                    ToastTypeFields.Warning
+                )
+                //Need to reopen db after backup
+                (activity.application as MyApplication).appDataBase.reOpenDataBase()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
 }

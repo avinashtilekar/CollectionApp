@@ -41,7 +41,7 @@ abstract class AppDataBase : RoomDatabase() {
             }
         }
 
-        var MIGRATION_1_2= object : Migration(1, 2) {
+        var MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.beginTransaction()
                 database.execSQL("ALTER TABLE ${AppUtility.TRANSACTION_TABLE_NAME} ADD COLUMN reprint INTEGER DEFAULT 0")
@@ -51,5 +51,17 @@ abstract class AppDataBase : RoomDatabase() {
         }
     }
 
+    fun closeDatabase() {
+        instance?.let {
+            if (it.isOpen) {
+                it.openHelper.close()
+            }
+        }
+    }
 
+    fun reOpenDataBase() {
+        if (instance!!.isOpen) {
+            instance!!.openHelper.writableDatabase
+        }
+    }
 }
