@@ -1,6 +1,8 @@
 package com.example.ajspire.collection.ui
 
+import android.Manifest
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -8,6 +10,7 @@ import android.text.Spanned
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.ajspire.collection.MyApplication
@@ -208,5 +211,27 @@ abstract class BaseFragment : Fragment() {
 
         }
 
+    }
+    fun verifyStoragePermissions():Boolean {
+        activity?.let { activity ->
+            val REQUEST_EXTERNAL_STORAGE = 1
+            val PERMISSIONS_STORAGE = arrayOf<String>(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            val permission = ActivityCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+                )
+            }else{
+                return  true
+            }
+        }
+        return false
     }
 }

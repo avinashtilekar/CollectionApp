@@ -13,7 +13,6 @@ import com.example.ajspire.collection.BuildConfig
 import com.example.ajspire.collection.MyApplication
 import com.example.ajspire.collection.R
 import com.example.ajspire.collection.api.helper.NetworkResult
-import com.example.ajspire.collection.utility.ToastTypeFields
 import com.example.ajspire.collection.api.model.request.DataSyncRequest
 import com.example.ajspire.collection.api.model.request.TransactionDataForUpload
 import com.example.ajspire.collection.api.model.response.DataSyncResponse
@@ -25,11 +24,13 @@ import com.example.ajspire.collection.ui.custom.RadioGridGroup
 import com.example.ajspire.collection.ui.dailog.ToastMessageUtility
 import com.example.ajspire.collection.utility.AppUtility
 import com.example.ajspire.collection.utility.PrinterType
+import com.example.ajspire.collection.utility.ToastTypeFields
 import com.example.ajspire.collection.view_model.ApiCallViewModel
-import com.example.ajspire.collection.view_model.RoomDataBaseViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModel
 import com.example.ajspire.collection.view_model.DataStoreViewModelFactory
 import com.example.ajspire.collection.view_model.EntryViewModelFactory
+import com.example.ajspire.collection.view_model.RoomDataBaseViewModel
+
 
 class SettingsFragment : BaseFragment() {
 
@@ -139,6 +140,15 @@ class SettingsFragment : BaseFragment() {
         binding.btnSync.setOnClickListener {
             roomDBViewModel.getAllUnSyncTransactions(AppUtility.UPLOAD_ITEM_LIMIT)
         }
+        binding.btnBackupData.setOnClickListener {
+            if(verifyStoragePermissions())
+            {
+                toastMessageUtility.showToastMessage(
+                    "Statrt backup",
+                    ToastTypeFields.Warning
+                )
+            }
+        }
         if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiDefault) {
             binding.rbDefaultPOSPrinter.isChecked = true
         } else if ((activity?.application as MyApplication).userPrinters == PrinterType.VriddhiExternal) {
@@ -246,4 +256,7 @@ class SettingsFragment : BaseFragment() {
         _binding = null
         roomDBViewModel.destroyViewModelData()
     }
+
+
+
 }
