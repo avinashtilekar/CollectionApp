@@ -2,7 +2,8 @@ package com.example.ajspire.collection.api.model.request
 
 data class DataSyncRequest(
     val `data`: List<TransactionDataForUpload>,
-    val user_id: String
+    val user_id: String,
+    var token: String?=null
 )
 data class TransactionDataForUpload(
     val amount: String,

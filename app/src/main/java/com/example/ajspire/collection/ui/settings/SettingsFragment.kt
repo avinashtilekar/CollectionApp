@@ -230,6 +230,7 @@ class SettingsFragment : BaseFragment() {
                         apiCallViewModel.dataSync(dataSyncRequest, loginResponse.token)
                     } else {
                         //Create backup file
+                        dataSyncRequest.token = loginResponse.token
                         createTextFileBackUp(Gson().toJson(dataSyncRequest))
                     }
                 } ?: {
