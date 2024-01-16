@@ -194,4 +194,19 @@ abstract class BaseFragment : Fragment() {
         currentTransactionTableInsert = null
         printViewObject = null
     }
+
+    fun showErrorAlert(errorMessage:String) {
+        try {
+            android.app.AlertDialog.Builder(context)
+                .setTitle("Error")
+                .setIcon(R.drawable.ic_error)
+                .setMessage(errorMessage)
+                .setIcon(R.drawable.ic_error)
+                .show()
+        }catch (ex:Exception)
+        {
+
+        }
+
+    }
 }

@@ -41,7 +41,7 @@
     <string name="password_error">कृपया योग्य पासवर्ड टाका.\n\nPlease enter correct password.</string>
     <string name="login_sucess">अॅपमध्ये तुमचे स्वागत आहे.\n\nUser login successfully.</string>
     <string name="logout_sucess">यशस्वीरित्या लॉगआउट.\n\nLogout successfully.</string>
-    <string name="technicale_error">काही तांत्रिक त्रुटी आहे, कृपया काही वेळानंतर पुन्हा प्रयत्न करा.\nThere is some technicale error, please try again after some time.</string>
+    <string name="technicale_error">काही तांत्रिक त्रुटी आहे, कृपया काही वेळानंतर पुन्हा प्रयत्न करा.\nThere is some technical error, please try again after some time.</string>
     <string name="fee_type_24">24</string>
     <string name="fee_type_24_48">24-48</string>
     <string name="fee_type_48_72">48-72</string>

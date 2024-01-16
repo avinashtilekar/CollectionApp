@@ -119,6 +119,9 @@ class SettingsFragment : BaseFragment() {
                         getString(R.string.technicale_error),
                         ToastTypeFields.Error
                     )
+                    response.message?.let {
+                        showErrorAlert("Api Response Error >>$it")
+                    }
                 }
             }
         }
@@ -175,31 +178,42 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun syncRecord() {
-        val transactionDataForUploadList = arrayListOf<TransactionDataForUpload>()
+        try {
 
-        currentSyncRecord.forEach {
-            transactionDataForUploadList.add(
-                TransactionDataForUpload(
-                    it.amount,
-                    it.customer_mobile_number,
-                    it.customer_name,
-                    it.fee_type,
-                    it.mobile_tran_key,
-                    it.invoice_number,
-                    it.createdAt,
-                    it.reprint
+            val transactionDataForUploadList = arrayListOf<TransactionDataForUpload>()
+
+            currentSyncRecord.forEach {
+                transactionDataForUploadList.add(
+                    TransactionDataForUpload(
+                        it.amount,
+                        it.customer_mobile_number,
+                        it.customer_name,
+                        it.fee_type,
+                        it.mobile_tran_key,
+                        it.invoice_number,
+                        it.createdAt,
+                        it.reprint
+                    )
                 )
-            )
-        }
-        if (transactionDataForUploadList.isNotEmpty()) {
-            (activity?.application as MyApplication).loginUserDetails?.let { loginResponse ->
-                val dataSyncRequest =
-                    DataSyncRequest(transactionDataForUploadList, loginResponse.user.id.toString())
-                apiCallViewModel.dataSync(dataSyncRequest, loginResponse.token)
-            } ?: {
-                Log.d("User details not found", "User details not found please relogin")
+            }
+            if (transactionDataForUploadList.isNotEmpty()) {
+                (activity?.application as MyApplication).loginUserDetails?.let { loginResponse ->
+                    val dataSyncRequest =
+                        DataSyncRequest(
+                            transactionDataForUploadList,
+                            loginResponse.user.id.toString()
+                        )
+                    apiCallViewModel.dataSync(dataSyncRequest, loginResponse.token)
+                } ?: {
+                    Log.d("User details not found", "User details not found please relogin")
+                }
+
             }
 
+        } catch (ex: Exception) {
+            ex.message?.let {
+                showErrorAlert("Sync Record Data Creation Error>>$it")
+            }
         }
     }
 
