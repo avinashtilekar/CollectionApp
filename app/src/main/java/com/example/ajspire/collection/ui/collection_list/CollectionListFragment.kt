@@ -110,7 +110,7 @@ class CollectionListFragment : BaseFragment(), PrinterCallBack {
                 currentTransactionTableInsert = it
                 //for reprint callback
                // printReceipt(this, rePrint = true)
-                printReceipt()
+                printReceipt(rePrint = true)
                 currentTransactionTableInsert?.let {
                     roomDBViewModel.updateReprint(it.invoice_number)
                 }
