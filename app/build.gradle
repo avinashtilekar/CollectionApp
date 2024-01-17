@@ -13,7 +13,7 @@ android {
     //App version changes
     def appOrAppReCreateOrReDesignChange =1
     def appFeatureChange =0
-    def appBugFixingOrMinorChange =1
+    def appBugFixingOrMinorChange =2
 
     //It must increase for every change
     def appVersionCode=2
