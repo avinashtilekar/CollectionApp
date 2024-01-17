@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "68250142355",
+    "project_id": "collectionapp-billerpos",
+    "storage_bucket": "collectionapp-billerpos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68250142355:android:6f7d03651388c360f16f66",
+        "android_client_info": {
+          "package_name": "com.example.ajspire.collection"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgw0DfhAjuNSfVawVXQMeQPImvSO0K0c8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68250142355:android:faada8800d3ea1f9f16f66",
+        "android_client_info": {
+          "package_name": "com.example.ajspire.collection.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgw0DfhAjuNSfVawVXQMeQPImvSO0K0c8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68250142355:android:90b633ac1208dc86f16f66",
+        "android_client_info": {
+          "package_name": "com.example.ajspire.collection.mock"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgw0DfhAjuNSfVawVXQMeQPImvSO0K0c8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

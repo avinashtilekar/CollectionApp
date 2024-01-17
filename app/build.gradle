@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -110,4 +112,9 @@ dependencies {
 
     implementation files('libs/FTSDK_api_V1.0.0.71_20220401.jar')
     implementation files('libs/PrinterLib_24.aar')
+
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
 }
