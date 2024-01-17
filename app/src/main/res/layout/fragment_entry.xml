@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:layout_above="@id/llButtons"
         android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:paddingBottom="@dimen/_8sdp"
         android:textSize="20sp">
@@ -57,8 +56,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:background="@color/colorAccent" />
 
             <TextView
@@ -72,7 +71,6 @@
                 style="@style/AppFont.LabelMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:autofillHints="false"
                 android:background="@drawable/edittext_background"
                 android:hint="@string/customer_mobile_number"
@@ -126,15 +124,55 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:background="@color/colorAccent" />
 
-            <TextView
-                style="@style/AppFont.LabelMedium"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fee_type" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppFont.LabelMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/fee_type" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_background_small_corner"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/AppFont.LabelMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_2sdp"
+                        android:text="@string/amount" />
+
+                    <EditText
+                        android:id="@+id/etAmount"
+                        style="@style/AppFont.LabelMedium.Blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="false"
+                        android:background="@drawable/edittext_background"
+                        android:elevation="@dimen/_8sdp"
+                        android:enabled="false"
+                        android:hint="@string/amount"
+                        android:inputType="number"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingRight="@dimen/_4sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:text="@string/fee_type_24_amt"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
 
             <com.example.ajspire.collection.ui.custom.RadioGridGroup
                 android:id="@+id/rgFeeType"
@@ -142,11 +180,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="2"
-                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:background="@drawable/card_background"
                 android:columnCount="2"
                 android:elevation="@dimen/_8sdp"
-                android:padding="@dimen/_8sdp">
+                android:padding="@dimen/_4sdp">
 
 
                 <RadioButton
@@ -179,81 +217,68 @@
                     android:layout_height="wrap_content"
                     android:text="@string/fee_type_72_100" />
             </com.example.ajspire.collection.ui.custom.RadioGridGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_16sdp"
-                android:background="@color/colorAccent" />
-
-            <LinearLayout
-                android:id="@+id/llAmt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/AppFont.LabelMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/amount" />
-
-                <EditText
-                    android:id="@+id/etAmount"
-                    style="@style/AppFont.LabelMedium.Blue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:layout_weight="3"
-                    android:autofillHints="false"
-                    android:background="@drawable/edittext_background"
-                    android:elevation="@dimen/_8sdp"
-                    android:enabled="false"
-                    android:hint="@string/amount"
-                    android:inputType="number"
-                    android:padding="@dimen/_8sdp"
-                    android:text="@string/fee_type_24_amt"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
+        android:paddingTop="@dimen/_8sdp"
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center">
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnCancel"
-            style="@style/AppFont.LabelMedium.White"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:backgroundTint="@color/red"
-            android:padding="@dimen/_8sdp"
-            android:text="@string/cancel"
-            android:textAllCaps="false" />
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/btnSubmit"
-            style="@style/AppFont.LabelMedium.White"
-            android:layout_width="wrap_content"
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/AppFont.LabelMedium.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:backgroundTint="@color/red"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/cancel"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                style="@style/AppFont.LabelMedium.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/submit_only"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/AppFont.XXLabelSmall"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_4sdp"
-            android:backgroundTint="@color/colorAccent"
-            android:padding="@dimen/_8sdp"
-            android:text="@string/submit_only"
-            android:textAllCaps="false" />
+            android:gravity="center"
+            android:text="@string/powered_by"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo" />
+
+
     </LinearLayout>
 
 </RelativeLayout>
