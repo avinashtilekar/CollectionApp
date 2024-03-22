@@ -43,6 +43,7 @@ class ListAdapter(private val mList: List<ItemModel>, val invoiceNumberPrefix: S
         holder.ivPrint.setOnClickListener {
             onRePrintClick?.invoke(itemModel.invoice_number)
         }
+        holder.ivPrint.visibility=View.GONE
 
     }
 

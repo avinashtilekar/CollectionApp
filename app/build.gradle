@@ -43,7 +43,7 @@ android {
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String","API_URL","\"https://bmc-mgp.billerpos.com/\""
+            buildConfigField "String","API_URL","\"https://bmc-mgp-api.billerpos.com/\""
             buildConfigField "String","BUILD_TYPE_NAME","\" \""
             signingConfig signingConfigs.release
             debuggable false
@@ -51,7 +51,7 @@ android {
         }
         debug {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String","API_URL","\"https://dev.bmc-mgp.billerpos.com/\""
+            buildConfigField "String","API_URL","\"https://dev.bmc-mgp-api.billerpos.com/\""
             applicationIdSuffix ".debug"
             buildConfigField "String","BUILD_TYPE_NAME","\"Debug\""
             signingConfig signingConfigs.debug
@@ -60,7 +60,7 @@ android {
         }
         mock {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String","API_URL","\"https://dev.bmc-mgp.billerpos.com/\""
+            buildConfigField "String","API_URL","\"https://dev.bmc-mgp-api.billerpos.com/\""
             applicationIdSuffix ".mock"
             buildConfigField "String","BUILD_TYPE_NAME","\"Mock\""
             signingConfig signingConfigs.debug
